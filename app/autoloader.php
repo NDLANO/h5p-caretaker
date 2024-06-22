@@ -10,7 +10,9 @@ spl_autoload_register(function ($class) {
         'H5PCaretaker\LibretextData' => 'filehandlers/LibretextData.php',
         'H5PCaretaker\FileUtils' => 'utils/FileUtils.php',
         'H5PCaretaker\GeneralUtils' => 'utils/GeneralUtils.php',
+        'H5PCaretaker\JSONUtils' => 'utils/JSONUtils.php',
         'H5PCaretaker\H5PUtils' => 'utils/H5PUtils.php',
+        'H5PCaretaker\AccessibilityReport' => 'reports/AccessibilityReport.php',
         ];
     };
 

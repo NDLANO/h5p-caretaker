@@ -95,12 +95,27 @@ class H5PFileHandler
 
             if (!empty($mediaFiles)) {
                 $files = array();
-                foreach ($mediaFiles as $file) {
-                    $size = filesize($mediaDir . DIRECTORY_SEPARATOR . $file);
-                    $files[$file] = ['size' => $size];
+                foreach ($mediaFiles as $fileName) {
+                    $size = filesize(
+                        $mediaDir . DIRECTORY_SEPARATOR . $fileName
+                    );
+                    $files[$fileName] = ['size' => $size];
+
+                    $extension = strtolower(
+                        pathinfo($fileName, PATHINFO_EXTENSION)
+                    );
+                    $allowedExtensions = [
+                        'png', 'jpeg', 'jpg', 'gif', 'svg', 'bmp', 'tiff', 'tif'
+                    ];
+
+                    if (in_array($extension, $allowedExtensions)) {
+                        $files[$fileName]['base64'] = FileUtils::fileToBase64(
+                            $mediaDir . DIRECTORY_SEPARATOR . $fileName
+                        );
+                    }
                 }
 
-                $results->$type = (object) $files;
+                $results->$type = (object)$files;
             }
 
             return $results;
@@ -410,7 +425,7 @@ class H5PFileHandler
                 );
 
             if ($libretextData !== false) {
-                $results->libretextA11y = $libretextData[0];
+                $results->libreTextA11y = $libretextData[0];
             }
         }
 

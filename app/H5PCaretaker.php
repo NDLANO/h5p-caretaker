@@ -131,11 +131,20 @@ class H5PCaretaker
         /*
          * TODO: Ultimately, $report will not contain the raw data, but only messages
          */
-        $report = array();
-        $report['h5pJson'] = $h5pFileHandler->getH5PInformation();
-        $report['contentJson'] = $h5pFileHandler->getH5PContentParams();
-        $report['libraries'] = $h5pFileHandler->getLibrariesInformation();
-        $report['media'] = $h5pFileHandler->getMediaInformation();
+        $reportRaw = array();
+        $reportRaw['h5pJson'] = $h5pFileHandler->getH5PInformation();
+        $reportRaw['contentJson'] = $h5pFileHandler->getH5PContentParams();
+        $reportRaw['libraries'] = $h5pFileHandler->getLibrariesInformation();
+        $reportRaw['media'] = $h5pFileHandler->getMediaInformation();
+
+        $report = [
+            'messages' => []
+        ];
+        $report['messages'] = array_merge(
+            $report['messages'],
+            AccessibilityReport::getReport($reportRaw)
+        );
+        $report['raw'] = $reportRaw;
 
         $h5pFileHandler = null;
 
