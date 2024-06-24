@@ -13,6 +13,7 @@ spl_autoload_register(function ($class) {
         'H5PCaretaker\JSONUtils' => 'utils/JSONUtils.php',
         'H5PCaretaker\H5PUtils' => 'utils/H5PUtils.php',
         'H5PCaretaker\AccessibilityReport' => 'reports/AccessibilityReport.php',
+        'H5PCaretaker\LicenseReport' => 'reports/LicenseReport.php',
         ];
     };
 

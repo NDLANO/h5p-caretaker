@@ -144,6 +144,10 @@ class H5PCaretaker
             $report['messages'],
             AccessibilityReport::getReport($reportRaw)
         );
+        $report['messages'] = array_merge(
+            $report['messages'],
+            LicenseReport::getReport($reportRaw)
+        );
         $report['raw'] = $reportRaw;
 
         $h5pFileHandler = null;
