@@ -97,7 +97,8 @@ class LicenseReport
             function ($item) {
                     $machineName = explode(' ', $item['object']['library'])[0];
                     return !in_array(
-                        $machineName, ['H5P.Image', 'H5P.Video', 'H5P.Audio']
+                        $machineName,
+                        ['H5P.Image', 'H5P.Video', 'H5P.Audio']
                     );
             }
         );
