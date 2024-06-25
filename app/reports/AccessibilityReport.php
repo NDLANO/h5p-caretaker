@@ -116,6 +116,7 @@ class AccessibilityReport
                 $key['object']['metadata']['title'] . ' at ' . $key['path'],
                 'recommendation' =>
                     'Check whether there is a reason for the image to not have an alternative text.' .
+                    ' ',
                     'If not, it is recommended to add one or to declare the image as decorative.',
                 'details' => [
                 'path' => $key['path'],
