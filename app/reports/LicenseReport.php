@@ -36,7 +36,12 @@ class LicenseReport
         $report = [];
         $report = array_merge(
             $report,
-            self::getMissingLicencesMedia($raw['contentJson'], $raw['media'])
+            self::getMissingLicensesMedia($raw['contentJson'], $raw['media'])
+        );
+
+        $report = array_merge(
+            $report,
+            self::getMissingLicensesContent($raw['contentJson'], $raw['h5pJson'])
         );
 
         return $report;
@@ -59,6 +64,81 @@ class LicenseReport
     }
 
     /**
+     * Get a list of all content that have missing license information.
+     *
+     * @param array $contentJson The content JSON.
+     * @param array $h5pjson     The H5P JSON.
+     *
+     * @return array A list of all content that have missing license information.
+     */
+    private static function getMissingLicensesContent($contentJson, $h5pjson)
+    {
+        $messages = [];
+
+        $licenseInfo = [];
+        $licenseInfo[] = [
+            'path' => '',
+            'object' => [
+                'metadata' => JSONUtils::h5pJsonToMetadata($h5pjson),
+                'library' => $h5pjson['mainLibrary']
+            ]
+        ];
+
+        $subcontentParams = JSONUtils::findAttributeValuePairs(
+            $contentJson,
+            [
+                ['library', '/^H5P\..+/']
+            ]
+        );
+
+        // Filter out Image, Video and Audio as already covered by media check
+        $subcontentParams = array_filter(
+            $subcontentParams,
+            function ($item) {
+                    $machineName = explode(' ', $item['object']['library'])[0];
+                    return !in_array(
+                        $machineName, ['H5P.Image', 'H5P.Video', 'H5P.Audio']
+                    );
+            }
+        );
+
+        $licenseInfo = array_merge($licenseInfo, $subcontentParams);
+
+        $missingLicenseInfo = array_filter(
+            $licenseInfo,
+            function ($item) {
+                return $item['object']['metadata']['license'] === 'U';
+            }
+        );
+
+        foreach ($missingLicenseInfo as $licenseInfo) {
+            $title = $licenseInfo['object']['metadata']['title'] ?? '';
+            $machineName = explode(' ', $licenseInfo['object']['library'])[0];
+            $path = $licenseInfo['path'];
+            $pathText = $path === '' ? ' as H5P main content' : ' at ' . $path;
+            $subContentId = $licenseInfo['object']['subContentId'] ?? '';
+
+            $message = [
+                'category' => 'license',
+                'type' => 'missingLicense',
+                'summary' => 'Missing license information for content ' .
+                    $title . ' (' . $machineName . ')' . $pathText,
+                'recommendation' =>
+                    'Check the license information of the content and add it to the metadata.',
+                'details' => [
+                    'path' => $path,
+                    'title' => $title,
+                    'subContentId' => $subContentId
+                ]
+            ];
+
+            $messages[] = $message;
+        }
+
+        return $messages;
+    }
+
+    /**
      * Get a list of all media that have missing license information.
      *
      * @param array $contentJson The content JSON.
@@ -66,7 +146,7 @@ class LicenseReport
      *
      * @return array A list of all media that have missing license information.
      */
-    private static function getMissingLicencesMedia($contentJson, $media)
+    private static function getMissingLicensesMedia($contentJson, $media)
     {
         $messages = [];
 
@@ -94,7 +174,8 @@ class LicenseReport
                 $metadata[] = [
                     'jsonPath' => $jsonPath,
                     'filePath' => $fileParam['object']['path'],
-                    'metadata' => $closestLibraryAndPath['params']['metadata']
+                    'metadata' => $closestLibraryAndPath['params']['metadata'],
+                    'subContentId' => $closestLibraryAndPath['params']['subContentId']
                 ];
             } else {
                 $metadata[] = [
@@ -117,14 +198,14 @@ class LicenseReport
                 'category' => 'license',
                 'type' => 'missingLicense',
                 'summary' => 'Missing license information for file ' .
-                    $metadata['metadata']['title'] . ' at ' .
+                    ($metadata['metadata']['title'] ?? '') . ' at ' .
                     $metadata['jsonPath'],
                 'recommendation' =>
                     'Check the license information of the file and add it to the metadata of the medium.',
                 'details' => [
                     'path' => $metadata['jsonPath'],
                     'title' => $metadata['metadata']['title'] ?? '',
-                    'subContentId' => $metadata['metadata']['subContentId'] ?? ''
+                    'subContentId' => $metadata['subContentId'] ?? ''
                 ]
             ];
 

@@ -59,7 +59,7 @@ class JSONUtils
                         $valuePattern = $pair[1];
                         if (array_key_exists($attribute, $value) && preg_match($valuePattern, $value[$attribute])) {
                             $results[] = [
-                            'path' => preg_replace('/\.(\d+)\./', '[$1].', $newPath),
+                            'path' => preg_replace('/\.(\d+)(\.|$)/', '[$1]$2', $newPath),
                             'object' => $value
                             ];
                         }
@@ -72,6 +72,40 @@ class JSONUtils
     }
 
     /**
+     * Convert H5P JSON to metadata.
+     *
+     * @param array $h5pJson The H5P JSON.
+     *
+     * @return array The metadata.
+     */
+    public static function h5pJsonToMetadata($h5pJson)
+    {
+        $metadata = [];
+
+        $metadata['title'] = $h5pJson['title'];
+        $metadata['license'] = $h5pJson['license']?? 'U';
+        $metadata['authors'] = $h5pJson['authors'] ?? [];
+
+        if (isset($h5pJson['source'])) {
+            $metadata['source'] = $h5pJson['source'];
+        }
+
+        if (isset($h5pJson['licenseVersion'])) {
+            $metadata['licenseVersion'] = $h5pJson['licenseVersion'];
+        }
+
+        if (isset($h5pJson['yearFrom'])) {
+            $metadata['yearFrom'] = $h5pJson['yearFrom'];
+        }
+
+        if (isset($h5pJson['yearTo'])) {
+            $metadata['yearTo'] = $h5pJson['yearTo'];
+        }
+
+        return $metadata;
+    }
+
+    /**
      * Convert a copyright object to metadata.
      *
      * @param array $copyright The copyright object.
@@ -80,26 +114,40 @@ class JSONUtils
      */
     public static function copyrightToMetadata($copyright)
     {
+
         $metadata = [];
-        $metadata['license'] = $copyright['license'];
-        $metadata['authors'] = [
-            'author' => $copyright['author'],
-            'role' => 'Author'
-        ];
 
-        $yearInput = trim($copyright['year'] ?? '');
-        $patternSingleYear = '/^-?\d+$/';
-        $patternYearRange = '/^(-?\d+)\s*-\s*(-?\d+)$/';
+        $metadata['license'] = $copyright['license'] ?? 'U';
 
-        if (preg_match($patternSingleYear, $yearInput)) {
-            $metadata['yearFrom'] = $yearInput;
-        } elseif (preg_match($patternYearRange, $yearInput, $matches)) {
-            $metadata['yearFrom'] = $matches[1];
-            $metadata['yearTo'] = $matches[2];
+        if (isset($copyright['author'])) {
+            $metadata['authors'] = [
+                'author' => $copyright['author'],
+                'role' => 'Author'
+            ];
+        } else {
+            $metadata['authors'] = [];
         }
 
-        $metadata['source'] = $copyright['source'];
-        $metadata['licenseVersion'] = $copyright['version'];
+        $yearInput = trim($copyright['year'] ?? '');
+        if ($yearInput !== '') {
+            $patternSingleYear = '/^-?\d+$/';
+            $patternYearRange = '/^(-?\d+)\s*-\s*(-?\d+)$/';
+
+            if (preg_match($patternSingleYear, $yearInput)) {
+                $metadata['yearFrom'] = $yearInput;
+            } elseif (preg_match($patternYearRange, $yearInput, $matches)) {
+                $metadata['yearFrom'] = $matches[1];
+                $metadata['yearTo'] = $matches[2];
+            }
+        }
+
+        if (isset($copyright['source'])) {
+            $metadata['source'] = $copyright['source'];
+        }
+
+        if (isset($copyright['version'])) {
+            $metadata['licenseVersion'] = $copyright['version'];
+        }
 
         return $metadata;
     }
