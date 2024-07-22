@@ -137,17 +137,24 @@ class H5PCaretaker
         $reportRaw['libraries'] = $h5pFileHandler->getLibrariesInformation();
         $reportRaw['media'] = $h5pFileHandler->getMediaInformation();
 
+        $contentTree = new ContentTree($reportRaw);
+
+        AccessibilityReport::generateReport($contentTree);
+        LicenseReport::generateReport($contentTree);
+
         $report = [
             'messages' => []
         ];
-        $report['messages'] = array_merge(
-            $report['messages'],
-            AccessibilityReport::getReport($reportRaw)
-        );
-        $report['messages'] = array_merge(
-            $report['messages'],
-            LicenseReport::getReport($reportRaw)
-        );
+
+        $reports = $contentTree->getReports();
+        foreach ($reports as $key => $subArray) {
+            if (isset($subArray['messages']) && is_array($subArray['messages'])) {
+                foreach ($subArray['messages'] as $message) {
+                    $report['messages'][] = $message;
+                }
+            }
+        }
+
         $report['raw'] = $reportRaw;
 
         $h5pFileHandler = null;

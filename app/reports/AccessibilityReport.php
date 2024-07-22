@@ -25,131 +25,71 @@ namespace H5PCaretaker;
 class AccessibilityReport
 {
     /**
-     * Get the accessibility report.
+     * Get the license report.
      *
-     * @param array $raw The raw data.
-     *
-     * @return array The accessibility report.
+     * @param ContentTree $contentTree The content tree.
      */
-    public static function getReport($raw)
+    public static function generateReport($contentTree)
     {
+        $contents = $contentTree->getContents();
+
         $report = [];
-        $report = array_merge(
-            $report,
-            self::getMissingAltText($raw['contentJson'], $raw['media'])
-        );
-        $report = array_merge($report, self::getLibreText($raw['libraries']));
+        $report['messages'] = [];
 
-        return $report;
-    }
+        foreach($contents as $content) {
+            $libreText = $content->getAttribute('libreText') ?? '';
+            if ($libreText !== '') {
+                $message = [
+                    'category' => 'accessibility',
+                    'type' => 'libreText',
+                    'details' => [
+                        'type' => $libreText['type'],
+                        // Should be added in the libretext API response, "type" is "title" and not unique
+                        //'machineName' => $library->libreTextA11y->machineName,
+                        'description' => $libreText['description'],
+                        'status' => $libreText['status'],
+                        'url' => $libreText['url'],
+                    ]
+                ];
 
-    /**
-     * Get a list of all libraries that have a LibreText accessibility report.
-     *
-     * @param array $libraries The libraries of the H5P content.
-     *
-     * @return array A list of all libraries that have a LibreText accessibility report.
-     */
-    private static function getLibreText($libraries)
-    {
-        $libraries = array_filter(
-            $libraries,
-            function ($library) {
-                return isset($library->libreTextA11y);
+                $report['messages'][] = $message;
             }
-        );
-
-        $messages = [];
-        foreach ($libraries as $library) {
-            $messages[] = [
-            'category' => 'accessibility',
-            'type' => 'libreText',
-            'details' => [
-            'type' => $library->libreTextA11y['type'],
-            // Should be added in the libretext API response, "type" is "title" and not unique
-            //'machineName' => $library->libreTextA11y->machineName,
-            'description' => $library->libreTextA11y['description'],
-            'status' => $library->libreTextA11y['status'],
-            'url' => $library->libreTextA11y['url'],
-            ]
-            ];
         }
 
-        return $messages;
-    }
+        foreach($contents as $content) {
+            $contentFiles = $content->getAttribute('contentFiles') ?? [];
 
-    /**
-     * Get a list of all images that are missing an alternative text.
-     * TODO: Will need to add use of H5P core image widget anc content type with custom alt text field.
-     *
-     * @param array $contentJson The content.json file of the H5P content.
-     * @param array $media The media files of the H5P content.
-     *
-     * @return array A list of all images that are missing an alternative text.
-     */
-    private static function getMissingAltText($contentJson, $media)
-    {
-        // H5P.Image
-        $h5pImageContents = JSONUtils::findAttributeValuePairs(
-            $contentJson,
-            [['library', '/^H5P\.Image/']]
-        );
+            foreach($contentFiles as $contentFile) {
+                // TODO: Use 'versionedMachineName' if set to distingiush between different contents
 
-        $missingAltText = array_filter(
-            $h5pImageContents,
-            function ($item) {
-                $params = $item['object']['params'];
-                return
-                (!isset($params['alt']) || $params['alt'] === '') &&
-                $params['decorative'] !== true;
-            }
-        );
+                if ($contentFile->getData()['type'] === 'image') {
+                    $alt = $contentFile->getData()['alt'] ?? '';
+                    $decorative = $contentFile->getData()['decorative'] ?? false;
 
-        $messages = [];
+                    if ($alt === '' && $decorative === false) {
+                        $message = [
+                            'category' => 'accessibility',
+                            'type' => 'missingAltText',
+                            'summary' => 'Missing alt text for image inside' .
+                                $content->getAttribute('title') . ' at ' .
+                                $contentFile->getData()['path'],
+                            'recommendation' =>
+                                'Check whether there is a reason for the image to not have an alternative text.' .
+                                ' ' .
+                                'If not, it is recommended to add one or to declare the image as decorative.',
+                            'details' => [
+                            'path' => $contentFile->getData()['path'],
+                            'title' => $content->getAttribute('title'),
+                            'subContentId' => $content->getAttribute('id')
+                            ]
+                        ];
 
-        // TODO: i10n
-        foreach ($missingAltText as $key) {
-            $message = [
-                'category' => 'accessibility',
-                'type' => 'missingAltText',
-                'summary' => 'Missing alt text for image ' .
-                $key['object']['metadata']['title'] . ' at ' . $key['path'],
-                'recommendation' =>
-                    'Check whether there is a reason for the image to not have an alternative text.' .
-                    ' ',
-                    'If not, it is recommended to add one or to declare the image as decorative.',
-                'details' => [
-                'path' => $key['path'],
-                'title' => $key['object']['metadata']['title'],
-                'subContentId' => $key['object']['subContentId']
-                ]
-            ];
-
-            $base64 = null;
-            if (isset($key['object']['params']['file']['path'])) {
-                $imageFileName = explode(
-                    DIRECTORY_SEPARATOR,
-                    $key['object']['params']['file']['path']
-                )[1];
-
-                $images = is_object($media) ? $media->images : $media['images'];
-                foreach ($images as $fileName => $value) {
-                    if ($fileName === $imageFileName) {
-                        $base64 = $value['base64'];
-                        break;
+                        $report['messages'][] = $message;
                     }
                 }
-
-                if ($base64 !== null) {
-                    $message['details']['base64'] = $base64;
-                }
             }
-
-            $messages[] = $message;
         }
 
-      // TODO: Would now also need to check internal image widgets and content types with custom alt text field.
-
-        return $messages;
+        $content->setReport('accessibility', $report);
     }
 }

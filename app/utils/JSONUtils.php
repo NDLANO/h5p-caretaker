@@ -82,8 +82,8 @@ class JSONUtils
     {
         $metadata = [];
 
-        $metadata['title'] = $h5pJson['title'];
-        $metadata['license'] = $h5pJson['license']?? 'U';
+        $metadata['title'] = $h5pJson['title'] ?? '';
+        $metadata['license'] = $h5pJson['license'] ?? 'U';
         $metadata['authors'] = $h5pJson['authors'] ?? [];
 
         if (isset($h5pJson['source'])) {
@@ -227,5 +227,32 @@ class JSONUtils
             $parentPath = self::getParentPath($path);
             return self::getClosestLibrary($json, $parentPath);
         }
+    }
+
+    /**
+     * Prune parameters of children.
+     *
+     * @param array $params The parameters.
+     *
+     * @return array The pruned parameters.
+     */
+    public static function pruneChildren($params = [])
+    {
+        $prunedParams = [];
+        foreach ($params as $key => $value) {
+            if (is_array($value)) {
+                if (array_key_exists('library', $value)) {
+                    continue;
+                }
+
+                $prunedValue = self::pruneChildren($value);
+                if (!empty($prunedValue)) {
+                    $prunedParams[$key] = $prunedValue;
+                }
+            } elseif ($key !== 'library') {
+                $prunedParams[$key] = $value;
+            }
+        }
+        return $prunedParams;
     }
 }
