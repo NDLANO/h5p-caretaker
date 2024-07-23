@@ -58,7 +58,7 @@ class ContentTree
                 'attributes' => [
                     'id' => '',
                     'versionedMachineName' => $libraryParams['library'],
-                    'metadata' => JSONUtils::h5pJsonToMetadata($libraryParams),
+                    'metadata' => $libraryParams['metadata'],
                     'semanticsPath' => $path,
                     'params' => $libraryParams['params'],
                 ],
@@ -87,7 +87,7 @@ class ContentTree
         foreach ($this->contents as $content) {
             $contentFiles = $content->getAttribute('contentFiles') ?? [];
             foreach ($contentFiles as $contentFile) {
-                $pathSegments = explode('/', $contentFile->getData()['path']);
+                $pathSegments = explode('/', $contentFile->getAttribute('path'));
 
                 $media = $rawdata['media'];
 
@@ -103,7 +103,7 @@ class ContentTree
 
                 if ($media !== null) {
                     if (isset($media['base64'])) {
-                        $contentFile->setBase64($media['base64']);
+                        $contentFile->setAttribute('base64', $media['base64']);
                     }
                 }
             }

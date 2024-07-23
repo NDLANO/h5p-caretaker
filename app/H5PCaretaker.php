@@ -128,9 +128,6 @@ class H5PCaretaker
             );
         }
 
-        /*
-         * TODO: Ultimately, $report will not contain the raw data, but only messages
-         */
         $reportRaw = array();
         $reportRaw['h5pJson'] = $h5pFileHandler->getH5PInformation();
         $reportRaw['contentJson'] = $h5pFileHandler->getH5PContentParams();
@@ -155,6 +152,7 @@ class H5PCaretaker
             }
         }
 
+        // TODO: Ultimately, $report only contain the raw data on request
         $report['raw'] = $reportRaw;
 
         $h5pFileHandler = null;

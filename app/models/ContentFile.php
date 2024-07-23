@@ -24,61 +24,101 @@ namespace H5PCaretaker;
  */
 class ContentFile
 {
-    private $versionedMachineName;
-    private $type;
-    private $path;
-    private $base64;
-    private $semanticsPath;
-    private $mime;
-    private $metadata;
-    private $alt;
-    private $decorative;
-
-    // TODO: Use attributes as in Content
+    private $attributes = [];
+    private $parent;
 
     /**
      * Constructor.
      *
-     * @param array $params The parameters.
+     * @param array $data The parameters.
      */
-    public function __construct($params)
+    public function __construct($data)
     {
-        $this->versionedMachineName = $params['versionedMachineName'] ?? '';
-        $this->type = $params['type'] ?? '';
-        $this->path = $params['path'] ?? '';
-        $this->base64 = $params['base64'] ?? null;
-        $this->semanticsPath = $params['semanticsPath'] ?? '';
-        $this->mime = $params['mime'] ?? '';
-        $this->metadata = $params['metadata'] ?? [];
-
-        if ($this->type === 'image') {
-            $this->alt = $params['alt'] ?? '';
-            $this->decorative = $params['decorative'] ?? false;
+        foreach($data['attributes'] as $name => $value) {
+            $this->setAttribute($name, $value);
         }
     }
 
     /**
-     * Get the data.
+     * Set an attribute.
      *
-     * @return array The data.
+     * @param string $name  The name of the attribute.
+     * @param mixed  $value The value of the attribute.
      */
-    public function getData()
-    {
-        return [
-            'versionedMachineName' => $this->versionedMachineName,
-            'type' => $this->type,
-            'path' => $this->path,
-            'semanticsPath' => $this->semanticsPath,
-            'base64' => $this->base64,
-            'mime' => $this->mime,
-            'metadata' => $this->metadata,
-            'alt' => $this->alt,
-            'decorative' => $this->decorative,
-        ];
+    public function setAttribute($name, $value) {
+        if (!isset($name) || getType($name) !== 'string') {
+            return;
+        }
+
+        if ($name === 'versionedMachineName' && !isset($value)) {
+            $value = '';
+        } elseif ($name === 'type' && !isset($value)) {
+            $value = '';
+        } elseif ($name === 'path' && !isset($value)) {
+            $value = '';
+        } elseif ($name === 'semanticsPath' && !isset($value)) {
+            $value = '';
+        } elseif ($name === 'base64' && !isset($value)) {
+            $value = null;
+        } elseif ($name === 'mime' && !isset($value)) {
+            $value = '';
+        } elseif ($name === 'metadata' && !isset($value)) {
+            $value = [];
+        } elseif ($name === 'alt' && !isset($value)) {
+            $value = '';
+        } elseif ($name === 'decorative' && !isset($value)) {
+            $value = false;
+        }
+
+        $this->attributes[$name] = $value;
     }
 
-    public function setBase64($base64)
+    /**
+     * Get an attribute.
+     *
+     * @param string $name The name of the attribute.
+     *
+     * @return mixed The value of the attribute.
+     */
+    public function getAttribute($name) {
+        return $this->attributes[$name] ?? null;
+    }
+
+    /**
+     * Set the parent content.
+     *
+     * @param Content $parent The parent content.
+     */
+    public function setParent($parent)
     {
-        $this->base64 = $base64;
+        $this->parent = $parent;
+    }
+
+    /**
+     * Get the parent content.
+     *
+     * @return Content The parent content.
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Get description.
+     *
+     * @param string $template The template for the description.
+     *
+     * @return string The description.
+     */
+    public function getDescription($template = '{title} ({type}) inside {parentTitle} ({parentMachineName})') {
+        $title = $this->attributes['metadata']['title'] ?? 'Untitled';
+        $type = $this->attributes['type'] ?? 'file';
+
+        return str_replace(
+            ['{title}', '{type}', '{parentTitle}', '{parentMachineName}'],
+            [$title, $type, $this->parent->getDescription('{title}'), $this->parent->getDescription('{machineName}')],
+            $template
+        );
     }
 }

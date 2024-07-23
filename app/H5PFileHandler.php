@@ -50,7 +50,6 @@ class H5PFileHandler
         }
 
         try {
-            // TODO: separate class for H5P information (?)
             $this->h5pInfo = $this->extractH5PInformation();
         } catch (\Exception $error) {
             throw new \Exception($error->getMessage());

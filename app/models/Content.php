@@ -44,6 +44,9 @@ class Content
         }
 
         $this->setAttribute('contentFiles', $this->assembleContentFiles());
+        foreach($this->attributes['contentFiles'] as $contentFile) {
+            $contentFile->setParent($this);
+        }
 
         $this->reports = [];
     }
@@ -55,6 +58,10 @@ class Content
      * @param mixed  $value The value of the attribute.
      */
     public function setAttribute($name, $value) {
+        if (!isset($name) || getType($name) !== 'string') {
+            return;
+        }
+
         if ($name === 'id' && !isset($value)) {
             $value = '';
         }
@@ -78,10 +85,32 @@ class Content
     }
 
     /**
-     * Get the content data.
+     * Get an attribute.
+     *
+     * @param string $name The name of the attribute.
+     *
+     * @return mixed The value of the attribute.
      */
     public function getAttribute($name) {
         return $this->attributes[$name] ?? null;
+    }
+
+    /**
+     * Get description.
+     *
+     * @param string $template The template for the description.
+     *
+     * @return string The description.
+     */
+    public function getDescription($template = '{title} ({machineName})') {
+        $title = $this->attributes['metadata']['title'] ?? 'Untitled';
+        $machineName = explode(' ', $this->attributes['versionedMachineName'])[0];
+
+        return str_replace(
+            ['{title}', '{machineName}'],
+            [$title, $machineName],
+            $template
+        );
     }
 
     /**
@@ -206,20 +235,21 @@ class Content
         // copyright information objects are to be expected when fixed.
 
         if ($machineName === 'H5P.Image') {
-            error_log('H5P.Image');
             if (!isset($this->attributes['params']['file'])) {
                 return $files;
             }
 
             $files[] = new ContentFile([
-                'versionedMachineName' => $machineName,
-                'type' => 'image',
-                'path' => $this->attributes['params']['file']['path'] ?? '',
-                'semanticsPath' => $this->attributes['semanticsPath'] . '.' . 'params.file',
-                'mime' => $this->attributes['params']['file']['mime'] ?? '',
-                'metadata' => $this->attributes['metadata'],
-                'alt' => $this->attributes['params']['alt'] ?? '',
-                'decorative' => $this->attributes['params']['decorative'] ?? false
+                'attributes' => [
+                    'versionedMachineName' => $machineName,
+                    'type' => 'image',
+                    'path' => $this->attributes['params']['file']['path'] ?? '',
+                    'semanticsPath' => $this->attributes['semanticsPath'] . '.' . 'params.file',
+                    'mime' => $this->attributes['params']['file']['mime'] ?? '',
+                    'metadata' => $this->attributes['metadata'],
+                    'alt' => $this->attributes['params']['alt'] ?? '',
+                    'decorative' => $this->attributes['params']['decorative'] ?? false
+                ]
             ]);
         } elseif ($machineName === 'H5P.Audio') {
             if (!isset($this->attributes['params']['files'])) {
@@ -229,12 +259,14 @@ class Content
             for ($i = 0; $i < count($this->attributes['params']['files']); $i++) {
                 $file = $this->attributes['params']['files'][$i];
                 $files[] = new ContentFile([
-                    'versionedMachineName' => $machineName,
-                    'type' => 'audio',
-                    'path' => $file['path'] ?? '',
-                    'semanticsPath' => $this->attributes['semanticsPath'] . '.' . 'params.files[' . $i . ']',
-                    'mime' => $file['mime'] ?? '',
-                    'metadata' => $this->attributes['metadata']
+                    'attributes' => [
+                        'versionedMachineName' => $machineName,
+                        'type' => 'audio',
+                        'path' => $file['path'] ?? '',
+                        'semanticsPath' => $this->attributes['semanticsPath'] . '.' . 'params.files[' . $i . ']',
+                        'mime' => $file['mime'] ?? '',
+                        'metadata' => $this->attributes['metadata']
+                    ]
                 ]);
             }
         } elseif ($machineName === 'H5P.Video') {
@@ -245,12 +277,14 @@ class Content
             for ($i = 0; $i < count($this->attributes['params']['sources']); $i++) {
                 $file = $this->attributes['params']['sources'][$i];
                 $files[] = new ContentFile([
-                    'versionedMachineName' => $machineName,
-                    'type' => 'video',
-                    'path' => $file['path'] ?? '',
-                    'semanticsPath' => $this->attributes['semanticsPath'] . '.' . 'params.sources[' . $i . ']',
-                    'mime' => $file['mime'] ?? '',
-                    'metadata' => $this->attributes['metadata']
+                    'attributes' => [
+                        'versionedMachineName' => $machineName,
+                        'type' => 'video',
+                        'path' => $file['path'] ?? '',
+                        'semanticsPath' => $this->attributes['semanticsPath'] . '.' . 'params.sources[' . $i . ']',
+                        'mime' => $file['mime'] ?? '',
+                        'metadata' => $this->attributes['metadata']
+                    ]
                 ]);
             }
         } else {
@@ -276,16 +310,16 @@ class Content
                 $semanticsPath .= $params['path'];
 
                 $files[] = new ContentFile([
-                    'type' => $type,
-                    'path' => $params['object']['path'],
-                    'semanticsPath' => $semanticsPath,
-                    'mime' => $params['object']['mime'],
-                    'metadata' => JSONUtils::copyrightToMetadata($params['object']['copyright'])
+                    'attributes' => [
+                        'type' => $type,
+                        'path' => $params['object']['path'],
+                        'semanticsPath' => $semanticsPath,
+                        'mime' => $params['object']['mime'],
+                        'metadata' => JSONUtils::copyrightToMetadata($params['object']['copyright'])
+                    ]
                 ]);
             }
         }
-
-        error_log(print_r($files, true));
 
         return $files;
     }

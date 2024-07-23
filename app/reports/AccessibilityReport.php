@@ -39,10 +39,14 @@ class AccessibilityReport
         foreach($contents as $content) {
             $libreText = $content->getAttribute('libreText') ?? '';
             if ($libreText !== '') {
-                $message = [
-                    'category' => 'accessibility',
-                    'type' => 'libreText',
-                    'details' => [
+                $report['messages'][] = ReportUtils::buildMessage(
+                    'accessibility',
+                    'libreText',
+                    [
+                        'LibreText evaluation for',
+                        explode(' ', $content->getAttribute('versionedMachineName'))[0]
+                    ],
+                    [
                         'type' => $libreText['type'],
                         // Should be added in the libretext API response, "type" is "title" and not unique
                         //'machineName' => $library->libreTextA11y->machineName,
@@ -50,9 +54,7 @@ class AccessibilityReport
                         'status' => $libreText['status'],
                         'url' => $libreText['url'],
                     ]
-                ];
-
-                $report['messages'][] = $message;
+                );
             }
         }
 
@@ -60,32 +62,44 @@ class AccessibilityReport
             $contentFiles = $content->getAttribute('contentFiles') ?? [];
 
             foreach($contentFiles as $contentFile) {
-                // TODO: Use 'versionedMachineName' if set to distingiush between different contents
-
-                if ($contentFile->getData()['type'] === 'image') {
-                    $alt = $contentFile->getData()['alt'] ?? '';
-                    $decorative = $contentFile->getData()['decorative'] ?? false;
+                if ($contentFile->getParent()->getDescription('{machineName}') === 'H5P.Image') {
+                    $alt = $contentFile->getAttribute('alt') ?? '';
+                    $decorative = $contentFile->getAttribute('decorative') ?? false;
 
                     if ($alt === '' && $decorative === false) {
-                        $message = [
-                            'category' => 'accessibility',
-                            'type' => 'missingAltText',
-                            'summary' => 'Missing alt text for image inside' .
-                                $content->getAttribute('title') . ' at ' .
-                                $contentFile->getData()['path'],
-                            'recommendation' =>
-                                'Check whether there is a reason for the image to not have an alternative text.' .
-                                ' ' .
-                                'If not, it is recommended to add one or to declare the image as decorative.',
-                            'details' => [
-                            'path' => $contentFile->getData()['path'],
-                            'title' => $content->getAttribute('title'),
-                            'subContentId' => $content->getAttribute('id')
-                            ]
-                        ];
-
-                        $report['messages'][] = $message;
+                        $report['messages'][] = ReportUtils::buildMessage(
+                            'accessibility',
+                            'missingAltText',
+                            [
+                                'Missing alt text for image inside',
+                                $content->getDescription('{title}'),
+                                'at',
+                                $contentFile->getAttribute('path')
+                            ],
+                            [
+                                'path' => $contentFile->getAttribute('path'),
+                                'title' => $content->getDescription('{title}'),
+                                'subContentId' => $content->getAttribute('id')
+                            ],
+                            'Check whether there is a reason for the image to not have an alternative text. If so, explicitly set it as decorative in the editor.'
+                        );
                     }
+                } elseif ($contentFile->getAttribute('type') === 'image') {
+                    // TODO: Add exception check for content types with known decorative images, etc.
+
+                    $report['messages'][] = ReportUtils::buildMessage(
+                        'accessibility',
+                        'missingAltText',
+                        [
+                            'Potentially missing alt text for image inside',
+                            $content->getDescription('{title}')
+                        ],
+                        [
+                            'path' => $contentFile->getAttribute('path'),
+                            'title' => $content->getDescription('{title}')
+                        ],
+                        'Check whether the content type that uses the image offers a custom alternative text field or whether it is not required to have one here.'
+                    );
                 }
             }
         }
