@@ -56,7 +56,7 @@ class ContentTree
 
             $this->contents[] = new Content([
                 'attributes' => [
-                    'id' => '',
+                    'id' => $libraryParams['subContentId'] ?? '',
                     'versionedMachineName' => $libraryParams['library'],
                     'metadata' => $libraryParams['metadata'],
                     'semanticsPath' => $path,

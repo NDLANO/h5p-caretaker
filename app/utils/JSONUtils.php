@@ -119,6 +119,10 @@ class JSONUtils
 
         $metadata['license'] = $copyright['license'] ?? 'U';
 
+        if (isset($copyright['title'])) {
+            $metadata['title'] = $copyright['title'];
+        }
+
         if (isset($copyright['author'])) {
             $metadata['authors'] = [
                 'author' => $copyright['author'],

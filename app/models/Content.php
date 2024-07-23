@@ -241,14 +241,11 @@ class Content
 
             $files[] = new ContentFile([
                 'attributes' => [
-                    'versionedMachineName' => $machineName,
                     'type' => 'image',
                     'path' => $this->attributes['params']['file']['path'] ?? '',
                     'semanticsPath' => $this->attributes['semanticsPath'] . '.' . 'params.file',
                     'mime' => $this->attributes['params']['file']['mime'] ?? '',
-                    'metadata' => $this->attributes['metadata'],
-                    'alt' => $this->attributes['params']['alt'] ?? '',
-                    'decorative' => $this->attributes['params']['decorative'] ?? false
+                    'metadata' => $this->attributes['metadata']
                 ]
             ]);
         } elseif ($machineName === 'H5P.Audio') {
@@ -260,7 +257,6 @@ class Content
                 $file = $this->attributes['params']['files'][$i];
                 $files[] = new ContentFile([
                     'attributes' => [
-                        'versionedMachineName' => $machineName,
                         'type' => 'audio',
                         'path' => $file['path'] ?? '',
                         'semanticsPath' => $this->attributes['semanticsPath'] . '.' . 'params.files[' . $i . ']',
@@ -278,7 +274,6 @@ class Content
                 $file = $this->attributes['params']['sources'][$i];
                 $files[] = new ContentFile([
                     'attributes' => [
-                        'versionedMachineName' => $machineName,
                         'type' => 'video',
                         'path' => $file['path'] ?? '',
                         'semanticsPath' => $this->attributes['semanticsPath'] . '.' . 'params.sources[' . $i . ']',

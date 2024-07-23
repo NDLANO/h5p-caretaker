@@ -50,9 +50,7 @@ class ContentFile
             return;
         }
 
-        if ($name === 'versionedMachineName' && !isset($value)) {
-            $value = '';
-        } elseif ($name === 'type' && !isset($value)) {
+        if ($name === 'type' && !isset($value)) {
             $value = '';
         } elseif ($name === 'path' && !isset($value)) {
             $value = '';
@@ -64,10 +62,6 @@ class ContentFile
             $value = '';
         } elseif ($name === 'metadata' && !isset($value)) {
             $value = [];
-        } elseif ($name === 'alt' && !isset($value)) {
-            $value = '';
-        } elseif ($name === 'decorative' && !isset($value)) {
-            $value = false;
         }
 
         $this->attributes[$name] = $value;
