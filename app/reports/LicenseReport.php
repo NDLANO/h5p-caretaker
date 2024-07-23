@@ -53,7 +53,7 @@ class LicenseReport
                                 $content->getParent()->getDescription(),
                     ],
                     [
-                        "path" => $semanticsPath,
+                        "semanticsPath" => $semanticsPath,
                         "title" => $content->getDescription("{title}"),
                         "subContentId" => $content->getAttribute("id"),
                     ],
@@ -90,7 +90,7 @@ class LicenseReport
                             $contentFile->getDescription(),
                         ],
                         [
-                            "path" => $contentFile->getAttribute(
+                            "semanticsPath" => $contentFile->getAttribute(
                                 "semanticsPath"
                             ),
                             "title" => $contentFile->getDescription("{title}"),

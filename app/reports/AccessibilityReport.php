@@ -66,30 +66,25 @@ class AccessibilityReport
             $contentFiles = $content->getAttribute("contentFiles") ?? [];
 
             foreach ($contentFiles as $contentFile) {
-                $hadCustomHandling = false;
-                $parentMachineName = $contentFile
-                    ->getParent()
-                    ->getDescription("{machineName}");
-                $isImage = $contentFile->getAttribute("type") === "image";
+                if ($contentFile->getAttribute("type") === "image") {
+                    $parentMachineName = $contentFile
+                        ->getParent()
+                        ->getDescription("{machineName}");
 
-                if ($isImage) {
-                    if ($parentMachineName === "H5P.Image") {
-                        $alt = $content->getAttribute("params")["alt"] ?? "";
-                        $decorative =
-                            $content->getAttribute("params")["decorative"] ??
-                            false;
-                        $hadCustomHandling = true;
-                    }
-                    // TODO:
-                    // Add more content types that have custom handling for alternative texts
-                    // Will require to check the parameters of the content type
+                    list(
+                        $alt,
+                        $decorative,
+                        $title,
+                        $recommendation,
+                        $hasCustomHandling,
+                    ) = self::handleAltForImage(
+                        $parentMachineName,
+                        $content,
+                        $contentFile,
+                        $contentTree
+                    );
 
-                    if ($hadCustomHandling) {
-                        $alt = $content->getAttribute("params")["alt"] ?? "";
-                        $decorative =
-                            $content->getAttribute("params")["decorative"] ??
-                            false;
-
+                    if ($hasCustomHandling) {
                         if ($alt === "" && $decorative === false) {
                             $report["messages"][] = ReportUtils::buildMessage(
                                 "accessibility",
@@ -102,15 +97,15 @@ class AccessibilityReport
                                     "path" => $contentFile->getAttribute(
                                         "path"
                                     ),
-                                    "title" => $content->getDescription(
-                                        "{title}"
+                                    "semanticsPath" => $contentFile->getAttribute(
+                                        "semanticsPath"
                                     ),
+                                    "title" => $title,
                                     "subContentId" => $content->getAttribute(
                                         "id"
-                                    ),
+                                    )
                                 ],
-                                "Check whether there is a reason for the image to not have an alternative text." .
-                                    "If so, explicitly set it as decorative in the editor."
+                                $recommendation
                             );
                         }
                     } else {
@@ -123,9 +118,15 @@ class AccessibilityReport
                             ],
                             [
                                 "path" => $contentFile->getAttribute("path"),
+                                "semanticsPath" => $contentFile->getAttribute(
+                                    "semanticsPath"
+                                ),
                                 "title" => $contentFile->getDescription(
                                     "{title}"
                                 ),
+                                "subContentId" => $content->getAttribute(
+                                    "id"
+                                )
                             ],
                             "Check whether the content type that uses the image offers a " .
                                 "custom alternative text field or whether it is not required to have one here."
@@ -136,5 +137,58 @@ class AccessibilityReport
         }
 
         $content->setReport("accessibility", $report);
+    }
+
+    /**
+     * Handle alternative text for images.
+     *
+     * @param string $parentMachineName The machine name of the parent content.
+     * @param Content $content The content.
+     * @param ContentFile $contentFile The content file.
+     * @param ContentTree $contentTree The content tree.
+     *
+     * @return array List of variables to work with.
+     */
+    private static function handleAltForImage(
+        $parentMachineName,
+        $content,
+        $contentFile,
+        $contentTree
+    ) {
+        $alt = "";
+        $decorative = false;
+        $title = "";
+        $recommendation = "";
+        $hasCustomHandling = false;
+
+        if ($parentMachineName === "H5P.Image") {
+            $alt = $content->getAttribute("params")["alt"] ?? "";
+            $decorative =
+                $content->getAttribute("params")["decorative"] ?? false;
+
+            $title = $content->getDescription("{title}");
+            $recommendation =
+                "Check whether there is a reason for the image to not have an alternative text." .
+                "If so, explicitly set it as decorative in the editor.";
+
+            $hasCustomHandling = true;
+        } elseif ($parentMachineName === "H5P.MemoryGame") {
+            $semanticsPath = $contentFile->getAttribute("semanticsPath");
+            $semanticsPath = preg_replace('/\.image$/', "", $semanticsPath);
+            $cardParams = JSONUtils::getElementAtPath(
+                $contentTree->getRoot()->getAttribute("params"),
+                $semanticsPath
+            );
+
+            $alt = $cardParams["imageAlt"] ?? "";
+
+            $title = $contentFile->getDescription("{title}");
+            $recommendation =
+                "Set an alternative text for the image of the card.";
+
+            $hasCustomHandling = true;
+        }
+
+        return [$alt, $decorative, $title, $recommendation, $hasCustomHandling];
     }
 }

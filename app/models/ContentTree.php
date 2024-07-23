@@ -48,16 +48,16 @@ class ContentTree
                 ),
                 "metadata" => JSONUtils::h5pJsonToMetadata($h5pJson),
                 "semanticsPath" => "",
-                "params" => $h5pJson,
+                "params" => $rawdata["contentJson"],
             ],
         ]);
 
-        $libraryPaths = self::findLibraryPaths($rawdata["contentJson"]);
+        $parameterPaths = self::findLibraryPaths($rawdata["contentJson"]);
 
-        foreach ($libraryPaths as $path) {
+        foreach ($parameterPaths as $parameterPath) {
             $libraryParams = JSONUtils::getElementAtPath(
                 $rawdata["contentJson"],
-                $path
+                preg_replace('/\.params$/', "", $parameterPath)
             );
 
             $this->contents[] = new Content([
@@ -65,7 +65,7 @@ class ContentTree
                     "id" => $libraryParams["subContentId"] ?? "",
                     "versionedMachineName" => $libraryParams["library"],
                     "metadata" => $libraryParams["metadata"],
-                    "semanticsPath" => $path,
+                    "semanticsPath" => $parameterPath,
                     "params" => $libraryParams["params"],
                 ],
             ]);
@@ -77,7 +77,7 @@ class ContentTree
             }
 
             $childPath = $child->getAttribute("semanticsPath");
-            $parentPath = self::getParentPath($childPath, $libraryPaths);
+            $parentPath = self::getParentPath($childPath, $parameterPaths);
 
             if ($parentPath === "") {
                 $parent = $this->contents[0];
@@ -215,7 +215,7 @@ class ContentTree
                     $paths[] = preg_replace(
                         '/\.(\d+)(\.|$)/',
                         '[$1]$2',
-                        $currentPath
+                        $currentPath . ".params"
                     );
                 } else {
                     $paths = array_merge(
