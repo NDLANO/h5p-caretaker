@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Proof of concept code for extracting and displaying H5P content server-side.
  *
@@ -36,7 +37,7 @@ class JSONUtils
     {
         $results = [];
 
-        self::traverseJson($json, $pairs, '', $results);
+        self::traverseJson($json, $pairs, "", $results);
         return $results;
     }
 
@@ -52,15 +53,22 @@ class JSONUtils
     {
         if (is_array($json)) {
             foreach ($json as $key => $value) {
-                $newPath = $currentPath === '' ? $key : "$currentPath.$key";
+                $newPath = $currentPath === "" ? $key : "$currentPath.$key";
                 if (is_array($value)) {
                     foreach ($pairs as $pair) {
                         $attribute = $pair[0];
                         $valuePattern = $pair[1];
-                        if (array_key_exists($attribute, $value) && preg_match($valuePattern, $value[$attribute])) {
+                        if (
+                            array_key_exists($attribute, $value) &&
+                            preg_match($valuePattern, $value[$attribute])
+                        ) {
                             $results[] = [
-                            'path' => preg_replace('/\.(\d+)(\.|$)/', '[$1]$2', $newPath),
-                            'object' => $value
+                                "path" => preg_replace(
+                                    '/\.(\d+)(\.|$)/',
+                                    '[$1]$2',
+                                    $newPath
+                                ),
+                                "object" => $value,
                             ];
                         }
                     }
@@ -82,24 +90,24 @@ class JSONUtils
     {
         $metadata = [];
 
-        $metadata['title'] = $h5pJson['title'] ?? '';
-        $metadata['license'] = $h5pJson['license'] ?? 'U';
-        $metadata['authors'] = $h5pJson['authors'] ?? [];
+        $metadata["title"] = $h5pJson["title"] ?? "";
+        $metadata["license"] = $h5pJson["license"] ?? "U";
+        $metadata["authors"] = $h5pJson["authors"] ?? [];
 
-        if (isset($h5pJson['source'])) {
-            $metadata['source'] = $h5pJson['source'];
+        if (isset($h5pJson["source"])) {
+            $metadata["source"] = $h5pJson["source"];
         }
 
-        if (isset($h5pJson['licenseVersion'])) {
-            $metadata['licenseVersion'] = $h5pJson['licenseVersion'];
+        if (isset($h5pJson["licenseVersion"])) {
+            $metadata["licenseVersion"] = $h5pJson["licenseVersion"];
         }
 
-        if (isset($h5pJson['yearFrom'])) {
-            $metadata['yearFrom'] = $h5pJson['yearFrom'];
+        if (isset($h5pJson["yearFrom"])) {
+            $metadata["yearFrom"] = $h5pJson["yearFrom"];
         }
 
-        if (isset($h5pJson['yearTo'])) {
-            $metadata['yearTo'] = $h5pJson['yearTo'];
+        if (isset($h5pJson["yearTo"])) {
+            $metadata["yearTo"] = $h5pJson["yearTo"];
         }
 
         return $metadata;
@@ -114,43 +122,42 @@ class JSONUtils
      */
     public static function copyrightToMetadata($copyright)
     {
-
         $metadata = [];
 
-        $metadata['license'] = $copyright['license'] ?? 'U';
+        $metadata["license"] = $copyright["license"] ?? "U";
 
-        if (isset($copyright['title'])) {
-            $metadata['title'] = $copyright['title'];
+        if (isset($copyright["title"])) {
+            $metadata["title"] = $copyright["title"];
         }
 
-        if (isset($copyright['author'])) {
-            $metadata['authors'] = [
-                'author' => $copyright['author'],
-                'role' => 'Author'
+        if (isset($copyright["author"])) {
+            $metadata["authors"] = [
+                "author" => $copyright["author"],
+                "role" => "Author",
             ];
         } else {
-            $metadata['authors'] = [];
+            $metadata["authors"] = [];
         }
 
-        $yearInput = trim($copyright['year'] ?? '');
-        if ($yearInput !== '') {
+        $yearInput = trim($copyright["year"] ?? "");
+        if ($yearInput !== "") {
             $patternSingleYear = '/^-?\d+$/';
             $patternYearRange = '/^(-?\d+)\s*-\s*(-?\d+)$/';
 
             if (preg_match($patternSingleYear, $yearInput)) {
-                $metadata['yearFrom'] = $yearInput;
+                $metadata["yearFrom"] = $yearInput;
             } elseif (preg_match($patternYearRange, $yearInput, $matches)) {
-                $metadata['yearFrom'] = $matches[1];
-                $metadata['yearTo'] = $matches[2];
+                $metadata["yearFrom"] = $matches[1];
+                $metadata["yearTo"] = $matches[2];
             }
         }
 
-        if (isset($copyright['source'])) {
-            $metadata['source'] = $copyright['source'];
+        if (isset($copyright["source"])) {
+            $metadata["source"] = $copyright["source"];
         }
 
-        if (isset($copyright['version'])) {
-            $metadata['licenseVersion'] = $copyright['version'];
+        if (isset($copyright["version"])) {
+            $metadata["licenseVersion"] = $copyright["version"];
         }
 
         return $metadata;
@@ -166,22 +173,22 @@ class JSONUtils
      */
     public static function getElementAtPath($contentJson, $path)
     {
-        $pathSegments = explode('.', $path);
+        $pathSegments = explode(".", $path);
 
         $current = $contentJson;
         foreach ($pathSegments as $segment) {
             // Split segment /(\w)[(\d+)]/ into attribute as (\w) and index as (\d+)
             $matches = [];
-            preg_match('/(\w+)(?:\[(\d+)\])?/', $segment, $matches);
+            preg_match("/(\w+)(?:\[(\d+)\])?/", $segment, $matches);
             $part = $matches[1];
             $index = $matches[2] ?? null;
 
             if (!isset($index) && isset($current[$part])) {
                 $current = $current[$part];
-            } elseif (isset($index) &&
+            } elseif (
+                isset($index) &&
                 isset($current[$part]) &&
                 isset($current[$part][$index])
-
             ) {
                 $current = $current[$part][$index];
             } else {
@@ -201,10 +208,10 @@ class JSONUtils
      */
     public static function getParentPath($path)
     {
-        $lastDotPosition = strrpos($path, '.');
-        return ($lastDotPosition === false) ?
-            $path :
-            substr($path, 0, $lastDotPosition);
+        $lastDotPosition = strrpos($path, ".");
+        return $lastDotPosition === false
+            ? $path
+            : substr($path, 0, $lastDotPosition);
     }
 
     /**
@@ -220,12 +227,12 @@ class JSONUtils
         $testElement = self::getElementAtPath($json, $path);
         if ($testElement === null) {
             return null;
-        } elseif (isset($testElement['library'])) {
+        } elseif (isset($testElement["library"])) {
             return [
-                'params' => $testElement,
-                'jsonPath' => $path
+                "params" => $testElement,
+                "jsonPath" => $path,
             ];
-        } elseif (strrpos($path, '.') === false) {
+        } elseif (strrpos($path, ".") === false) {
             return null;
         } else {
             $parentPath = self::getParentPath($path);
@@ -245,7 +252,7 @@ class JSONUtils
         $prunedParams = [];
         foreach ($params as $key => $value) {
             if (is_array($value)) {
-                if (array_key_exists('library', $value)) {
+                if (array_key_exists("library", $value)) {
                     continue;
                 }
 
@@ -253,7 +260,7 @@ class JSONUtils
                 if (!empty($prunedValue)) {
                     $prunedParams[$key] = $prunedValue;
                 }
-            } elseif ($key !== 'library') {
+            } elseif ($key !== "library") {
                 $prunedParams[$key] = $value;
             }
         }

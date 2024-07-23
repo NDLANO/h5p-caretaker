@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Proof of concept code for extracting and displaying H5P content server-side.
  *
@@ -24,51 +25,57 @@ namespace H5PCaretaker;
  */
 class LibretextData
 {
-  /**
-   * The endpoint template.
-   *
-   * @var string
-   */
-    const ENDPOINT_TEMPLATE =
-    'https://studio.libretexts.org/api/h5p/accessibility?type=%s';
+    /**
+     * The endpoint template.
+     *
+     * @var string
+     */
+    private const ENDPOINT_TEMPLATE = "https://studio.libretexts.org/api/h5p/accessibility?type=%s";
 
-  /**
-   * The endpoint ID.
-   *
-   * @var string
-   */
-    const ENDPOINT_ID = 'libretext';
+    /**
+     * The endpoint ID.
+     *
+     * @var string
+     */
+    private const ENDPOINT_ID = "libretext";
 
-  /**
-   * The maximum age of cached file in seconds.
-   *
-   * @var int
-   */
-    const MAX_CACHE_AGE_S = 60 * 60; // 1 hour
+    /**
+     * The maximum age of cached file in seconds.
+     *
+     * @var int
+     */
+    private const MAX_CACHE_AGE_S = 60 * 60; // 1 hour
 
-  /**
-   * Fetch the data for a given library title. Will try to fetch from/store to
-   * cache if a cache path is provided.
-   *
-   * @param string $libraryTitle The title of the library to fetch.
-   * @param string $cachePath The path to the cache directory.
-   *
-   * @return array|boolean The fetched data or false if the fetch failed.
-   */
+    /**
+     * Fetch the data for a given library title. Will try to fetch from/store to
+     * cache if a cache path is provided.
+     *
+     * @param string $libraryTitle The title of the library to fetch.
+     * @param string $cachePath The path to the cache directory.
+     *
+     * @return array|boolean The fetched data or false if the fetch failed.
+     */
     public static function fetch($libraryTitle, $cachePath = false)
     {
         if (empty($libraryTitle)) {
             return false;
         }
 
-        $url = sprintf(LibretextData::ENDPOINT_TEMPLATE, urlencode($libraryTitle));
+        $url = sprintf(
+            LibretextData::ENDPOINT_TEMPLATE,
+            urlencode($libraryTitle)
+        );
         if ($cachePath !== false) {
             if (!is_dir($cachePath)) {
                 mkdir($cachePath);
             }
 
-            $cacheFile = $cachePath . DIRECTORY_SEPARATOR .
-            LibretextData::ENDPOINT_ID . '-' . hash('sha256', $url);
+            $cacheFile =
+                $cachePath .
+                DIRECTORY_SEPARATOR .
+                LibretextData::ENDPOINT_ID .
+                "-" .
+                hash("sha256", $url);
 
             if (file_exists($cacheFile)) {
                 $fileAge = time() - filemtime($cacheFile);
@@ -91,11 +98,11 @@ class LibretextData
         return LibretextData::parseEndpointResult($response);
     }
 
-  /**
-   * Clear the cache.
-   *
-   * @param string $cachePath The path to the cache directory.
-   */
+    /**
+     * Clear the cache.
+     *
+     * @param string $cachePath The path to the cache directory.
+     */
     public static function clearCache($cachePath)
     {
         if (empty($cachePath) || !is_dir($cachePath)) {
@@ -103,7 +110,7 @@ class LibretextData
         }
 
         $files = glob(
-            $cachePath . DIRECTORY_SEPARATOR . LibretextData::ENDPOINT_ID . '-*'
+            $cachePath . DIRECTORY_SEPARATOR . LibretextData::ENDPOINT_ID . "-*"
         );
 
         foreach ($files as $file) {
@@ -111,13 +118,13 @@ class LibretextData
         }
     }
 
-  /**
-   * Parse the result from the Libretext endpoint.
-   *
-   * @param string|boolean $result The result to parse.
-   *
-   * @return array|boolean The parsed result or false if the result is empty.
-   */
+    /**
+     * Parse the result from the Libretext endpoint.
+     *
+     * @param string|boolean $result The result to parse.
+     *
+     * @return array|boolean The parsed result or false if the result is empty.
+     */
     private static function parseEndpointResult($endpointResult)
     {
         if (empty($endpointResult) || $endpointResult === false) {

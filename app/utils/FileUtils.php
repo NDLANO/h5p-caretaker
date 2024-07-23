@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Proof of concept code for extracting and displaying H5P content server-side.
  *
@@ -33,14 +34,14 @@ class FileUtils
      */
     public static function fileToBase64($path)
     {
-        if (getType($path) !== 'string') {
-            return '';
+        if (getType($path) !== "string") {
+            return "";
         }
 
-        $path = explode('?', $path)[0];
+        $path = explode("?", $path)[0];
 
         if (!file_exists($path)) {
-            return '';
+            return "";
         }
 
         $fileInfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -48,7 +49,7 @@ class FileUtils
 
         $fileContent = file_get_contents($path);
 
-        return 'data:' . $fileType . ';base64,' . base64_encode($fileContent);
+        return "data:" . $fileType . ";base64," . base64_encode($fileContent);
     }
 
     /**
@@ -60,14 +61,14 @@ class FileUtils
      */
     public static function getVendorPath($startDir)
     {
-        while (!file_exists($startDir . '/vendor')) {
+        while (!file_exists($startDir . "/vendor")) {
             $startDir = dirname($startDir);
-            if ($startDir === '/') {
+            if ($startDir === "/") {
                 return null;
             }
         }
 
-        return $startDir . '/vendor';
+        return $startDir . "/vendor";
     }
 
     /**
@@ -79,11 +80,11 @@ class FileUtils
      */
     public static function getJSONData($path)
     {
-        if (getType($path) !== 'string') {
+        if (getType($path) !== "string") {
             return null;
         }
 
-        $path = explode('?', $path)[0];
+        $path = explode("?", $path)[0];
         if (!file_exists($path)) {
             return null;
         }

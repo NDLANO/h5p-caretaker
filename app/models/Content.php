@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tool for helping people to take care of H5P content.
  *
@@ -29,22 +30,22 @@ class Content
     private $attributes;
     private $reports;
 
-  /**
-   * Constructor.
-   *
-   * @param array $data The content data.
-   */
+    /**
+     * Constructor.
+     *
+     * @param array $data The content data.
+     */
     public function __construct($data)
     {
-        $this->parent = $data['parent'] ?? null;
-        $this->children = $data['children'] ?? [];
+        $this->parent = $data["parent"] ?? null;
+        $this->children = $data["children"] ?? [];
 
-        foreach($data['attributes'] as $name => $value) {
+        foreach ($data["attributes"] as $name => $value) {
             $this->setAttribute($name, $value);
         }
 
-        $this->setAttribute('contentFiles', $this->assembleContentFiles());
-        foreach($this->attributes['contentFiles'] as $contentFile) {
+        $this->setAttribute("contentFiles", $this->assembleContentFiles());
+        foreach ($this->attributes["contentFiles"] as $contentFile) {
             $contentFile->setParent($this);
         }
 
@@ -57,27 +58,23 @@ class Content
      * @param string $name  The name of the attribute.
      * @param mixed  $value The value of the attribute.
      */
-    public function setAttribute($name, $value) {
-        if (!isset($name) || getType($name) !== 'string') {
+    public function setAttribute($name, $value)
+    {
+        if (!isset($name) || getType($name) !== "string") {
             return;
         }
 
-        if ($name === 'id' && !isset($value)) {
-            $value = '';
-        }
-        elseif ($name === 'versionedMachineName' && !isset($value)) {
-            $value = '';
-        }
-        elseif ($name === 'metadata' && !isset($value)) {
+        if ($name === "id" && !isset($value)) {
+            $value = "";
+        } elseif ($name === "versionedMachineName" && !isset($value)) {
+            $value = "";
+        } elseif ($name === "metadata" && !isset($value)) {
             $value = [];
-        }
-        elseif ($name === 'semanticsPath' && !isset($value)) {
-            $value = '';
-        }
-        elseif ($name === 'params' && !isset($value)) {
+        } elseif ($name === "semanticsPath" && !isset($value)) {
+            $value = "";
+        } elseif ($name === "params" && !isset($value)) {
             $value = [];
-        }
-        elseif ($name === 'contentFiles' && !isset($value)) {
+        } elseif ($name === "contentFiles" && !isset($value)) {
             $value = [];
         }
 
@@ -91,7 +88,8 @@ class Content
      *
      * @return mixed The value of the attribute.
      */
-    public function getAttribute($name) {
+    public function getAttribute($name)
+    {
         return $this->attributes[$name] ?? null;
     }
 
@@ -102,12 +100,16 @@ class Content
      *
      * @return string The description.
      */
-    public function getDescription($template = '{title} ({machineName})') {
-        $title = $this->attributes['metadata']['title'] ?? 'Untitled';
-        $machineName = explode(' ', $this->attributes['versionedMachineName'])[0];
+    public function getDescription($template = "{title} ({machineName})")
+    {
+        $title = $this->attributes["metadata"]["title"] ?? "Untitled";
+        $machineName = explode(
+            " ",
+            $this->attributes["versionedMachineName"]
+        )[0];
 
         return str_replace(
-            ['{title}', '{machineName}'],
+            ["{title}", "{machineName}"],
             [$title, $machineName],
             $template
         );
@@ -192,7 +194,8 @@ class Content
      * @param string $name     The name of the report.
      * @param array  $messages The messages of the report.
      */
-    public function setReport($name, $messages) {
+    public function setReport($name, $messages)
+    {
         $this->reports[$name] = $messages;
     }
 
@@ -201,7 +204,8 @@ class Content
      *
      * @return array The reports.
      */
-    public function getReports() {
+    public function getReports()
+    {
         return $this->reports;
     }
 
@@ -212,7 +216,8 @@ class Content
      *
      * @return array The report.
      */
-    public function getReport($name) {
+    public function getReport($name)
+    {
         return $this->reports[$name] ?? [];
     }
 
@@ -225,93 +230,116 @@ class Content
     {
         $files = [];
 
-        $machineName = $this->attributes['versionedMachineName'] !== '' ?
-            explode(' ', $this->attributes['versionedMachineName'])[0] :
-            '';
+        $machineName =
+            $this->attributes["versionedMachineName"] !== ""
+                ? explode(" ", $this->attributes["versionedMachineName"])[0]
+                : "";
 
         // TODO: Currently, the medatada for Audio and Video will be the same for
         // all sources. This may not be correct, but currently the AV widget of
         // H5P Editor does not work as expected, and it is not clear if separate
         // copyright information objects are to be expected when fixed.
 
-        if ($machineName === 'H5P.Image') {
-            if (!isset($this->attributes['params']['file'])) {
+        if ($machineName === "H5P.Image") {
+            if (!isset($this->attributes["params"]["file"])) {
                 return $files;
             }
 
             $files[] = new ContentFile([
-                'attributes' => [
-                    'type' => 'image',
-                    'path' => $this->attributes['params']['file']['path'] ?? '',
-                    'semanticsPath' => $this->attributes['semanticsPath'] . '.' . 'params.file',
-                    'mime' => $this->attributes['params']['file']['mime'] ?? '',
-                    'metadata' => $this->attributes['metadata']
-                ]
+                "attributes" => [
+                    "type" => "image",
+                    "path" => $this->attributes["params"]["file"]["path"] ?? "",
+                    "semanticsPath" =>
+                        $this->attributes["semanticsPath"] .
+                        "." .
+                        "params.file",
+                    "mime" => $this->attributes["params"]["file"]["mime"] ?? "",
+                    "metadata" => $this->attributes["metadata"],
+                ],
             ]);
-        } elseif ($machineName === 'H5P.Audio') {
-            if (!isset($this->attributes['params']['files'])) {
+        } elseif ($machineName === "H5P.Audio") {
+            if (!isset($this->attributes["params"]["files"])) {
                 return $files;
             }
 
-            for ($i = 0; $i < count($this->attributes['params']['files']); $i++) {
-                $file = $this->attributes['params']['files'][$i];
+            for (
+                $i = 0; $i < count($this->attributes["params"]["files"]); $i++
+            ) {
+                $file = $this->attributes["params"]["files"][$i];
                 $files[] = new ContentFile([
-                    'attributes' => [
-                        'type' => 'audio',
-                        'path' => $file['path'] ?? '',
-                        'semanticsPath' => $this->attributes['semanticsPath'] . '.' . 'params.files[' . $i . ']',
-                        'mime' => $file['mime'] ?? '',
-                        'metadata' => $this->attributes['metadata']
-                    ]
+                    "attributes" => [
+                        "type" => "audio",
+                        "path" => $file["path"] ?? "",
+                        "semanticsPath" =>
+                            $this->attributes["semanticsPath"] .
+                            "." .
+                            "params.files[" .
+                            $i .
+                            "]",
+                        "mime" => $file["mime"] ?? "",
+                        "metadata" => $this->attributes["metadata"],
+                    ],
                 ]);
             }
-        } elseif ($machineName === 'H5P.Video') {
-            if (!isset($this->attributes['params']['sources'])) {
+        } elseif ($machineName === "H5P.Video") {
+            if (!isset($this->attributes["params"]["sources"])) {
                 return $files;
             }
 
-            for ($i = 0; $i < count($this->attributes['params']['sources']); $i++) {
-                $file = $this->attributes['params']['sources'][$i];
+            for (
+                $i = 0; $i < count($this->attributes["params"]["sources"]); $i++
+            ) {
+                $file = $this->attributes["params"]["sources"][$i];
                 $files[] = new ContentFile([
-                    'attributes' => [
-                        'type' => 'video',
-                        'path' => $file['path'] ?? '',
-                        'semanticsPath' => $this->attributes['semanticsPath'] . '.' . 'params.sources[' . $i . ']',
-                        'mime' => $file['mime'] ?? '',
-                        'metadata' => $this->attributes['metadata']
-                    ]
+                    "attributes" => [
+                        "type" => "video",
+                        "path" => $file["path"] ?? "",
+                        "semanticsPath" =>
+                            $this->attributes["semanticsPath"] .
+                            "." .
+                            "params.sources[" .
+                            $i .
+                            "]",
+                        "mime" => $file["mime"] ?? "",
+                        "metadata" => $this->attributes["metadata"],
+                    ],
                 ]);
             }
         } else {
-            $prunedParams = JSONUtils::pruneChildren($this->attributes['params']);
-
-          // Find all files
-            $fileParams = JSONUtils::findAttributeValuePairs(
-                $prunedParams,
-                [
-                ['mime', '/^\w+\.\w+$/'],
-                ['path', '/.+/']
-                ]
+            $prunedParams = JSONUtils::pruneChildren(
+                $this->attributes["params"]
             );
 
+            // Find all files
+            $fileParams = JSONUtils::findAttributeValuePairs($prunedParams, [
+                ["mime", '/^\w+\.\w+$/'],
+                ["path", "/.+/"],
+            ]);
+
             foreach ($fileParams as $params) {
-                $type = explode('/', $params['object']['mime'])[0];
-                if ($type !== 'image' && $type !== 'audio' && $type !== 'video') {
-                    $type = 'file';
+                $type = explode("/", $params["object"]["mime"])[0];
+                if (
+                    $type !== "image" &&
+                    $type !== "audio" &&
+                    $type !== "video"
+                ) {
+                    $type = "file";
                 }
 
-                $semanticsPath  = $this->attributes['semanticsPath'];
-                $semanticsPath .= $semanticsPath === '' ? '' : '.';
-                $semanticsPath .= $params['path'];
+                $semanticsPath = $this->attributes["semanticsPath"];
+                $semanticsPath .= $semanticsPath === "" ? "" : ".";
+                $semanticsPath .= $params["path"];
 
                 $files[] = new ContentFile([
-                    'attributes' => [
-                        'type' => $type,
-                        'path' => $params['object']['path'],
-                        'semanticsPath' => $semanticsPath,
-                        'mime' => $params['object']['mime'],
-                        'metadata' => JSONUtils::copyrightToMetadata($params['object']['copyright'])
-                    ]
+                    "attributes" => [
+                        "type" => $type,
+                        "path" => $params["object"]["path"],
+                        "semanticsPath" => $semanticsPath,
+                        "mime" => $params["object"]["mime"],
+                        "metadata" => JSONUtils::copyrightToMetadata(
+                            $params["object"]["copyright"]
+                        ),
+                    ],
                 ]);
             }
         }

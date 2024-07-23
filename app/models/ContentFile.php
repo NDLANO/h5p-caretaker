@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tool for helping people to take care of H5P content.
  *
@@ -34,7 +35,7 @@ class ContentFile
      */
     public function __construct($data)
     {
-        foreach($data['attributes'] as $name => $value) {
+        foreach ($data["attributes"] as $name => $value) {
             $this->setAttribute($name, $value);
         }
     }
@@ -45,22 +46,23 @@ class ContentFile
      * @param string $name  The name of the attribute.
      * @param mixed  $value The value of the attribute.
      */
-    public function setAttribute($name, $value) {
-        if (!isset($name) || getType($name) !== 'string') {
+    public function setAttribute($name, $value)
+    {
+        if (!isset($name) || getType($name) !== "string") {
             return;
         }
 
-        if ($name === 'type' && !isset($value)) {
-            $value = '';
-        } elseif ($name === 'path' && !isset($value)) {
-            $value = '';
-        } elseif ($name === 'semanticsPath' && !isset($value)) {
-            $value = '';
-        } elseif ($name === 'base64' && !isset($value)) {
+        if ($name === "type" && !isset($value)) {
+            $value = "";
+        } elseif ($name === "path" && !isset($value)) {
+            $value = "";
+        } elseif ($name === "semanticsPath" && !isset($value)) {
+            $value = "";
+        } elseif ($name === "base64" && !isset($value)) {
             $value = null;
-        } elseif ($name === 'mime' && !isset($value)) {
-            $value = '';
-        } elseif ($name === 'metadata' && !isset($value)) {
+        } elseif ($name === "mime" && !isset($value)) {
+            $value = "";
+        } elseif ($name === "metadata" && !isset($value)) {
             $value = [];
         }
 
@@ -74,7 +76,8 @@ class ContentFile
      *
      * @return mixed The value of the attribute.
      */
-    public function getAttribute($name) {
+    public function getAttribute($name)
+    {
         return $this->attributes[$name] ?? null;
     }
 
@@ -105,13 +108,20 @@ class ContentFile
      *
      * @return string The description.
      */
-    public function getDescription($template = '{title} ({type}) inside {parentTitle} ({parentMachineName})') {
-        $title = $this->attributes['metadata']['title'] ?? 'Untitled';
-        $type = $this->attributes['type'] ?? 'file';
+    public function getDescription(
+        $template = "{title} ({type}) inside {parentTitle} ({parentMachineName})"
+    ) {
+        $title = $this->attributes["metadata"]["title"] ?? "Untitled";
+        $type = $this->attributes["type"] ?? "file";
 
         return str_replace(
-            ['{title}', '{type}', '{parentTitle}', '{parentMachineName}'],
-            [$title, $type, $this->parent->getDescription('{title}'), $this->parent->getDescription('{machineName}')],
+            ["{title}", "{type}", "{parentTitle}", "{parentMachineName}"],
+            [
+                $title,
+                $type,
+                $this->parent->getDescription("{title}"),
+                $this->parent->getDescription("{machineName}"),
+            ],
             $template
         );
     }

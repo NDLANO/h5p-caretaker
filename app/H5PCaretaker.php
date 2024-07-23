@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tool for helping people to take care of H5P content.
  *
@@ -33,16 +34,24 @@ class H5PCaretaker
      */
     public function __construct($config = [])
     {
-        require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoloader.php';
+        require_once __DIR__ . DIRECTORY_SEPARATOR . "autoloader.php";
 
-        if (!isset($config['uploadsPath'])) {
-            $config['uploadsPath'] = __DIR__ . DIRECTORY_SEPARATOR . '..' .
-                DIRECTORY_SEPARATOR  . 'uploads';
+        if (!isset($config["uploadsPath"])) {
+            $config["uploadsPath"] =
+                __DIR__ .
+                DIRECTORY_SEPARATOR .
+                ".." .
+                DIRECTORY_SEPARATOR .
+                "uploads";
         }
 
-        if (!isset($config['cachePath'])) {
-            $config['cachePath'] = __DIR__ . DIRECTORY_SEPARATOR . '..' .
-                DIRECTORY_SEPARATOR  . 'cache';
+        if (!isset($config["cachePath"])) {
+            $config["cachePath"] =
+                __DIR__ .
+                DIRECTORY_SEPARATOR .
+                ".." .
+                DIRECTORY_SEPARATOR .
+                "cache";
         }
 
         $this->config = $config;
@@ -61,12 +70,12 @@ class H5PCaretaker
         if (isset($error)) {
             $result = null;
         } elseif (!isset($result)) {
-            $error = 'Something went wrong, but I dunno what, sorry!';
+            $error = "Something went wrong, but I dunno what, sorry!";
         }
 
         return [
-            'result' => $result,
-            'error' => $error
+            "result" => $result,
+            "error" => $error,
         ];
     }
 
@@ -79,43 +88,42 @@ class H5PCaretaker
      */
     public function analyze($params)
     {
-        if (!isset($params['file'])) {
-            $this->done(
-                null,
-                'It seems that no file was provided.'
-            );
+        if (!isset($params["file"])) {
+            $this->done(null, "It seems that no file was provided.");
         }
 
-        $file = $params['file'];
+        $file = $params["file"];
 
         $fileSize = filesize($file);
         $fileInfo = finfo_open(FILEINFO_MIME_TYPE);
         $fileType = finfo_file($fileInfo, $file);
 
         if ($fileSize === 0) {
-            return $this->done(null, 'The file is empty.');
+            return $this->done(null, "The file is empty.");
         }
 
         $fileSizeLimit = 1024 * 1024 * 20; // 20 MB
         if ($fileSize > $fileSizeLimit) {
             return $this->done(
                 null,
-                'The file is larger than the limit of '. $fileSizeLimit .' bytes.'
+                "The file is larger than the limit of " .
+                    $fileSizeLimit .
+                    " bytes."
             );
         }
 
-        if ($fileType !== 'application/zip') {
+        if ($fileType !== "application/zip") {
             return $this->done(
                 null,
-                'The file is not a valid H5P file / ZIP archive.'
+                "The file is not a valid H5P file / ZIP archive."
             );
         }
 
         try {
             $h5pFileHandler = new H5PFileHandler(
                 $file,
-                $this->config['uploadsPath'],
-                $this->config['cachePath']
+                $this->config["uploadsPath"],
+                $this->config["cachePath"]
             );
         } catch (\Exception $error) {
             return $this->done(null, $error->getMessage());
@@ -124,15 +132,15 @@ class H5PCaretaker
         if (!$h5pFileHandler->isFileOkay()) {
             return $this->done(
                 null,
-                'The file does not seem to follow the H5P specification.'
+                "The file does not seem to follow the H5P specification."
             );
         }
 
-        $reportRaw = array();
-        $reportRaw['h5pJson'] = $h5pFileHandler->getH5PInformation();
-        $reportRaw['contentJson'] = $h5pFileHandler->getH5PContentParams();
-        $reportRaw['libraries'] = $h5pFileHandler->getLibrariesInformation();
-        $reportRaw['media'] = $h5pFileHandler->getMediaInformation();
+        $reportRaw = [];
+        $reportRaw["h5pJson"] = $h5pFileHandler->getH5PInformation();
+        $reportRaw["contentJson"] = $h5pFileHandler->getH5PContentParams();
+        $reportRaw["libraries"] = $h5pFileHandler->getLibrariesInformation();
+        $reportRaw["media"] = $h5pFileHandler->getMediaInformation();
 
         $contentTree = new ContentTree($reportRaw);
 
@@ -140,20 +148,23 @@ class H5PCaretaker
         LicenseReport::generateReport($contentTree);
 
         $report = [
-            'messages' => []
+            "messages" => [],
         ];
 
         $reports = $contentTree->getReports();
         foreach ($reports as $key => $subArray) {
-            if (isset($subArray['messages']) && is_array($subArray['messages'])) {
-                foreach ($subArray['messages'] as $message) {
-                    $report['messages'][] = $message;
+            if (
+                isset($subArray["messages"]) &&
+                is_array($subArray["messages"])
+            ) {
+                foreach ($subArray["messages"] as $message) {
+                    $report["messages"][] = $message;
                 }
             }
         }
 
         // TODO: Ultimately, $report only contain the raw data on request
-        $report['raw'] = $reportRaw;
+        $report["raw"] = $reportRaw;
 
         $h5pFileHandler = null;
 

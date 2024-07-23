@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tool for helping people to take care of H5P content.
  *
@@ -35,45 +36,50 @@ class ContentTree
      */
     public function __construct($rawdata)
     {
-        $h5pJson = $rawdata['h5pJson'];
+        $h5pJson = $rawdata["h5pJson"];
         $this->contents = [];
 
-      // Root node
+        // Root node
         $this->contents[] = new Content([
-            'attributes' => [
-                'id' => 'root',
-                'versionedMachineName' => self::getversionedMachineName($h5pJson),
-                'metadata' => JSONUtils::h5pJsonToMetadata($h5pJson),
-                'semanticsPath' => '',
-                'params' => $h5pJson,
+            "attributes" => [
+                "id" => "root",
+                "versionedMachineName" => self::getversionedMachineName(
+                    $h5pJson
+                ),
+                "metadata" => JSONUtils::h5pJsonToMetadata($h5pJson),
+                "semanticsPath" => "",
+                "params" => $h5pJson,
             ],
         ]);
 
-        $libraryPaths = self::findLibraryPaths($rawdata['contentJson']);
+        $libraryPaths = self::findLibraryPaths($rawdata["contentJson"]);
 
         foreach ($libraryPaths as $path) {
-            $libraryParams = JSONUtils::getElementAtPath($rawdata['contentJson'], $path);
+            $libraryParams = JSONUtils::getElementAtPath(
+                $rawdata["contentJson"],
+                $path
+            );
 
             $this->contents[] = new Content([
-                'attributes' => [
-                    'id' => $libraryParams['subContentId'] ?? '',
-                    'versionedMachineName' => $libraryParams['library'],
-                    'metadata' => $libraryParams['metadata'],
-                    'semanticsPath' => $path,
-                    'params' => $libraryParams['params'],
+                "attributes" => [
+                    "id" => $libraryParams["subContentId"] ?? "",
+                    "versionedMachineName" => $libraryParams["library"],
+                    "metadata" => $libraryParams["metadata"],
+                    "semanticsPath" => $path,
+                    "params" => $libraryParams["params"],
                 ],
             ]);
         }
 
         foreach ($this->contents as $child) {
-            if ($child->getAttribute('id') === 'root') {
+            if ($child->getAttribute("id") === "root") {
                 continue;
             }
 
-            $childPath = $child->getAttribute('semanticsPath');
+            $childPath = $child->getAttribute("semanticsPath");
             $parentPath = self::getParentPath($childPath, $libraryPaths);
 
-            if ($parentPath === '') {
+            if ($parentPath === "") {
                 $parent = $this->contents[0];
             } else {
                 $parent = $this->getByPath($parentPath);
@@ -85,11 +91,14 @@ class ContentTree
 
         // Set base64 data for content files
         foreach ($this->contents as $content) {
-            $contentFiles = $content->getAttribute('contentFiles') ?? [];
+            $contentFiles = $content->getAttribute("contentFiles") ?? [];
             foreach ($contentFiles as $contentFile) {
-                $pathSegments = explode('/', $contentFile->getAttribute('path'));
+                $pathSegments = explode(
+                    "/",
+                    $contentFile->getAttribute("path")
+                );
 
-                $media = $rawdata['media'];
+                $media = $rawdata["media"];
 
                 // Access $media based on pathSegments
                 foreach ($pathSegments as $segment) {
@@ -102,8 +111,8 @@ class ContentTree
                 }
 
                 if ($media !== null) {
-                    if (isset($media['base64'])) {
-                        $contentFile->setAttribute('base64', $media['base64']);
+                    if (isset($media["base64"])) {
+                        $contentFile->setAttribute("base64", $media["base64"]);
                     }
                 }
             }
@@ -111,10 +120,16 @@ class ContentTree
 
         // Add libretext data
         foreach ($this->contents as $content) {
-            $machineName = explode(' ', $content->getAttribute('versionedMachineName'))[0];
-            $libraryInfo = $rawdata['libraries'][$machineName] ?? null;
+            $machineName = explode(
+                " ",
+                $content->getAttribute("versionedMachineName")
+            )[0];
+            $libraryInfo = $rawdata["libraries"][$machineName] ?? null;
             if (isset($libraryInfo) && isset($libraryInfo->libreTextA11y)) {
-                $content->setAttribute('libreText', $libraryInfo->libreTextA11y);
+                $content->setAttribute(
+                    "libreText",
+                    $libraryInfo->libreTextA11y
+                );
             }
         }
     }
@@ -144,9 +159,10 @@ class ContentTree
      *
      * @return array The reports.
      */
-    public function getReports() {
+    public function getReports()
+    {
         $reports = [];
-        foreach($this->contents as $content) {
+        foreach ($this->contents as $content) {
             $reports = array_merge($reports, $content->getReports());
         }
 
@@ -163,7 +179,7 @@ class ContentTree
     private function getByPath($path)
     {
         foreach ($this->contents as $content) {
-            $semanticsPath = $content->getAttribute('semanticsPath');
+            $semanticsPath = $content->getAttribute("semanticsPath");
             if (isset($semanticsPath) && $semanticsPath === $path) {
                 return $content;
             }
@@ -184,21 +200,23 @@ class ContentTree
     private static function findLibraryPaths(
         $data,
         $onlyChildren = false,
-        $currentPath = ''
+        $currentPath = ""
     ) {
         $paths = [];
-        $libraryRegex = '/^H5P\..+ \d+\.\d+/';
+        $libraryRegex = "/^H5P\..+ \d+\.\d+/";
 
         if (is_array($data) || is_object($data)) {
             foreach ($data as $key => $value) {
-                $newPath = $currentPath === '' ?
-                $key :
-                $currentPath . '.' . $key;
+                $newPath =
+                    $currentPath === "" ? $key : $currentPath . "." . $key;
 
-                if ($key === 'library' && preg_match($libraryRegex, $value)) {
+                if ($key === "library" && preg_match($libraryRegex, $value)) {
                     // Path should be in JavaScript notation
-                    $paths[] =
-                    preg_replace('/\.(\d+)(\.|$)/', '[$1]$2', $currentPath);
+                    $paths[] = preg_replace(
+                        '/\.(\d+)(\.|$)/',
+                        '[$1]$2',
+                        $currentPath
+                    );
                 } else {
                     $paths = array_merge(
                         $paths,
@@ -231,7 +249,10 @@ class ContentTree
         } else {
             $paths = array_filter($paths, function ($path) use ($paths) {
                 foreach ($paths as $otherPath) {
-                    if ($path !== $otherPath && strpos($path, $otherPath) === 0) {
+                    if (
+                        $path !== $otherPath &&
+                        strpos($path, $otherPath) === 0
+                    ) {
                         return false;
                     }
                 }
@@ -253,15 +274,17 @@ class ContentTree
      */
     private static function getParentPath($childPath, $paths)
     {
-        $parentPath = '';
+        $parentPath = "";
 
         foreach ($paths as $path) {
             if ($path === $childPath) {
                 break; // $paths is sorted as depth-first search
             }
 
-            if (strpos($childPath, $path) === 0 && strlen($path) < strlen($childPath)
-            && strlen($path) > strlen($parentPath)
+            if (
+                strpos($childPath, $path) === 0 &&
+                strlen($path) < strlen($childPath) &&
+                strlen($path) > strlen($parentPath)
             ) {
                 $parentPath = $path;
             }
@@ -279,17 +302,20 @@ class ContentTree
      */
     private static function getversionedMachineName($h5pJson)
     {
-        if (!isset($h5pJson['mainLibrary']) ||
-        !isset($h5pJson['preloadedDependencies'])
+        if (
+            !isset($h5pJson["mainLibrary"]) ||
+            !isset($h5pJson["preloadedDependencies"])
         ) {
             return null;
         }
 
-        foreach ($h5pJson['preloadedDependencies'] as $dependency) {
-            if ($dependency['machineName'] === $h5pJson['mainLibrary']) {
-                return
-                $dependency['machineName'] . ' ' .
-                $dependency['majorVersion'] . '.' . $dependency['minorVersion'];
+        foreach ($h5pJson["preloadedDependencies"] as $dependency) {
+            if ($dependency["machineName"] === $h5pJson["mainLibrary"]) {
+                return $dependency["machineName"] .
+                    " " .
+                    $dependency["majorVersion"] .
+                    "." .
+                    $dependency["minorVersion"];
             }
         }
 

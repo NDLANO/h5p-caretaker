@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tool for helping people to take care of H5P content.
  *
@@ -34,57 +35,72 @@ class LicenseReport
         $contents = $contentTree->getContents();
 
         $report = [];
-        $report['messages'] = [];
+        $report["messages"] = [];
 
-        foreach($contents as $content) {
-            $semanticsPath = $content->getAttribute('semanticsPath');
+        foreach ($contents as $content) {
+            $semanticsPath = $content->getAttribute("semanticsPath");
 
-            if (($content->getAttribute('metadata')['license'] ?? '') === 'U') {
-                $report['messages'][] = ReportUtils::buildMessage(
-                    'license',
-                    'missingLicense',
+            if (($content->getAttribute("metadata")["license"] ?? "") === "U") {
+                $report["messages"][] = ReportUtils::buildMessage(
+                    "license",
+                    "missingLicense",
                     [
-                        'Missing license information for content',
+                        "Missing license information for content",
                         $content->getDescription(),
-                        $semanticsPath === '' ?
-                            'as H5P main content' :
-                            'inside ' . $content->getParent()->getDescription()
+                        $semanticsPath === ""
+                            ? "as H5P main content"
+                            : "inside " .
+                                $content->getParent()->getDescription(),
                     ],
                     [
-                        'path' => $semanticsPath,
-                        'title' =>  $content->getDescription('{title}'),
-                        'subContentId' => $content->getAttribute('id')
+                        "path" => $semanticsPath,
+                        "title" => $content->getDescription("{title}"),
+                        "subContentId" => $content->getAttribute("id"),
                     ],
-                    'Check the license information of the content and add it to the metadata.'
+                    "Check the license information of the content and add it to the metadata."
                 );
             }
 
-            $contentFiles = $content->getAttribute('contentFiles');
+            $contentFiles = $content->getAttribute("contentFiles");
 
-            foreach($contentFiles as $contentFile) {
-                $parentMachineName = $contentFile->getParent()->getDescription('{machineName}');
-                if (in_array($parentMachineName, ['H5P.Image', 'H5P.Audio', 'H5P.Video'])) {
+            foreach ($contentFiles as $contentFile) {
+                $parentMachineName = $contentFile
+                    ->getParent()
+                    ->getDescription("{machineName}");
+                if (
+                    in_array($parentMachineName, [
+                        "H5P.Image",
+                        "H5P.Audio",
+                        "H5P.Video",
+                    ])
+                ) {
                     continue; // Already handled by content type specific reports
                 }
 
-                if (($contentFile->getAttribute('metadata')['license'] ?? '') === 'U') {
-                    $report['messages'][] = ReportUtils::buildMessage(
-                        'license',
-                        'missingLicense',
+                if (
+                    ($contentFile->getAttribute("metadata")["license"] ??
+                        "") ===
+                    "U"
+                ) {
+                    $report["messages"][] = ReportUtils::buildMessage(
+                        "license",
+                        "missingLicense",
                         [
-                            'Missing license information for',
-                            $contentFile->getDescription()
+                            "Missing license information for",
+                            $contentFile->getDescription(),
                         ],
                         [
-                            'path' => $contentFile->getAttribute('semanticsPath'),
-                            'title' => $contentFile->getDescription('{title}'),
+                            "path" => $contentFile->getAttribute(
+                                "semanticsPath"
+                            ),
+                            "title" => $contentFile->getDescription("{title}"),
                         ],
-                        'Check the license information of the content and add it to the metadata.'
+                        "Check the license information of the content and add it to the metadata."
                     );
                 }
             }
 
-            $content->setReport('license', $report);
+            $content->setReport("license", $report);
         }
     }
 }

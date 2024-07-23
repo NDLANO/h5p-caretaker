@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Proof of concept code for extracting and displaying H5P content server-side.
  *
@@ -38,10 +39,14 @@ class H5PUtils
         $machineName,
         $majorVersion,
         $minorVersion,
-        $prefix = ''
+        $prefix = ""
     ) {
-        return $prefix . explode('.', $machineName)[1] . 'Major' .
-          $majorVersion . 'Minor' . $minorVersion;
+        return $prefix .
+            explode(".", $machineName)[1] .
+            "Major" .
+            $majorVersion .
+            "Minor" .
+            $minorVersion;
     }
 
     /**
@@ -52,18 +57,18 @@ class H5PUtils
      *
      * @return array|false The library info or false if invalid name.
      */
-    public static function getLibraryFromString($fullName, $delimiter = ' ')
+    public static function getLibraryFromString($fullName, $delimiter = " ")
     {
-        $pattern = '/(H5P\..+)' . preg_quote($delimiter) . '(\d+)\.(\d+)/';
+        $pattern = "/(H5P\..+)" . preg_quote($delimiter) . "(\d+)\.(\d+)/";
 
         if (!preg_match($pattern, $fullName, $matches)) {
             return false; // Invalid library name
         }
 
         return [
-            'machineName' => $matches[1],
-            'majorVersion' => $matches[2],
-            'minorVersion' => $matches[3]
+            "machineName" => $matches[1],
+            "majorVersion" => $matches[2],
+            "minorVersion" => $matches[3],
         ];
     }
 }

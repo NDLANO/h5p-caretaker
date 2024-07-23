@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Proof of concept code for extracting and displaying H5P content server-side.
  *
@@ -35,24 +36,29 @@ class ReportUtils
      *
      * @return array The message.
      */
-    public static function buildMessage($category, $type, $summary, $details = null, $recommendation = null)
-    {
+    public static function buildMessage(
+        $category,
+        $type,
+        $summary,
+        $details = null,
+        $recommendation = null
+    ) {
         if (is_array($summary)) {
-            $summary = implode(' ', $summary);
+            $summary = implode(" ", $summary);
         }
 
         $message = [
-            'category' => $category,
-            'type' => $type,
-            'summary' => $summary
+            "category" => $category,
+            "type" => $type,
+            "summary" => $summary,
         ];
 
         if ($recommendation !== null) {
-          $message['recommendation'] = $recommendation;
+            $message["recommendation"] = $recommendation;
         }
 
         if ($details !== null && is_array($details)) {
-            $message['details'] = $details;
+            $message["details"] = $details;
         }
 
         return $message;

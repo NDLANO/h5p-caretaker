@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tool for helping people to take Caretaker of H5P content.
  *
@@ -36,7 +37,7 @@ class H5PFileHandler
      * @param string $uploadsPath The path to the uploads directory.
      *                            Will default to "uploads" in current directory.
      * @param string $cachePath   The path to the cache directory.
-     *                           Will default to "cache" in current directory.
+     *                            Will default to "cache" in current directory.
      */
     public function __construct($file, $uploadsPath, $cachePath)
     {
@@ -76,8 +77,11 @@ class H5PFileHandler
      */
     public function getMediaInformation()
     {
-        $extractDir = $this->uploadsDirectory . DIRECTORY_SEPARATOR . $this->filesDirectory;
-        $contentDir = $extractDir . DIRECTORY_SEPARATOR . 'content';
+        $extractDir =
+            $this->uploadsDirectory .
+            DIRECTORY_SEPARATOR .
+            $this->filesDirectory;
+        $contentDir = $extractDir . DIRECTORY_SEPARATOR . "content";
 
         if (!is_dir($extractDir) || !is_dir($contentDir)) {
             return (object) [];
@@ -85,40 +89,55 @@ class H5PFileHandler
 
         $dirs = $this->getMediaDirNames();
 
-        $results = array_reduce($dirs, function ($results, $type) use ($contentDir) {
-            $mediaDir = $contentDir . DIRECTORY_SEPARATOR . $type;
+        $results = array_reduce(
+            $dirs,
+            function ($results, $type) use ($contentDir) {
+                $mediaDir = $contentDir . DIRECTORY_SEPARATOR . $type;
 
-            $mediaFiles = array_filter(scandir($mediaDir), function ($file) {
-                return preg_match('/.+\.\w{3,4}$/', $file);
-            });
+                $mediaFiles = array_filter(scandir($mediaDir), function (
+                    $file
+                ) {
+                    return preg_match('/.+\.\w{3,4}$/', $file);
+                });
 
-            if (!empty($mediaFiles)) {
-                $files = array();
-                foreach ($mediaFiles as $fileName) {
-                    $size = filesize(
-                        $mediaDir . DIRECTORY_SEPARATOR . $fileName
-                    );
-                    $files[$fileName] = ['size' => $size];
-
-                    $extension = strtolower(
-                        pathinfo($fileName, PATHINFO_EXTENSION)
-                    );
-                    $allowedExtensions = [
-                        'png', 'jpeg', 'jpg', 'gif', 'svg', 'bmp', 'tiff', 'tif'
-                    ];
-
-                    if (in_array($extension, $allowedExtensions)) {
-                        $files[$fileName]['base64'] = FileUtils::fileToBase64(
+                if (!empty($mediaFiles)) {
+                    $files = [];
+                    foreach ($mediaFiles as $fileName) {
+                        $size = filesize(
                             $mediaDir . DIRECTORY_SEPARATOR . $fileName
                         );
+                        $files[$fileName] = ["size" => $size];
+
+                        $extension = strtolower(
+                            pathinfo($fileName, PATHINFO_EXTENSION)
+                        );
+                        $allowedExtensions = [
+                            "png",
+                            "jpeg",
+                            "jpg",
+                            "gif",
+                            "svg",
+                            "bmp",
+                            "tiff",
+                            "tif",
+                        ];
+
+                        if (in_array($extension, $allowedExtensions)) {
+                            $files[$fileName][
+                                "base64"
+                            ] = FileUtils::fileToBase64(
+                                $mediaDir . DIRECTORY_SEPARATOR . $fileName
+                            );
+                        }
                     }
+
+                    $results->$type = (object) $files;
                 }
 
-                $results->$type = (object)$files;
-            }
-
-            return $results;
-        }, (object) []);
+                return $results;
+            },
+            (object) []
+        );
 
         return $results;
     }
@@ -130,20 +149,27 @@ class H5PFileHandler
      */
     public function getLibrariesInformation()
     {
-        $extractDir = $this->uploadsDirectory . DIRECTORY_SEPARATOR . $this->filesDirectory;
+        $extractDir =
+            $this->uploadsDirectory .
+            DIRECTORY_SEPARATOR .
+            $this->filesDirectory;
         if (!is_dir($extractDir)) {
             return [];
         }
 
         $dirNames = $this->getLibrariesDirNames();
-        $libraryDetails = array_map([$this, 'getLibraryDetails'], $dirNames);
+        $libraryDetails = array_map([$this, "getLibraryDetails"], $dirNames);
 
-        return array_reduce($libraryDetails, function ($results, $details) {
-            if (isset($details->machineName)) {
-                $results[$details->machineName] = $details;
-            }
-            return $results;
-        }, []);
+        return array_reduce(
+            $libraryDetails,
+            function ($results, $details) {
+                if (isset($details->machineName)) {
+                    $results[$details->machineName] = $details;
+                }
+                return $results;
+            },
+            []
+        );
     }
 
     /**
@@ -212,23 +238,23 @@ class H5PFileHandler
         }
 
         if (!isset($machineName)) {
-            if (empty($this->h5pInfo['mainLibrary'])) {
+            if (empty($this->h5pInfo["mainLibrary"])) {
                 return false;
             }
-            $machineName = $this->h5pInfo['mainLibrary'];
+            $machineName = $this->h5pInfo["mainLibrary"];
         }
 
         // We're operating on the file system, so we cannot use spaces
-        $machineName = str_replace(' ', '-', $machineName);
+        $machineName = str_replace(" ", "-", $machineName);
 
-        $pattern = $extractDir . DIRECTORY_SEPARATOR . $machineName . '*';
+        $pattern = $extractDir . DIRECTORY_SEPARATOR . $machineName . "*";
 
         $contentDirs = glob($pattern, GLOB_ONLYDIR);
         if (empty($contentDirs)) {
             return false;
         }
 
-        $iconFile = $contentDirs[0] . DIRECTORY_SEPARATOR . 'icon.svg';
+        $iconFile = $contentDirs[0] . DIRECTORY_SEPARATOR . "icon.svg";
         if (!file_exists($iconFile)) {
             return false;
         }
@@ -251,12 +277,12 @@ class H5PFileHandler
             return false;
         }
 
-        $contentDir = $extractDir . DIRECTORY_SEPARATOR . 'content';
+        $contentDir = $extractDir . DIRECTORY_SEPARATOR . "content";
         if (!is_dir($contentDir)) {
             return false;
         }
 
-        $contentJsonFile = $contentDir . DIRECTORY_SEPARATOR . 'content.json';
+        $contentJsonFile = $contentDir . DIRECTORY_SEPARATOR . "content.json";
         if (!file_exists($contentJsonFile)) {
             return false;
         }
@@ -286,15 +312,15 @@ class H5PFileHandler
             return [];
         }
 
-        $contentDir = $extractDir . DIRECTORY_SEPARATOR . 'content';
+        $contentDir = $extractDir . DIRECTORY_SEPARATOR . "content";
         if (!is_dir($contentDir)) {
             return [];
         }
 
         $entries = scandir($contentDir);
         $dirs = array_filter($entries, function ($entry) use ($contentDir) {
-            return $entry !== '.' &&
-                $entry !== '..' &&
+            return $entry !== "." &&
+                $entry !== ".." &&
                 is_dir($contentDir . DIRECTORY_SEPARATOR . $entry);
         });
 
@@ -318,9 +344,9 @@ class H5PFileHandler
 
         $entries = scandir($extractDir);
         $dirs = array_filter($entries, function ($entry) use ($extractDir) {
-            return $entry !== '.' &&
-                $entry !== '..' &&
-                $entry !== 'content' &&
+            return $entry !== "." &&
+                $entry !== ".." &&
+                $entry !== "content" &&
                 is_dir($extractDir . DIRECTORY_SEPARATOR . $entry);
         });
 
@@ -339,21 +365,26 @@ class H5PFileHandler
         $fileContents = file_get_contents($fileName);
 
         $functionNames = [
-            'getAnswerGiven',
-            'getScore',
-            'getMaxScore',
-            'showSolutions',
-            'resetTask',
-            'getXAPIData',
-            'getCurrentState',
-            'enableSolutionsButton',
-            'enableRetry',
+            "getAnswerGiven",
+            "getScore",
+            "getMaxScore",
+            "showSolutions",
+            "resetTask",
+            "getXAPIData",
+            "getCurrentState",
+            "enableSolutionsButton",
+            "enableRetry",
         ];
 
-        return array_reduce($functionNames, function ($results, $functionName) use ($fileContents) {
-            $results[$functionName] = strpos($fileContents, $functionName) !== false;
-            return $results;
-        }, []);
+        return array_reduce(
+            $functionNames,
+            function ($results, $functionName) use ($fileContents) {
+                $results[$functionName] =
+                    strpos($fileContents, $functionName) !== false;
+                return $results;
+            },
+            []
+        );
     }
 
     /**
@@ -368,11 +399,11 @@ class H5PFileHandler
         $results = (object) [];
 
         // Preliminarily determine library information from directory name
-        $libraryInformation = H5PUtils::getLibraryFromString($dirName, '-');
+        $libraryInformation = H5PUtils::getLibraryFromString($dirName, "-");
         if ($libraryInformation !== false) {
-            $results->machineName = $libraryInformation['machineName'];
-            $results->majorVersion = $libraryInformation['majorVersion'];
-            $results->minorVersion = $libraryInformation['minorVersion'];
+            $results->machineName = $libraryInformation["machineName"];
+            $results->majorVersion = $libraryInformation["majorVersion"];
+            $results->minorVersion = $libraryInformation["minorVersion"];
         }
 
         $libraryDir =
@@ -387,12 +418,18 @@ class H5PFileHandler
         }
 
         // library.json
-        $libraryJsonData = FileUtils::getJSONData($libraryDir . DIRECTORY_SEPARATOR . 'library.json');
+        $libraryJsonData = FileUtils::getJSONData(
+            $libraryDir . DIRECTORY_SEPARATOR . "library.json"
+        );
         if ($libraryJsonData !== null) {
             $results->libraryJson = $libraryJsonData;
 
-            $keys =
-                ['machineName', 'majorVersion', 'minorVersion', 'patchVersion'];
+            $keys = [
+                "machineName",
+                "majorVersion",
+                "minorVersion",
+                "patchVersion",
+            ];
 
             foreach ($keys as $key) {
                 if (isset($jsonData[$key])) {
@@ -402,11 +439,12 @@ class H5PFileHandler
         }
 
         // Detect Question Type contract features
-        if (($results->libraryJson['runnable'] ?? 0) === 1 &&
-            isset($results->libraryJson['preloadedJs'])
+        if (
+            ($results->libraryJson["runnable"] ?? 0) === 1 &&
+            isset($results->libraryJson["preloadedJs"])
         ) {
             $questionTypeFeatures = $this->getQuestionTypeFeatures(
-                $results->libraryJson['preloadedJs'],
+                $results->libraryJson["preloadedJs"],
                 $libraryDir
             );
 
@@ -416,12 +454,11 @@ class H5PFileHandler
         }
 
         // a11y report from libretexts
-        if (($results->libraryJson['runnable'] ?? 0) === 1) {
-            $libretextData =
-                LibretextData::fetch(
-                    $results->libraryJson['title'],
-                    $this->cacheDirectory
-                );
+        if (($results->libraryJson["runnable"] ?? 0) === 1) {
+            $libretextData = LibretextData::fetch(
+                $results->libraryJson["title"],
+                $this->cacheDirectory
+            );
 
             if ($libretextData !== false) {
                 $results->libreTextA11y = $libretextData[0];
@@ -430,7 +467,7 @@ class H5PFileHandler
 
         // semantics.json
         $semanticsJsonData = FileUtils::getJSONData(
-            $libraryDir . DIRECTORY_SEPARATOR . 'semantics.json'
+            $libraryDir . DIRECTORY_SEPARATOR . "semantics.json"
         );
         if ($semanticsJsonData !== null) {
             $results->semanticsJson = $semanticsJsonData;
@@ -438,7 +475,7 @@ class H5PFileHandler
 
         // Language Files
         $languageData = $this->getLanguageData(
-            $libraryDir . DIRECTORY_SEPARATOR . 'language'
+            $libraryDir . DIRECTORY_SEPARATOR . "language"
         );
         if ($languageData !== null) {
             $results->languages = $languageData;
@@ -462,23 +499,29 @@ class H5PFileHandler
         }
 
         $results = [
-            'getAnswerGiven' => false,
-            'getScore' => false,
-            'getMaxScore' => false,
-            'showSolutions' => false,
-            'resetTask' => false,
-            'getXAPIData' => false,
-            'getCurrentState' => false,
-            'enableSolutionsButton' => false,
-            'enableRetry' => false,
+            "getAnswerGiven" => false,
+            "getScore" => false,
+            "getMaxScore" => false,
+            "showSolutions" => false,
+            "resetTask" => false,
+            "getXAPIData" => false,
+            "getCurrentState" => false,
+            "enableSolutionsButton" => false,
+            "enableRetry" => false,
         ];
 
         foreach ($preloadedJsFiles as $fileName) {
-            $fullName = $libraryDir . DIRECTORY_SEPARATOR . $fileName['path'];
+            $fullName = $libraryDir . DIRECTORY_SEPARATOR . $fileName["path"];
             $featuresFound = $this->getJavaScriptFeatures($fullName);
             $results = array_merge($results, $featuresFound);
 
-            if (array_reduce($results, fn($carry, $item) => $carry && $item, true)) {
+            if (
+                array_reduce(
+                    $results,
+                    fn($carry, $item) => $carry && $item,
+                    true
+                )
+            ) {
                 break; // All features found already
             }
         }
@@ -499,12 +542,9 @@ class H5PFileHandler
             return null;
         }
 
-        $languageFiles = array_filter(
-            scandir($languageDir),
-            function ($file) {
-                return preg_match('/\.json$/', $file);
-            }
-        );
+        $languageFiles = array_filter(scandir($languageDir), function ($file) {
+            return preg_match('/\.json$/', $file);
+        });
 
         if (empty($languageFiles)) {
             return null;
@@ -520,10 +560,10 @@ class H5PFileHandler
                 continue;
             }
 
-            if ($languageFile === '.en.json') {
-                $languageFile = 'en.json';
+            if ($languageFile === ".en.json") {
+                $languageFile = "en.json";
             }
-            $languageCode = explode('.', $languageFile)[0];
+            $languageCode = explode(".", $languageFile)[0];
 
             $results[$languageCode] = $languageJsonData;
         }
@@ -541,20 +581,20 @@ class H5PFileHandler
     private function extractContent($file)
     {
         // Create temporary directory with time stamp+uuid for garbage collection
-        $directoryName = time() . '-' . GeneralUtils::createUUID();
+        $directoryName = time() . "-" . GeneralUtils::createUUID();
 
         $extractDir =
             $this->uploadsDirectory . DIRECTORY_SEPARATOR . $directoryName;
         if (!is_dir($extractDir)) {
             if (!is_writable($this->uploadsDirectory)) {
                 throw new \Exception(
-                    'Upload directory ' . $extractDir . ' is not writable.'
+                    "Upload directory " . $extractDir . " is not writable."
                 );
             }
 
             if (!mkdir($extractDir, 0777, true) && !is_dir($extractDir)) {
                 throw new \Exception(
-                    'Could not create upload directory ' . $extractDir . '.'
+                    "Could not create upload directory " . $extractDir . "."
                 );
             }
         }
@@ -562,7 +602,7 @@ class H5PFileHandler
         $zip = new \ZipArchive();
 
         if ($zip->open($file) !== true) {
-            throw new \Exception('Error extracting H5P file ZIP archive.');
+            throw new \Exception("Error extracting H5P file ZIP archive.");
         }
 
         for ($i = 0; $i < $zip->numFiles; $i++) {
@@ -588,15 +628,15 @@ class H5PFileHandler
 
         if (!is_dir($extractDir)) {
             throw new \Exception(
-                'Directory with extracted H5P files does not exist.'
+                "Directory with extracted H5P files does not exist."
             );
         }
 
-        $h5pJsonFile = $extractDir . DIRECTORY_SEPARATOR . 'h5p.json';
+        $h5pJsonFile = $extractDir . DIRECTORY_SEPARATOR . "h5p.json";
 
         if (!file_exists($h5pJsonFile)) {
             throw new \Exception(
-                'h5p.json file does not exist in the archive.'
+                "h5p.json file does not exist in the archive."
             );
         }
 
@@ -604,7 +644,7 @@ class H5PFileHandler
         $jsonData = json_decode($jsonContents, true);
 
         if ($jsonData === null) {
-            throw new \Exception('Error decoding h5p.json file.');
+            throw new \Exception("Error decoding h5p.json file.");
         }
 
         return $jsonData;
@@ -624,7 +664,7 @@ class H5PFileHandler
             return;
         }
 
-        $files = array_diff(scandir($dirWithBase), ['.', '..']);
+        $files = array_diff(scandir($dirWithBase), [".", ".."]);
         foreach ($files as $file) {
             if (is_dir($dirWithBase . DIRECTORY_SEPARATOR . $file)) {
                 $this->deleteDirectory($dir . DIRECTORY_SEPARATOR . $file);
@@ -647,11 +687,14 @@ class H5PFileHandler
     {
         $currentTimestamp = time();
 
-        $directories = glob($this->uploadsDirectory . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR);
+        $directories = glob(
+            $this->uploadsDirectory . DIRECTORY_SEPARATOR . "*",
+            GLOB_ONLYDIR
+        );
 
         foreach ($directories as $dir) {
             $dirName = basename($dir);
-            $timestamp = intval(explode('-', $dirName)[0] ?? $currentTimestamp);
+            $timestamp = intval(explode("-", $dirName)[0] ?? $currentTimestamp);
 
             if ($currentTimestamp - $timestamp >= $timediff) {
                 $this->deleteDirectory($dirName);
