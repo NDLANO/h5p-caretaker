@@ -103,7 +103,7 @@ class AccessibilityReport
                                     "title" => $title,
                                     "subContentId" => $content->getAttribute(
                                         "id"
-                                    )
+                                    ),
                                 ],
                                 $recommendation
                             );
@@ -124,9 +124,7 @@ class AccessibilityReport
                                 "title" => $contentFile->getDescription(
                                     "{title}"
                                 ),
-                                "subContentId" => $content->getAttribute(
-                                    "id"
-                                )
+                                "subContentId" => $content->getAttribute("id"),
                             ],
                             "Check whether the content type that uses the image offers a " .
                                 "custom alternative text field or whether it is not required to have one here."
@@ -187,6 +185,11 @@ class AccessibilityReport
                 "Set an alternative text for the image of the card.";
 
             $hasCustomHandling = true;
+        } elseif ($parentMachineName === "H5P.ImageHotspots") {
+            if ($contentFile->getAttribute("semanticsPath") === "image") {
+                $decorative = true; // Is background image
+                $hasCustomHandling = true;
+            }
         }
 
         return [$alt, $decorative, $title, $recommendation, $hasCustomHandling];
