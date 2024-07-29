@@ -47,7 +47,7 @@ class H5PCaretaker
             $bindPath = realpath(__DIR__ . DIRECTORY_SEPARATOR . "locale");
             bindtextdomain($domain, $bindPath);
             textdomain($domain);
-            }
+        }
 
         if (!isset($config["uploadsPath"])) {
             $config["uploadsPath"] =
