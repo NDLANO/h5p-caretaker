@@ -28,7 +28,7 @@ class LocaleUtils
     public static function getCompleteLocale($language)
     {
       // Define the mapping of short language codes to full locales
-      $locales = [
+        $locales = [
           "af" => "af_ZA",
           "ar" => "ar_SA",
           "az" => "az_AZ",
@@ -102,24 +102,24 @@ class LocaleUtils
           "vi" => "vi_VN",
           "zh" => "zh_CN",
           // Add more mappings if needed
-      ];
+        ];
 
     // Validate the input
-    if (preg_match("/^[a-zA-Z]{2}|fil|FIL$/", $language)) {
-        $language = strtolower($language);
+        if (preg_match("/^[a-zA-Z]{2}|fil|FIL$/", $language)) {
+            $language = strtolower($language);
 
-        if (isset($locales[$language])) {
-            $completeLocale = $locales[$language];
+            if (isset($locales[$language])) {
+                $completeLocale = $locales[$language];
+            } else {
+                $completeLocale = $language . "_" . strtoupper($language);
+            }
+        } elseif (preg_match("/^[a-zA-Z]{2}_[a-zA-Z]{2}$/", $language)) {
+            $split = explode("_", $language);
+            $completeLocale = strtolower($split[0]) . "_" . strtoupper($split[1]);
         } else {
-            $completeLocale = $language . "_" . strtoupper($language);
+            return null;
         }
-    } elseif (preg_match("/^[a-zA-Z]{2}_[a-zA-Z]{2}$/", $language)) {
-        $split = explode("_", $language);
-        $completeLocale = strtolower($split[0]) . "_" . strtoupper($split[1]);
-    } else {
-        return null;
-    }
 
-    return $completeLocale . ".UTF-8";
-}
+        return $completeLocale . ".UTF-8";
+    }
 }

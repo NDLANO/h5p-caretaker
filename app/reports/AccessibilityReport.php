@@ -115,8 +115,11 @@ class AccessibilityReport
                             _("Missing alt text for image inside %s"),
                             $content->getDescription()
                         );
-                        $recommendation =
-                            _("Check whether the content type that uses the image offers a custom alternative text field or whether it is not required to have one here.");
+                        $recommendationText = <<<EOT
+                            Check whether the content type that uses the image offers a custom
+                            alternative text field or whether it is not required to have one here.
+                        EOT;
+                        $recommendation = _($recommendationText);
                         $report["messages"][] = ReportUtils::buildMessage(
                             "accessibility",
                             "missingAltText",
@@ -169,7 +172,11 @@ class AccessibilityReport
                 $content->getAttribute("params")["decorative"] ?? false;
 
             $title = $content->getDescription("{title}");
-            $recommendation = _("Check whether there is a reason for the image to not have an alternative text. If so, explicitly set the image as decorative in the editor.");
+            $recommendationText = <<<EOT
+                Check whether there is a reason for the image to not have an alternative text.
+                If so, explicitly set the image as decorative in the editor.
+            EOT;
+            $recommendation = _($recommendationText);
 
             $hasCustomHandling = true;
         } elseif ($parentMachineName === "H5P.MemoryGame") {
