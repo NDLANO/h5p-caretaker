@@ -36,20 +36,18 @@ class H5PCaretaker
     {
         require_once __DIR__ . DIRECTORY_SEPARATOR . "autoloader.php";
 
-        $config['locale'] = 'de';
+        $config["locale"] = $config["locale"] ?? 'en';
 
-        if (isset($config["locale"])) {
-            $language = LocaleUtils::getCompleteLocale($config["locale"]);
-            if (isset($language)) {
-                putenv("LANG=" . $language);
-                putenv("LANGUAGE=" . $language);
+        $language = LocaleUtils::getCompleteLocale($config["locale"]);
+        if (isset($language)) {
+            putenv("LANG=" . $language);
+            putenv("LANGUAGE=" . $language);
 
-                $domain = "h5p_caretaker";
-                $bindPath = realpath(__DIR__ . DIRECTORY_SEPARATOR . "locale");
-                bindtextdomain($domain, $bindPath);
-                textdomain($domain);
+            $domain = "h5p_caretaker";
+            $bindPath = realpath(__DIR__ . DIRECTORY_SEPARATOR . "locale");
+            bindtextdomain($domain, $bindPath);
+            textdomain($domain);
             }
-        }
 
         if (!isset($config["uploadsPath"])) {
             $config["uploadsPath"] =
@@ -165,6 +163,9 @@ class H5PCaretaker
 
         $report = [
             "messages" => [],
+            "translations" => LocaleUtils::getKeywordTranslations(
+                $this->config["locale"] === "en"
+            ),
         ];
 
         $reports = $contentTree->getReports();

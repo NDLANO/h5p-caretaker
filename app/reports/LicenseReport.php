@@ -192,11 +192,8 @@ class LicenseReport
                         _("Potentially missing source information for %s"),
                         $contentFile->getDescription()
                     );
-                    $recommendationText = <<<EOT
-                        Add the link to the content in the metadata if
-                        the link target contains a copyright notice.
-                    EOT;
-                    $recommendation = _($recommendationText);
+                    // phpcs:ignore
+                    $recommendation = _("Add the link to the content in the metadata if the link target contains a copyright notice.");
                     $report["messages"][] = ReportUtils::buildMessage(
                         "license",
                         "missingSource",
@@ -222,12 +219,8 @@ class LicenseReport
                         _("Potentially missing changes information for %s"),
                         $contentFile->getDescription()
                     );
-                    $recommendationText = <<<EOT
-                        If this is not your work and you made changes to a degree
-                        that you created a derivative, you must indicate your
-                        changes and all previous modifications in the metadata.
-                    EOT;
-                    $recommendation = _($recommendationText);
+                    // phpcs:ignore
+                    $recommendation = _("If this is not your work and you made changes to a degree that you created a derivative, you must indicate your changes and all previous modifications in the metadata.");
                     $report["messages"][] = ReportUtils::buildMessage(
                         "license",
                         "missingChanges",
@@ -251,12 +244,8 @@ class LicenseReport
                         _("Potentially missing changes information for %s"),
                         $contentFile->getDescription()
                     );
-                    $recommendationText = <<<EOT
-                        If this is not your work and you made changes to a degree
-                        that you created a derivative, you must indicate your
-                        changes and all previous modifications in the metadata.
-                    EOT;
-                    $recommendation = _($recommendationText);
+                    // phpcs:ignore
+                    $recommendation = _("If this is not your work and you made changes to a degree that you created a derivative, you must indicate your changes and all previous modifications in the metadata.");
                     $report["messages"][] = ReportUtils::buildMessage(
                         "license",
                         "missingChanges",

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: H5P-Caretaker\n"
-"POT-Creation-Date: 2024-07-29 13:49+0200\n"
-"PO-Revision-Date: 2024-07-29 13:55+0200\n"
+"POT-Creation-Date: 2024-07-29 18:26+0200\n"
+"PO-Revision-Date: 2024-07-29 18:32+0200\n"
 "Last-Translator: H5P-Careraker\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -87,7 +87,7 @@ msgstr ""
 "Feld für den Alternativtext anbietet oder ob es nicht erforderlich ist, ein "
 "solches zu haben."
 
-#: reports/AccessibilityReport.php:172
+#: reports/AccessibilityReport.php:173
 msgid ""
 "Check whether there is a reason for the image to not have an alternative "
 "text. If so, explicitly set the image as decorative in the editor."
@@ -95,7 +95,7 @@ msgstr ""
 "Prüfe, ob es einen Grund gibt, warum das Bild keinen Alternativtext haben "
 "soll. Wenn ja, lege das Bild im Editor ausdrücklich als dekorativ fest."
 
-#: reports/AccessibilityReport.php:187
+#: reports/AccessibilityReport.php:188
 msgid "Set an alternative text for the image of the card."
 msgstr "Lege einen Alternativtext für das Bild der Karte fest."
 
@@ -167,15 +167,7 @@ msgstr ""
 msgid "Potentially missing changes information for %s"
 msgstr "Potenziell fehlende Informationen zu Änderungen für %s"
 
-#: reports/LicenseReport.php:223
-msgid ""
-"If this is not your work and you made changes, you must indicate your "
-"changes and all previous modifications in the metadata."
-msgstr ""
-"Falls dies nicht dein Werk ist und du Änderungen vorgenommen hast, musst du "
-"deine Änderungen und frühere Modifikationen in den Metadaten anführen."
-
-#: reports/LicenseReport.php:248
+#: reports/LicenseReport.php:223 reports/LicenseReport.php:248
 msgid ""
 "If this is not your work and you made changes to a degree that you created a "
 "derivative, you must indicate your changes and all previous modifications in "
@@ -197,6 +189,100 @@ msgstr "Fehlende zusätzliche Lizenzinformationen für %s"
 #: reports/LicenseReport.php:302
 msgid "Add the original GPL license text in the \"license extras\" field."
 msgstr "Füge den ursprüngliche GPL-Lizenztext im Feld \"Lizenzextras\" ein."
+
+#: utils/LocaleUtils.php:134
+msgid "category"
+msgstr "Kategorie"
+
+#: utils/LocaleUtils.php:135
+msgid "type"
+msgstr "Typ"
+
+#: utils/LocaleUtils.php:136
+msgid "summary"
+msgstr "Zusammenfassung"
+
+#: utils/LocaleUtils.php:137
+msgid "recommendation"
+msgstr "Empfehlung"
+
+#: utils/LocaleUtils.php:138
+msgid "details"
+msgstr "Details"
+
+#: utils/LocaleUtils.php:139
+msgid "title"
+msgstr "Titel"
+
+#: utils/LocaleUtils.php:140
+msgid "semanticsPath"
+msgstr "semanticsPfad"
+
+#: utils/LocaleUtils.php:141
+msgid "path"
+msgstr "Pfad"
+
+#: utils/LocaleUtils.php:142
+msgid "subContentId"
+msgstr "subContentId"
+
+#: utils/LocaleUtils.php:143
+msgid "description"
+msgstr "Beschreibung"
+
+#: utils/LocaleUtils.php:144
+msgid "status"
+msgstr "Status"
+
+#: utils/LocaleUtils.php:145
+msgid "url"
+msgstr "URL"
+
+#: utils/LocaleUtils.php:146
+msgid "accessibility"
+msgstr "Barrierefreiheit"
+
+#: utils/LocaleUtils.php:147
+msgid "license"
+msgstr "Lizenz"
+
+#: utils/LocaleUtils.php:148
+msgid "missingLicense"
+msgstr "fehlende Lizenz"
+
+#: utils/LocaleUtils.php:149
+msgid "missingLicenseExtras"
+msgstr "fehlende Lizenzextras"
+
+#: utils/LocaleUtils.php:150
+msgid "missingAuthor"
+msgstr "fehlende*r Autor*in"
+
+#: utils/LocaleUtils.php:151
+msgid "missingTitle"
+msgstr "fehlender Titel"
+
+#: utils/LocaleUtils.php:152
+msgid "missingSource"
+msgstr "fehlende Quelle"
+
+#: utils/LocaleUtils.php:153
+msgid "missingChanges"
+msgstr "fehlende Änderungen"
+
+#: utils/LocaleUtils.php:154
+msgid "missingAltText"
+msgstr "fehlender Alternativtext"
+
+#~ msgid "Lizenz"
+#~ msgstr "Lizenz"
+
+#~ msgid ""
+#~ "If this is not your work and you made changes, you must indicate your "
+#~ "changes and all previous modifications in the metadata."
+#~ msgstr ""
+#~ "Falls dies nicht dein Werk ist und du Änderungen vorgenommen hast, musst "
+#~ "du deine Änderungen und frühere Modifikationen in den Metadaten anführen."
 
 #~ msgid "foo"
 #~ msgstr "bar"

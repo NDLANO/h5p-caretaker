@@ -122,4 +122,49 @@ class LocaleUtils
 
         return $completeLocale . ".UTF-8";
     }
+
+    /**
+     * Get translations for keywords.
+     *
+     * @return array The translations.
+     */
+    public static function getKeywordTranslations($isEnglish)
+    {
+        $translations = [
+            "category" => _("category"),
+            "type" => _("type"),
+            "summary" => _("summary"),
+            "recommendation" => _("recommendation"),
+            "details" => _("details"),
+            "title" => _("title"),
+            "semanticsPath" => _("semanticsPath"),
+            "path" => _("path"),
+            "subContentId" => _("subContentId"),
+            "description" => _("description"),
+            "status" => _("status"),
+            "url" => _("url"),
+            "accessibility" => _("accessibility"),
+            "license" => _("license"),
+            "missingLicense" => _("missingLicense"),
+            "missingLicenseExtras" => _("missingLicenseExtras"),
+            "missingAuthor" => _("missingAuthor"),
+            "missingTitle" => _("missingTitle"),
+            "missingSource" => _("missingSource"),
+            "missingChanges" => _("missingChanges"),
+            "missingAltText" => _("missingAltText"),
+            "libreText" => "libreText",
+        ];
+
+        if ($isEnglish) {
+            $translations["missingLicense"] = "missing license";
+            $translations["missingLicenseExtras"] = "missing license extras";
+            $translations["missingAuthor"] = "missing author";
+            $translations["missingTitle"] = "missing title";
+            $translations["missingSource"] = "missing source";
+            $translations["missingChanges"] = "missing changes";
+            $translations["missingAltText"] = "missing alternative text";
+        }
+
+        return $translations;
+    }
 }
