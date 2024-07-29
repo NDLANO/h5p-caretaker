@@ -193,6 +193,14 @@ class AccessibilityReport
                 $decorative = true; // Is background image
                 $hasCustomHandling = true;
             }
+        } elseif ($parentMachineName === "H5P.GameMap") {
+            if (
+                $contentFile->getAttribute("semanticsPath") ===
+                    "gamemapSteps.backgroundImageSettings.backgroundImage"
+            ) {
+                $decorative = true; // Is background image
+                $hasCustomHandling = true;
+            }
         }
 
         return [$alt, $decorative, $title, $recommendation, $hasCustomHandling];
