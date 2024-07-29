@@ -40,16 +40,17 @@ class AccessibilityReport
         foreach ($contents as $content) {
             $libreText = $content->getAttribute("libreText") ?? "";
             if ($libreText !== "") {
+                $summary = sprintf(
+                    _("LibreText evaluation for %s"),
+                    explode(
+                        " ",
+                        $content->getAttribute("versionedMachineName")
+                    )[0]
+                );
                 $report["messages"][] = ReportUtils::buildMessage(
                     "accessibility",
                     "libreText",
-                    [
-                        "LibreText evaluation for",
-                        explode(
-                            " ",
-                            $content->getAttribute("versionedMachineName")
-                        )[0],
-                    ],
+                    $summary,
                     [
                         "type" => $libreText["type"],
                         // Should be added in the libretext API response, "type" is "title" and not unique
@@ -86,13 +87,14 @@ class AccessibilityReport
 
                     if ($hasCustomHandling) {
                         if ($alt === "" && $decorative === false) {
+                            $summary = sprintf(
+                                _("Missing alt text for image inside %s"),
+                                $content->getDescription()
+                            );
                             $report["messages"][] = ReportUtils::buildMessage(
                                 "accessibility",
                                 "missingAltText",
-                                [
-                                    "Missing alt text for image inside",
-                                    $content->getDescription(),
-                                ],
+                                $summary,
                                 [
                                     "path" => $contentFile->getAttribute(
                                         "path"
@@ -109,13 +111,16 @@ class AccessibilityReport
                             );
                         }
                     } else {
+                        $summary = sprintf(
+                            _("Missing alt text for image inside %s"),
+                            $content->getDescription()
+                        );
+                        $recommendation =
+                            _("Check whether the content type that uses the image offers a custom alternative text field or whether it is not required to have one here.");
                         $report["messages"][] = ReportUtils::buildMessage(
                             "accessibility",
                             "missingAltText",
-                            [
-                                "Potentially missing alt text for image inside",
-                                $content->getDescription(),
-                            ],
+                            $summary,
                             [
                                 "path" => $contentFile->getAttribute("path"),
                                 "semanticsPath" => $contentFile->getAttribute(
@@ -126,8 +131,7 @@ class AccessibilityReport
                                 ),
                                 "subContentId" => $content->getAttribute("id"),
                             ],
-                            "Check whether the content type that uses the image offers a " .
-                                "custom alternative text field or whether it is not required to have one here."
+                            $recommendation
                         );
                     }
                 }
@@ -165,9 +169,7 @@ class AccessibilityReport
                 $content->getAttribute("params")["decorative"] ?? false;
 
             $title = $content->getDescription("{title}");
-            $recommendation =
-                "Check whether there is a reason for the image to not have an alternative text." .
-                "If so, explicitly set it as decorative in the editor.";
+            $recommendation = _("Check whether there is a reason for the image to not have an alternative text. If so, explicitly set the image as decorative in the editor.");
 
             $hasCustomHandling = true;
         } elseif ($parentMachineName === "H5P.MemoryGame") {
@@ -182,7 +184,7 @@ class AccessibilityReport
 
             $title = $contentFile->getDescription("{title}");
             $recommendation =
-                "Set an alternative text for the image of the card.";
+                _("Set an alternative text for the image of the card.");
 
             $hasCustomHandling = true;
         } elseif ($parentMachineName === "H5P.ImageHotspots") {

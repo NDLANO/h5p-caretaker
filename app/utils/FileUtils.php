@@ -61,14 +61,14 @@ class FileUtils
      */
     public static function getVendorPath($startDir)
     {
-        while (!file_exists($startDir . "/vendor")) {
+        while (!file_exists($startDir . DIRECTORY_SEPARATOR . "vendor")) {
             $startDir = dirname($startDir);
             if ($startDir === "/") {
                 return null;
             }
         }
 
-        return $startDir . "/vendor";
+        return $startDir . DIRECTORY_SEPARATOR . "vendor";
     }
 
     /**

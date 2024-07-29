@@ -36,6 +36,21 @@ class H5PCaretaker
     {
         require_once __DIR__ . DIRECTORY_SEPARATOR . "autoloader.php";
 
+        $config['locale'] = 'de';
+
+        if (isset($config["locale"])) {
+            $language = LocaleUtils::getCompleteLocale($config["locale"]);
+            if (isset($language)) {
+                putenv("LANG=" . $language);
+                putenv("LANGUAGE=" . $language);
+
+                $domain = "h5p_caretaker";
+                $bindPath = realpath(__DIR__ . DIRECTORY_SEPARATOR . "locale");
+                bindtextdomain($domain, $bindPath);
+                textdomain($domain);
+            }
+        }
+
         if (!isset($config["uploadsPath"])) {
             $config["uploadsPath"] =
                 __DIR__ .
@@ -70,7 +85,7 @@ class H5PCaretaker
         if (isset($error)) {
             $result = null;
         } elseif (!isset($result)) {
-            $error = "Something went wrong, but I dunno what, sorry!";
+            $error = _("Something went wrong, but I dunno what, sorry!");
         }
 
         return [
@@ -89,7 +104,7 @@ class H5PCaretaker
     public function analyze($params)
     {
         if (!isset($params["file"])) {
-            $this->done(null, "It seems that no file was provided.");
+            $this->done(null, _("It seems that no file was provided."));
         }
 
         $file = $params["file"];
@@ -99,23 +114,24 @@ class H5PCaretaker
         $fileType = finfo_file($fileInfo, $file);
 
         if ($fileSize === 0) {
-            return $this->done(null, "The file is empty.");
+            return $this->done(null, _("The file is empty."));
         }
 
         $fileSizeLimit = 1024 * 1024 * 20; // 20 MB
         if ($fileSize > $fileSizeLimit) {
             return $this->done(
                 null,
-                "The file is larger than the limit of " .
-                    $fileSizeLimit .
-                    " bytes."
+                sprintf(
+                    _("The file is larger than the limit of %s bytes."),
+                    $fileSizeLimit
+                )
             );
         }
 
         if ($fileType !== "application/zip") {
             return $this->done(
                 null,
-                "The file is not a valid H5P file / ZIP archive."
+                _("The file is not a valid H5P file / ZIP archive.")
             );
         }
 
@@ -132,7 +148,7 @@ class H5PCaretaker
         if (!$h5pFileHandler->isFileOkay()) {
             return $this->done(
                 null,
-                "The file does not seem to follow the H5P specification."
+                _("The file does not seem to follow the H5P specification.")
             );
         }
 

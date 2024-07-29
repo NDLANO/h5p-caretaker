@@ -64,7 +64,7 @@ class JSONUtils
                         ) {
                             $results[] = [
                                 "path" => preg_replace(
-                                    '/\.(\d+)(\.|$)/',
+                                    "/\.(\d+)(\.|$)/",
                                     '[$1]$2',
                                     $newPath
                                 ),

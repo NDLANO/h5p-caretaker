@@ -12,6 +12,7 @@ spl_autoload_register(function ($class) {
             "H5PCaretaker\GeneralUtils" => "utils/GeneralUtils.php",
             "H5PCaretaker\H5PUtils" => "utils/H5PUtils.php",
             "H5PCaretaker\JSONUtils" => "utils/JSONUtils.php",
+            "H5PCaretaker\LocaleUtils" => "utils/LocaleUtils.php",
             "H5PCaretaker\ReportUtils" => "utils/ReportUtils.php",
             "H5PCaretaker\ContentFile" => "models/ContentFile.php",
             "H5PCaretaker\Content" => "models/Content.php",

@@ -41,23 +41,28 @@ class LicenseReport
             $semanticsPath = $content->getAttribute("semanticsPath");
 
             if (($content->getAttribute("metadata")["license"] ?? "") === "U") {
+                $summary = ($semanticsPath === "") ?
+                    sprintf(
+                        _("Missing license information for %s as H5P main content"),
+                        $content->getDescription()
+                    ) :
+                    sprintf(
+                        _("Missing license information for %s inside %s"),
+                        $content->getDescription(),
+                        $content->getParent()->getDescription()
+                    );
                 $report["messages"][] = ReportUtils::buildMessage(
                     "license",
                     "missingLicense",
-                    [
-                        "Missing license information for content",
-                        $content->getDescription(),
-                        $semanticsPath === ""
-                            ? "as H5P main content"
-                            : "inside " .
-                                $content->getParent()->getDescription(),
-                    ],
+                    $summary,
                     [
                         "semanticsPath" => $semanticsPath,
                         "title" => $content->getDescription("{title}"),
                         "subContentId" => $content->getAttribute("id"),
                     ],
-                    "Check the license information of the content and add it to the metadata."
+                    _(
+                        "Check the license information of the content and add it to the metadata."
+                    )
                 );
             }
 
@@ -85,20 +90,23 @@ class LicenseReport
                     "";
 
                 if ($license === "U") {
+                    $summary = sprintf(
+                        _("Missing license information for %s"),
+                        $contentFile->getDescription()
+                    );
                     $report["messages"][] = ReportUtils::buildMessage(
                         "license",
                         "missingLicense",
-                        [
-                            "Missing license information for",
-                            $contentFile->getDescription(),
-                        ],
+                        $summary,
                         [
                             "semanticsPath" => $contentFile->getAttribute(
                                 "semanticsPath"
                             ),
                             "title" => $contentFile->getDescription("{title}"),
                         ],
-                        "Check the license information of the content and add it to the metadata."
+                        _(
+                            "Check the license information of the content and add it to the metadata."
+                        )
                     );
                 }
                 $authors =
@@ -109,20 +117,21 @@ class LicenseReport
                     $license !== "CC PDM" &&
                     $license !== "PD"
                 ) {
+                    $summary = sprintf(
+                        _("Missing author information for %s"),
+                        $contentFile->getDescription()
+                    );
                     $report["messages"][] = ReportUtils::buildMessage(
                         "license",
                         "missingAuthor",
-                        [
-                            "Missing author information for",
-                            $contentFile->getDescription(),
-                        ],
+                        $summary,
                         [
                             "semanticsPath" => $contentFile->getAttribute(
                                 "semanticsPath"
                             ),
                             "title" => $contentFile->getDescription("{title}"),
                         ],
-                        "Add the author nameor creator name in the metadata."
+                        _("Add the author name or creator name in the metadata.")
                     );
                 }
 
@@ -132,20 +141,21 @@ class LicenseReport
                     strpos($license, "CC BY") === 0 &&
                     $licenseVersion !== "4.0"
                 ) {
+                    $summary = sprintf(
+                        _("Missing title information for %s"),
+                        $contentFile->getDescription()
+                    );
                     $report["messages"][] = ReportUtils::buildMessage(
                         "license",
                         "missingTitle",
-                        [
-                            "Missing title information for",
-                            $contentFile->getDescription(),
-                        ],
+                        $summary,
                         [
                             "semanticsPath" => $contentFile->getAttribute(
                                 "semanticsPath"
                             ),
                             "title" => $contentFile->getDescription("{title}"),
                         ],
-                        "Add the title of the content (if supplied) in the metadata."
+                        _("Add the title of the content (if supplied) in the metadata.")
                     );
                 }
 
@@ -155,20 +165,21 @@ class LicenseReport
                     strpos($license, "CC BY") === 0 &&
                     $licenseVersion === "4.0"
                 ) {
+                    $summary = sprintf(
+                        _("Missing source information for %s"),
+                        $contentFile->getDescription()
+                    );
                     $report["messages"][] = ReportUtils::buildMessage(
                         "license",
                         "missingSource",
-                        [
-                            "Missing source information for",
-                            $contentFile->getDescription(),
-                        ],
+                        $summary,
                         [
                             "semanticsPath" => $contentFile->getAttribute(
                                 "semanticsPath"
                             ),
                             "title" => $contentFile->getDescription("{title}"),
                         ],
-                        "Add the link to the content in the metadata."
+                        _("Add the link to the content in the metadata.")
                     );
                 }
                 if (
@@ -177,21 +188,23 @@ class LicenseReport
                     $licenseVersion !== "4.0" &&
                     $licenseVersion !== "1.0"
                 ) {
+                    $summary = sprintf(
+                        _("Potentially missing source information for %s"),
+                        $contentFile->getDescription()
+                    );
+                    $recommendation =
+                        _("Add the link to the content in the metadata if the link target contains a copyright notice.");
                     $report["messages"][] = ReportUtils::buildMessage(
                         "license",
                         "missingSource",
-                        [
-                            "Potentially missing source information for",
-                            $contentFile->getDescription(),
-                        ],
+                        $summary,
                         [
                             "semanticsPath" => $contentFile->getAttribute(
                                 "semanticsPath"
                             ),
                             "title" => $contentFile->getDescription("{title}"),
                         ],
-                        "Add the link to the content in the metadata if the link target " .
-                            "contains a copyright notice or licensing information."
+                        $recommendation
                     );
                 }
 
@@ -202,21 +215,23 @@ class LicenseReport
                     strpos($license, "CC BY") === 0 &&
                     $licenseVersion === "4.0"
                 ) {
+                    $summary = sprintf(
+                        _("Potentially missing changes information for %s"),
+                        $contentFile->getDescription()
+                    );
+                    $recommendation =
+                        _("If this is not your work and you made changes, you must indicate your changes and all previous modifications in the metadata.");
                     $report["messages"][] = ReportUtils::buildMessage(
                         "license",
                         "missingChanges",
-                        [
-                            "Potentially missing changes information for",
-                            $contentFile->getDescription(),
-                        ],
+                        $summary,
                         [
                             "semanticsPath" => $contentFile->getAttribute(
                                 "semanticsPath"
                             ),
                             "title" => $contentFile->getDescription("{title}"),
                         ],
-                        "If this is not your work and you made changes, " .
-                        "you must indicate your changes and all previous modifications in the metadata."
+                        $recommendation
                     );
                 }
 
@@ -225,39 +240,42 @@ class LicenseReport
                     strpos($license, "CC BY") === 0 &&
                     $licenseVersion !== "4.0"
                 ) {
+                    $summary = sprintf(
+                        _("Potentially missing changes information for %s"),
+                        $contentFile->getDescription()
+                    );
+                    $recommendation =
+                        _("If this is not your work and you made changes to a degree that you created a derivative, you must indicate your changes and all previous modifications in the metadata.");
                     $report["messages"][] = ReportUtils::buildMessage(
                         "license",
                         "missingChanges",
-                        [
-                            "Potentially missing changes information for",
-                            $contentFile->getDescription(),
-                        ],
+                        $summary,
                         [
                             "semanticsPath" => $contentFile->getAttribute(
                                 "semanticsPath"
                             ),
                             "title" => $contentFile->getDescription("{title}"),
                         ],
-                        "If this is not your work and you made changes to a degree that you created a derivative" .
-                            "you must indicate your changes and all previous modifications in the metadata."
+                        $recommendation
                     );
                 }
 
                 if (count($changes) === 0 && $license === "GNU GPL") {
+                    $summary = sprintf(
+                        _("Potentially missing changes information for %s"),
+                        $contentFile->getDescription()
+                    );
                     $report["messages"][] = ReportUtils::buildMessage(
                         "license",
                         "missingChanges",
-                        [
-                            "Potentially missing changes information for",
-                            $contentFile->getDescription(),
-                        ],
+                        $summary,
                         [
                             "semanticsPath" => $contentFile->getAttribute(
                                 "semanticsPath"
                             ),
                             "title" => $contentFile->getDescription("{title}"),
                         ],
-                        "List any changes you made in the metadata."
+                        _("List any changes you made in the metadata.")
                     );
                 }
 
@@ -267,20 +285,21 @@ class LicenseReport
                         "") ===
                         ""
                 ) {
+                    $summary = sprintf(
+                        _("Missing license extras information for %s"),
+                        $contentFile->getDescription()
+                    );
                     $report["messages"][] = ReportUtils::buildMessage(
                         "license",
                         "missingLicenseExtras",
-                        [
-                            "Missing license extras information for",
-                            $contentFile->getDescription(),
-                        ],
+                        $summary,
                         [
                             "semanticsPath" => $contentFile->getAttribute(
                                 "semanticsPath"
                             ),
                             "title" => $contentFile->getDescription("{title}"),
                         ],
-                        "Add the original GPL license text in the \"license extras\" field."
+                        _("Add the original GPL license text in the \"license extras\" field.")
                     );
                 }
             }

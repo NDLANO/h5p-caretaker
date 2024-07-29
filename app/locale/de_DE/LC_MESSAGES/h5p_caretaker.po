@@ -1,0 +1,202 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: H5P-Caretaker\n"
+"POT-Creation-Date: 2024-07-29 13:49+0200\n"
+"PO-Revision-Date: 2024-07-29 13:55+0200\n"
+"Last-Translator: H5P-Careraker\n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.2.2\n"
+"X-Poedit-Basepath: ../../..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: H5PCaretaker.php:88
+msgid "Something went wrong, but I dunno what, sorry!"
+msgstr ""
+"Etwas ist schief gelaufen, aber ich weiß nicht was, bitte entschuldige!"
+
+#: H5PCaretaker.php:107
+msgid "It seems that no file was provided."
+msgstr "Es sieht so aus als sei keine Datei angegeben worden."
+
+#: H5PCaretaker.php:117
+msgid "The file is empty."
+msgstr "Die Datei ist leer."
+
+#: H5PCaretaker.php:125
+#, php-format
+msgid "The file is larger than the limit of %s bytes."
+msgstr "Die Datei ist größer als das Limit von %s Bytes."
+
+#: H5PCaretaker.php:134
+msgid "The file is not a valid H5P file / ZIP archive."
+msgstr "Die Datei ist keine gültige H5P-Datei/kein gültiges ZIP-Archiv."
+
+#: H5PCaretaker.php:151
+msgid "The file does not seem to follow the H5P specification."
+msgstr "Die Detai scheint der H5P-Spezifikation nicht zu folgen."
+
+#: H5PFileHandler.php:592
+#, php-format
+msgid "Upload directory %s is not writable."
+msgstr "Das Upload-Verzeichnis %s ist nicht schreibbar."
+
+#: H5PFileHandler.php:601
+#, php-format
+msgid "Could not create upload directory %s."
+msgstr "Konnte der Upload-Verzeichnis %s nicht anlegen."
+
+#: H5PFileHandler.php:611
+msgid "Error extracting H5P file ZIP archive."
+msgstr "Fehler beim Entpacken der H5P-Datei."
+
+#: H5PFileHandler.php:637
+msgid "Directory with extracted H5P files does not exist."
+msgstr "Das Verzeichnis mit den entpackten H5P-Dateien existiert nicht."
+
+#: H5PFileHandler.php:645
+msgid "h5p.json file does not exist in the archive."
+msgstr "Die Datei h5p.json existiert nicht im Archiv."
+
+#: H5PFileHandler.php:653
+msgid "Error decoding h5p.json file."
+msgstr "Fehler beim Decodieren der Datei h5p.json."
+
+#: reports/AccessibilityReport.php:44
+#, php-format
+msgid "LibreText evaluation for %s"
+msgstr "LibreText-Beurteilung für %s"
+
+#: reports/AccessibilityReport.php:91 reports/AccessibilityReport.php:115
+#, php-format
+msgid "Missing alt text for image inside %s"
+msgstr "Fehlender Alternativtext für das Bild in %s"
+
+#: reports/AccessibilityReport.php:119
+msgid ""
+"Check whether the content type that uses the image offers a custom "
+"alternative text field or whether it is not required to have one here."
+msgstr ""
+"Prüfe, ob der Inhaltstyp, der das Bild verwendet, ein benutzerdefiniertes "
+"Feld für den Alternativtext anbietet oder ob es nicht erforderlich ist, ein "
+"solches zu haben."
+
+#: reports/AccessibilityReport.php:172
+msgid ""
+"Check whether there is a reason for the image to not have an alternative "
+"text. If so, explicitly set the image as decorative in the editor."
+msgstr ""
+"Prüfe, ob es einen Grund gibt, warum das Bild keinen Alternativtext haben "
+"soll. Wenn ja, lege das Bild im Editor ausdrücklich als dekorativ fest."
+
+#: reports/AccessibilityReport.php:187
+msgid "Set an alternative text for the image of the card."
+msgstr "Lege einen Alternativtext für das Bild der Karte fest."
+
+#: reports/LicenseReport.php:46
+#, php-format
+msgid "Missing license information for %s as H5P main content"
+msgstr "Fehlende Lizenzinformationen für %s als H5P-Hauptinhalt"
+
+#: reports/LicenseReport.php:50
+#, php-format
+msgid "Missing license information for %s inside %s"
+msgstr "Fehlender Lizenzinformationen für %s in %s"
+
+#: reports/LicenseReport.php:64 reports/LicenseReport.php:108
+msgid ""
+"Check the license information of the content and add it to the metadata."
+msgstr ""
+"Prüfe die Lizenzinformationen des Inhalts und füge sie den Metadaten hinzu."
+
+#: reports/LicenseReport.php:94
+#, php-format
+msgid "Missing license information for %s"
+msgstr "Fehlende Lizenzinformationen für das Bild in %s"
+
+#: reports/LicenseReport.php:121
+#, php-format
+msgid "Missing author information for %s"
+msgstr "Fehlende Autor*inneninformationen für %s"
+
+#: reports/LicenseReport.php:134
+msgid "Add the author name or creator name in the metadata."
+msgstr ""
+"Füge den Namen der Autor*innen oder Ersteller*innen in den Metadaten hinzu."
+
+#: reports/LicenseReport.php:145
+#, php-format
+msgid "Missing title information for %s"
+msgstr "Fehlende Titelangabe für %s"
+
+#: reports/LicenseReport.php:158
+msgid "Add the title of the content (if supplied) in the metadata."
+msgstr "Füge den Titel des Inhalts (falls angegeben) in den Metadaten hinzu."
+
+#: reports/LicenseReport.php:169
+#, php-format
+msgid "Missing source information for %s"
+msgstr "Fehlende Quelleninformation für %s"
+
+#: reports/LicenseReport.php:182
+msgid "Add the link to the content in the metadata."
+msgstr "Füge den Link zum Inhalt in den Metadaten hinzu."
+
+#: reports/LicenseReport.php:192
+#, php-format
+msgid "Potentially missing source information for %s"
+msgstr "Potenziell fehlende Quelleninformation für %s"
+
+#: reports/LicenseReport.php:196
+msgid ""
+"Add the link to the content in the metadata if the link target contains a "
+"copyright notice."
+msgstr ""
+"Füge den Link zum Inhalt in den Metadaten hinzu, falls das Linkziel einen "
+"Urheberrechtshinweis enthält."
+
+#: reports/LicenseReport.php:219 reports/LicenseReport.php:244
+#: reports/LicenseReport.php:265
+#, php-format
+msgid "Potentially missing changes information for %s"
+msgstr "Potenziell fehlende Informationen zu Änderungen für %s"
+
+#: reports/LicenseReport.php:223
+msgid ""
+"If this is not your work and you made changes, you must indicate your "
+"changes and all previous modifications in the metadata."
+msgstr ""
+"Falls dies nicht dein Werk ist und du Änderungen vorgenommen hast, musst du "
+"deine Änderungen und frühere Modifikationen in den Metadaten anführen."
+
+#: reports/LicenseReport.php:248
+msgid ""
+"If this is not your work and you made changes to a degree that you created a "
+"derivative, you must indicate your changes and all previous modifications in "
+"the metadata."
+msgstr ""
+"Falls dies nicht dein Werk ist und du Änderungen vorgenommen hast, die ein "
+"abgeleitetes Werk begründen, musst du deine Änderungen und frühere "
+"Modifikationen in den Metadaten anführen."
+
+#: reports/LicenseReport.php:278
+msgid "List any changes you made in the metadata."
+msgstr "Führe alle von dir gemachten Änderungen in den Metadaten auf."
+
+#: reports/LicenseReport.php:289
+#, php-format
+msgid "Missing license extras information for %s"
+msgstr "Fehlende zusätzliche Lizenzinformationen für %s"
+
+#: reports/LicenseReport.php:302
+msgid "Add the original GPL license text in the \"license extras\" field."
+msgstr "Füge den ursprüngliche GPL-Lizenztext im Feld \"Lizenzextras\" ein."
+
+#~ msgid "foo"
+#~ msgstr "bar"

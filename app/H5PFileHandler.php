@@ -588,13 +588,19 @@ class H5PFileHandler
         if (!is_dir($extractDir)) {
             if (!is_writable($this->uploadsDirectory)) {
                 throw new \Exception(
-                    "Upload directory " . $extractDir . " is not writable."
+                    sprintf(
+                        _("Upload directory %s is not writable."),
+                        $extractDir
+                    )
                 );
             }
 
             if (!mkdir($extractDir, 0777, true) && !is_dir($extractDir)) {
                 throw new \Exception(
-                    "Could not create upload directory " . $extractDir . "."
+                    sprintf(
+                        _("Could not create upload directory %s."),
+                        $extractDir
+                    )
                 );
             }
         }
@@ -602,7 +608,7 @@ class H5PFileHandler
         $zip = new \ZipArchive();
 
         if ($zip->open($file) !== true) {
-            throw new \Exception("Error extracting H5P file ZIP archive.");
+            throw new \Exception(_("Error extracting H5P file ZIP archive."));
         }
 
         for ($i = 0; $i < $zip->numFiles; $i++) {
@@ -628,7 +634,7 @@ class H5PFileHandler
 
         if (!is_dir($extractDir)) {
             throw new \Exception(
-                "Directory with extracted H5P files does not exist."
+                _("Directory with extracted H5P files does not exist.")
             );
         }
 
@@ -636,7 +642,7 @@ class H5PFileHandler
 
         if (!file_exists($h5pJsonFile)) {
             throw new \Exception(
-                "h5p.json file does not exist in the archive."
+                _("h5p.json file does not exist in the archive.")
             );
         }
 
@@ -644,7 +650,7 @@ class H5PFileHandler
         $jsonData = json_decode($jsonContents, true);
 
         if ($jsonData === null) {
-            throw new \Exception("Error decoding h5p.json file.");
+            throw new \Exception(_("Error decoding h5p.json file."));
         }
 
         return $jsonData;
