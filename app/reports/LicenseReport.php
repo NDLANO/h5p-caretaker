@@ -333,6 +333,18 @@ class LicenseReport
             return;
         }
 
+        $reference = null;
+        if (strpos($license, "CC BY") === 0) {
+            $shortcode = strtolower(explode(" ", $license)[1]);
+            $reference = sprintf(
+                "https://creativecommons.org/licenses/%s/%s/#ref-appropriate-credit",
+                $shortcode,
+                $content->getAttribute("metadata")["licenseVersion"] ?? "4.0"
+            );
+        } elseif ($license === "GNU GPL") {
+            $reference = "https://www.gnu.org/licenses/gpl-3.0.txt";
+        }
+
         return ReportUtils::buildMessage(
             "license",
             "missingAuthor",
@@ -343,6 +355,7 @@ class LicenseReport
             [
                 "semanticsPath" => $content->getAttribute("semanticsPath"),
                 "title" => $content->getDescription("{title}"),
+                "reference" => $reference
             ],
             _("Add the author name or creator name in the metadata.")
         );
@@ -372,6 +385,16 @@ class LicenseReport
             return;
         }
 
+        $reference = null;
+        if (strpos($license, "CC BY") === 0) {
+            $shortcode = strtolower(explode(" ", $license)[1]);
+            $reference = sprintf(
+                "https://creativecommons.org/licenses/%s/%s/#ref-appropriate-credit",
+                $shortcode,
+                $content->getAttribute("metadata")["licenseVersion"] ?? "4.0"
+            );
+        }
+
         return  ReportUtils::buildMessage(
             "license",
             "missingTitle",
@@ -384,6 +407,7 @@ class LicenseReport
                     "semanticsPath"
                 ),
                 "title" => $content->getDescription("{title}"),
+                "reference" => $reference
             ],
             _("Add the title of the content (if supplied) in the metadata.")
         );
@@ -415,6 +439,16 @@ class LicenseReport
             return;
         }
 
+        $reference = null;
+        if (strpos($license, "CC BY") === 0) {
+            $shortcode = strtolower(explode(" ", $license)[1]);
+            $reference = sprintf(
+                "https://creativecommons.org/licenses/%s/%s/#ref-appropriate-credit",
+                $shortcode,
+                $content->getAttribute("metadata")["licenseVersion"] ?? "4.0"
+            );
+        }
+
         if ($licenseVersion === "4.0") {
             return ReportUtils::buildMessage(
                 "license",
@@ -428,6 +462,7 @@ class LicenseReport
                         "semanticsPath"
                     ),
                     "title" => $content->getDescription("{title}"),
+                    "reference" => $reference
                 ],
                 _("Add the link to the content in the metadata.")
             );
@@ -444,6 +479,7 @@ class LicenseReport
                         "semanticsPath"
                     ),
                     "title" => $content->getDescription("{title}"),
+                    "reference" => $reference
                 ],
                 // phpcs:ignore
                 _("Add the link to the content in the metadata if the link target contains a copyright notice or licensing information."),
@@ -477,6 +513,18 @@ class LicenseReport
             return;
         }
 
+        $reference = null;
+        if (strpos($license, "CC BY") === 0) {
+            $shortcode = strtolower(explode(" ", $license)[1]);
+            $reference = sprintf(
+                "https://creativecommons.org/licenses/%s/%s/#ref-indicate-changes",
+                $shortcode,
+                $content->getAttribute("metadata")["licenseVersion"] ?? "4.0"
+            );
+        } elseif ($license === "GNU GPL") {
+            $reference = "https://www.gnu.org/licenses/gpl-3.0.txt";
+        }
+
         if (strpos($license, "CC BY") === 0 && $licenseVersion === "4.0") {
             return ReportUtils::buildMessage(
                 "license",
@@ -490,6 +538,7 @@ class LicenseReport
                         "semanticsPath"
                     ),
                     "title" => $content->getDescription("{title}"),
+                    "reference" => $reference
                 ],
                 // phpcs:ignore
                 _("If this is not your work and you made changes to a degree that you created a derivative, you must indicate your changes and all previous modifications in the metadata."),
@@ -510,6 +559,7 @@ class LicenseReport
                         "semanticsPath"
                     ),
                     "title" => $content->getDescription("{title}"),
+                    "reference" => $reference
                 ],
                 // phpcs:ignore
                 _("If this is not your work and you made changes to a degree that you created a derivative, you must indicate your changes and all previous modifications in the metadata."),
@@ -530,6 +580,7 @@ class LicenseReport
                         "semanticsPath"
                     ),
                     "title" => $content->getDescription("{title}"),
+                    "reference" => $reference
                 ],
                 _("List any changes you made in the metadata."),
                 "warning"
@@ -568,6 +619,7 @@ class LicenseReport
                     "semanticsPath"
                 ),
                 "title" => $content->getDescription("{title}"),
+                "reference" => "https://www.gnu.org/licenses/gpl-3.0.txt"
             ],
             _("Add the original GPL license text in the \"license extras\" field.")
         );
