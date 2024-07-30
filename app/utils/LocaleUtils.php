@@ -146,7 +146,6 @@ class LocaleUtils
             "info" => _("info"),
             "warning" => _("warning"),
             "error" => _("error"),
-            "url" => _("url"),
             "reference" => _("reference"),
             "accessibility" => _("accessibility"),
             "license" => _("license"),
