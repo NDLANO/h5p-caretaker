@@ -110,6 +110,14 @@ class JSONUtils
             $metadata["yearTo"] = $h5pJson["yearTo"];
         }
 
+        if (isset($h5pJson["changes"])) {
+            $metadata["changes"] = $h5pJson["changes"];
+        }
+
+        if (isset($h5pJson["licenseExtras"])) {
+            $metadata["licenseExtras"] = $h5pJson["licenseExtras"];
+        }
+
         return $metadata;
     }
 
