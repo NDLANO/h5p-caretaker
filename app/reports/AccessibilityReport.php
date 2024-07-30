@@ -107,6 +107,7 @@ class AccessibilityReport
                                     "subContentId" => $content->getAttribute(
                                         "id"
                                     ),
+                                    "reference" => "https://www.w3.org/WAI/alt/"
                                 ],
                                 $recommendation
                             );
@@ -128,6 +129,7 @@ class AccessibilityReport
                                     "{title}"
                                 ),
                                 "subContentId" => $content->getAttribute("id"),
+                                "reference" => "https://www.w3.org/WAI/alt/"
                             ],
                             // phpcs:ignore
                             _("Check whether the content type that uses the image offers a custom alternative text field or whether it is not required to have one here.")
