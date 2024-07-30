@@ -142,7 +142,12 @@ class LocaleUtils
             "subContentId" => _("subContentId"),
             "description" => _("description"),
             "status" => _("status"),
+            "level" => _("level"),
+            "info" => _("info"),
+            "warning" => _("warning"),
+            "error" => _("error"),
             "url" => _("url"),
+            "reference" => _("reference"),
             "accessibility" => _("accessibility"),
             "license" => _("license"),
             "missingLicense" => _("missingLicense"),
@@ -153,6 +158,7 @@ class LocaleUtils
             "missingChanges" => _("missingChanges"),
             "missingAltText" => _("missingAltText"),
             "libreText" => "libreText",
+            "invalidLicenseAdaptation" => "invalidLicenseAdaptation",
         ];
 
         if ($isEnglish) {
@@ -163,6 +169,7 @@ class LocaleUtils
             $translations["missingSource"] = "missing source";
             $translations["missingChanges"] = "missing changes";
             $translations["missingAltText"] = "missing alternative text";
+            $translations["invalidLicenseAdaptation"] = "invalid license adaptation";
         }
 
         return $translations;

@@ -58,7 +58,9 @@ class AccessibilityReport
                         "description" => $libreText["description"],
                         "status" => $libreText["status"],
                         "url" => $libreText["url"],
-                    ]
+                    ],
+                    null,
+                    "info"
                 );
             }
         }
@@ -87,14 +89,13 @@ class AccessibilityReport
 
                     if ($hasCustomHandling) {
                         if ($alt === "" && $decorative === false) {
-                            $summary = sprintf(
-                                _("Missing alt text for image inside %s"),
-                                $content->getDescription()
-                            );
                             $report["messages"][] = ReportUtils::buildMessage(
                                 "accessibility",
                                 "missingAltText",
-                                $summary,
+                                sprintf(
+                                    _("Missing alt text for image inside %s"),
+                                    $content->getDescription()
+                                ),
                                 [
                                     "path" => $contentFile->getAttribute(
                                         "path"
@@ -111,16 +112,13 @@ class AccessibilityReport
                             );
                         }
                     } else {
-                        $summary = sprintf(
-                            _("Missing alt text for image inside %s"),
-                            $content->getDescription()
-                        );
-                        // phpcs:ignore
-                        $recommendation = _("Check whether the content type that uses the image offers a custom alternative text field or whether it is not required to have one here.");
                         $report["messages"][] = ReportUtils::buildMessage(
                             "accessibility",
                             "missingAltText",
-                            $summary,
+                            sprintf(
+                                _("Missing alt text for image inside %s"),
+                                $content->getDescription()
+                            ),
                             [
                                 "path" => $contentFile->getAttribute("path"),
                                 "semanticsPath" => $contentFile->getAttribute(
@@ -131,7 +129,8 @@ class AccessibilityReport
                                 ),
                                 "subContentId" => $content->getAttribute("id"),
                             ],
-                            $recommendation
+                            // phpcs:ignore
+                            _("Check whether the content type that uses the image offers a custom alternative text field or whether it is not required to have one here.")
                         );
                     }
                 }

@@ -33,6 +33,7 @@ class ReportUtils
      * @param string|array $summary The summary of the message.
      * @param array|null $details The details of the message for further processing.
      * @param string|null $recommendation The optional recommendation for the user.
+     * @param string $level The level of the message.
      *
      * @return array The message.
      */
@@ -41,7 +42,8 @@ class ReportUtils
         $type,
         $summary,
         $details = null,
-        $recommendation = null
+        $recommendation = null,
+        $level = "error"
     ) {
         if (is_array($summary)) {
             $summary = implode(" ", $summary);
@@ -55,6 +57,10 @@ class ReportUtils
 
         if ($recommendation !== null) {
             $message["recommendation"] = $recommendation;
+        }
+
+        if ($level !== null) {
+            $message["level"] = $level;
         }
 
         if ($details !== null && is_array($details)) {

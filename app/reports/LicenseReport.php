@@ -40,7 +40,8 @@ class LicenseReport
         foreach ($contents as $content) {
             $report["messages"] = array_merge(
                 $report["messages"],
-                self::checkLicense($content)
+                self::checkLicense($content),
+                self::checkLicenseAdaptation($content)
             );
 
             $contentFiles = $content->getAttribute("contentFiles");
@@ -66,6 +67,143 @@ class LicenseReport
             }
 
             $content->setReport("license", $report);
+        }
+    }
+
+    /**
+     * Check if the license of a content is adapted to its subcontent.
+     *
+     * @param Content $content The content to check.
+     *
+     * @return array The messages.
+     */
+    private static function checkLicenseAdaptation($content)
+    {
+        $messages = [];
+
+        $license = $content->getAttribute("metadata")["license"] ?? "";
+        if ($license === "U") {
+            return []; // License should be set first anyway.
+        }
+
+        $children = $content->getChildren();
+        foreach ($children as $child) {
+            foreach (
+                [
+                    self::checkLicenseAdaptationNC($content, $child),
+                    self::checkLicenseAdaptationBY($content, $child)
+                ] as $result
+            ) {
+                if (isset($result)) {
+                    $messages[] = $result;
+                }
+            }
+        }
+
+        $machineName = $content->getDescription("{machineName}");
+        if (
+            !in_array($machineName, [
+                "H5P.Image",
+                "H5P.Audio",
+                "H5P.Video",
+            ])
+        ) {
+            $contentFiles = $content->getAttribute("contentFiles");
+            foreach ($contentFiles as $contentFile) {
+                foreach (
+                    [
+                        self::checkLicenseAdaptationNC($content, $contentFile),
+                        self::checkLicenseAdaptationBY($content, $contentFile)
+                    ] as $result
+                ) {
+                    if (isset($result)) {
+                        $messages[] = $result;
+                    }
+                }
+            }
+        }
+
+        return $messages;
+    }
+
+    /**
+     * Check if the license of a content is adapted to its subcontent for commercial use.
+     *
+     * @param Content $content The content to check.
+     * @param Content|ContentFile $subcontent The subcontent or content file to check.
+     *
+     * @return array|undefined The message or undefined if OK.
+     */
+    private static function checkLicenseAdaptationNC($content, $subcontent)
+    {
+        $license = $content->getAttribute("metadata")["license"] ?? "";
+        $subcontentLicense = $subcontent->getAttribute("metadata")["license"] ?? "";
+        if ($subcontentLicense === "U") {
+            return; // License should be set first anyway.
+        }
+
+        if (
+            strpos($subcontentLicense, "NC") !== false &&
+            strpos($license, "NC") === false
+        ) {
+            return ReportUtils::buildMessage(
+                "license",
+                "invalidLicenseAdaptation",
+                sprintf(
+                    _("Invalid license adaptation for %s: Does allow commercial use, but subcontent %s does not."),
+                    $content->getDescription(),
+                    $subcontent->getDescription()
+                ),
+                [
+                    "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
+                    "title" => $subcontent->getDescription("{title}"),
+                    "subContentId" => $subcontent->getAttribute("id"),
+                    // phpcs:ignore
+                    "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
+                ],
+                _("Ensure that the license of the subcontent is compatible with the license of the parent content.")
+            );
+        }
+    }
+
+    /**
+     * Check if the license of a content is adapted to its subcontent for BY.
+     *
+     * @param Content $content The content to check.
+     * @param Content|ContentFile $subcontent The subcontent or content file to check.
+     *
+     * @return array|undefined The message or undefined if OK.
+     */
+    private static function checkLicenseAdaptationBY($content, $subcontent)
+    {
+        $license = $content->getAttribute("metadata")["license"] ?? "";
+        $subcontentLicense = $subcontent->getAttribute("metadata")["license"] ?? "";
+        if ($subcontentLicense === "U") {
+            return; // License should be set first anyway.
+        }
+
+        if (
+            $subcontentLicense === "CC BY" &&
+            in_array($license, ["CC0 1.0", "PD", "CC PDM", "ODC PDDL"])
+        ) {
+            return ReportUtils::buildMessage(
+                "license",
+                "discouragedLicenseAdaptation",
+                sprintf(
+                    // phpcs:ignore
+                    _("Discouraged license adaptation for %s: Subcontent %s is licensed under a CC BY license, but content is more openly licensed."),
+                    $content->getDescription(),
+                    $subcontent->getDescription()
+                ),
+                [
+                    "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
+                    "title" => $subcontent->getDescription("{title}"),
+                    "subContentId" => $subcontent->getAttribute("id"),
+                    // phpcs:ignore
+                    "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
+                ],
+                _("Ensure that the license of the subcontent is compatible with the license of the parent content.")
+            );
         }
     }
 
@@ -187,9 +325,8 @@ class LicenseReport
         $license = $content->getAttribute("metadata")["license"] ?? "";
         $authors =
             $content->getAttribute("metadata")["authors"] ?? [];
-
         if (
-            (count($authors) !== 0 && ($authors["name"] ?? "") !== "") ||
+            (count($authors) !== 0 && ($authors[0]["name"] ?? "") !== "") ||
             $license === "CC PDM" ||
             $license === "PD"
         ) {
@@ -254,6 +391,7 @@ class LicenseReport
 
     /**
      * Check if the source link is missing.
+     * Creative Commons licenses in version 4.0 need a source link.
      * Creative Commons licenses prior to 4.0 and above 1.0 need a source link
      * if it contains a copyright notice or licensing information.
      * @see https://wiki.creativecommons.org/wiki/License_Versions#Attribution-specific_elements
@@ -308,7 +446,8 @@ class LicenseReport
                     "title" => $content->getDescription("{title}"),
                 ],
                 // phpcs:ignore
-                _("Add the link to the content in the metadata if the link target contains a copyright notice or licensing information.")
+                _("Add the link to the content in the metadata if the link target contains a copyright notice or licensing information."),
+                "warning"
             );
         }
     }
@@ -353,7 +492,8 @@ class LicenseReport
                     "title" => $content->getDescription("{title}"),
                 ],
                 // phpcs:ignore
-                _("If this is not your work and you made changes to a degree that you created a derivative, you must indicate your changes and all previous modifications in the metadata.")
+                _("If this is not your work and you made changes to a degree that you created a derivative, you must indicate your changes and all previous modifications in the metadata."),
+                "warning"
             );
         }
 
@@ -372,7 +512,8 @@ class LicenseReport
                     "title" => $content->getDescription("{title}"),
                 ],
                 // phpcs:ignore
-                _("If this is not your work and you made changes to a degree that you created a derivative, you must indicate your changes and all previous modifications in the metadata.")
+                _("If this is not your work and you made changes to a degree that you created a derivative, you must indicate your changes and all previous modifications in the metadata."),
+                "warning"
             );
         }
 
@@ -390,7 +531,8 @@ class LicenseReport
                     ),
                     "title" => $content->getDescription("{title}"),
                 ],
-                _("List any changes you made in the metadata.")
+                _("List any changes you made in the metadata."),
+                "warning"
             );
         }
     }
