@@ -57,7 +57,7 @@ class AccessibilityReport
                         //'machineName' => $library->libreTextA11y->machineName,
                         "description" => $libreText["description"],
                         "status" => $libreText["status"],
-                        "url" => $libreText["url"],
+                        "reference" => $libreText["url"],
                     ],
                     null,
                     "info"
