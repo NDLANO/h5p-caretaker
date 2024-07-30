@@ -337,7 +337,7 @@ class Content
                         "semanticsPath" => $semanticsPath,
                         "mime" => $params["object"]["mime"],
                         "metadata" => JSONUtils::copyrightToMetadata(
-                            $params["object"]["copyright"]
+                            $params["object"]["copyright"] ?? []
                         ),
                     ],
                 ]);
