@@ -130,8 +130,11 @@ class AccessibilityReport
                                 "subContentId" => $content->getAttribute("id"),
                                 "reference" => "https://www.w3.org/WAI/alt/"
                             ],
-                            // phpcs:ignore
-                            "recommendation" => _("Check whether the content type that uses the image offers a custom alternative text field or whether it is not required to have one here.")
+                            "recommendation" => _(
+                                "Check whether the content type that uses the image " .
+                                "offers a custom alternative text field or " .
+                                "whether it is not required to have one here."
+                            )
                         ]);
                     }
                 }
@@ -169,8 +172,10 @@ class AccessibilityReport
                 $content->getAttribute("params")["decorative"] ?? false;
 
             $title = $content->getDescription("{title}");
-            // phpcs:ignore
-            $recommendation = _("Check whether there is a reason for the image to not have an alternative text. If so, explicitly set the image as decorative in the editor.");
+            $recommendation = _(
+                "Check whether there is a reason for the image to not have an alternative text. " .
+                "If so, explicitly set the image as decorative in the editor."
+            );
 
             $hasCustomHandling = true;
         } elseif ($parentMachineName === "H5P.MemoryGame") {

@@ -176,8 +176,10 @@ class LicenseReport
                     // phpcs:ignore
                     "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
                 ],
-                // phpcs:ignore
-                "recommendation" => _("Ensure that the license of the subcontent is compatible with the license of the parent content.")
+                "recommendation" => _(
+                    "Ensure that the license of the subcontent is compatible " .
+                    "with the license of the parent content."
+                )
             ]);
         }
     }
@@ -231,8 +233,11 @@ class LicenseReport
                     // phpcs:ignore
                     "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
                 ],
-                // phpcs:ignore
-                "recommendation" => _("Ensure that your work is legally a collection or ensure that the license of the subcontent is compatible with the license of the parent content.")
+                "recommendation" => _(
+                    "Ensure that your work is legally a collection or ensure " .
+                    "that the license of the subcontent is compatible with " .
+                    "the license of the parent content."
+                )
             ]);
         }
     }
@@ -275,8 +280,10 @@ class LicenseReport
                     // phpcs:ignore
                     "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
                 ],
-                // phpcs:ignore
-                "recommendation" => _("Ensure that the license of the subcontent is compatible with the license of the parent content.")
+                "recommendation" => _(
+                    "Ensure that the license of the subcontent is compatible " .
+                    "with the license of the parent content."
+                )
             ]);
         }
     }
@@ -328,8 +335,10 @@ class LicenseReport
                     ),
                     "description" => [
                         sprintf(
-                            // phpcs:ignore
-                            _("Subcontent %s is licensed under a CC BY-SA %s license, but content is licensed under a GNU GPL license."),
+                            _(
+                                "Subcontent %s is licensed under a CC BY-SA %s license, " .
+                                "but content is licensed under a GNU GPL license."
+                            ),
                             $subcontent->getDescription(),
                             $subcontentLicenseVersion
                         ),
@@ -342,8 +351,11 @@ class LicenseReport
                         // phpcs:ignore
                         "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
                     ],
-                    // phpcs:ignore
-                    "recommendation" => _("Ensure that your work is legally a collection or ensure that the license of the subcontent is compatible with the license of the parent content.")
+                    "recommendation" => _(
+                        "Ensure that your work is legally a collection or " .
+                        "ensure that the license of the subcontent is compatible " .
+                        "with the license of the parent content."
+                    )
                 ]);
             } elseif ($license !== "CC BY-SA") {
                 return ReportUtils::buildMessage([
@@ -355,8 +367,10 @@ class LicenseReport
                     ),
                     "description" => [
                         sprintf(
-                            // phpcs:ignore
-                            _("Subcontent %s is licensed under a CC BY-SA license, but content %s is not licensed under a CC BY-SA license."),
+                            _(
+                                "Subcontent %s is licensed under a CC BY-SA license, " .
+                                "but content %s is not licensed under a CC BY-SA license."
+                            ),
                             $subcontent->getDescription(),
                             $content->getDescription()
                         ),
@@ -369,8 +383,11 @@ class LicenseReport
                         // phpcs:ignore
                         "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
                     ],
-                    // phpcs:ignore
-                    "recommendation" => _("Ensure that your work is legally a collection or ensure that the license of the subcontent is compatible with the license of the parent content.")
+                    "recommendation" => _(
+                        "Ensure that your work is legally a collection or " .
+                        "ensure that the license of the subcontent is compatible " .
+                        "with the license of the parent content."
+                    )
                 ]);
             } elseif (
                 $subcontentLicenseVersion === "1.0" &&
@@ -397,8 +414,11 @@ class LicenseReport
                         // phpcs:ignore
                         "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
                     ],
-                    // phpcs:ignore
-                    "recommendation" => _("Ensure that your work is legally a collection or ensure that the license of the subcontent is compatible with the license of the parent content.")
+                    "recommendation" => _(
+                        "Ensure that your work is legally a collection or " .
+                        "ensure that the license of the subcontent is compatible " .
+                        "with the license of the parent content."
+                    )
                 ]);
             } elseif (
                 isset($validVersions[$subcontentLicenseVersion]) &&
@@ -413,8 +433,11 @@ class LicenseReport
                     ),
                     "description" => [
                         sprintf(
-                            // phpcs:ignore
-                            _("Subcontent %s is licensed under a CC BY-SA %s license, but content %s uses version %s instead of the same license version or later version."),
+                            _(
+                                "Subcontent %s is licensed under a CC BY-SA %s license, " .
+                                "but content %s uses version %s instead of " .
+                                "the same license version or later version."
+                            ),
                             $subcontent->getDescription(),
                             $subcontentLicenseVersion,
                             $content->getDescription(),
@@ -429,8 +452,11 @@ class LicenseReport
                         // phpcs:ignore
                         "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
                     ],
-                    // phpcs:ignore
-                    "recommendation" => _("Ensure that your work is legally a collection or ensure that the license of the subcontent is compatible with the license of the parent content.")
+                    "recommendation" => _(
+                        "Ensure that your work is legally a collection or " .
+                        "ensure that the license of the subcontent is compatible " .
+                        "with the license of the parent content."
+                    )
                 ]);
             }
         } elseif ($subcontentLicense === "CC BY-NC-SA") {
@@ -444,8 +470,10 @@ class LicenseReport
                     ),
                     "description" => [
                         sprintf(
-                            // phpcs:ignore
-                            _("Subcontent %s is licensed under a CC BY-NC-SA license, but content %s is not licensed under a CC BY-NC-SA license."),
+                            _(
+                                "Subcontent %s is licensed under a CC BY-NC-SA license, " .
+                                "but content %s is not licensed under a CC BY-NC-SA license."
+                            ),
                             $subcontent->getDescription(),
                             $content->getDescription()
                         ),
@@ -458,8 +486,11 @@ class LicenseReport
                         // phpcs:ignore
                         "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
                     ],
-                    // phpcs:ignore
-                    "recommendation" => _("Ensure that your work is legally a collection or ensure that the license of the subcontent is compatible with the license of the parent content.")
+                    "recommendation" => _(
+                        "Ensure that your work is legally a collection or " .
+                        "ensure that the license of the subcontent is compatible " .
+                        "with the license of the parent content."
+                    )
                 ]);
             } elseif (
                 $subcontentLicenseVersion === "1.0" &&
@@ -474,8 +505,10 @@ class LicenseReport
                     ),
                     "description" => [
                         sprintf(
-                            // phpcs:ignore
-                            _("Subcontent %s is licensed under a CC BY-NC-SA 1.0 license, but parent content is not."),
+                            _(
+                                "Subcontent %s is licensed under a CC BY-NC-SA 1.0 license, " .
+                                "but parent content is not."
+                            ),
                             $subcontent->getDescription()
                         ),
                         _("This is not allowed for remixes, but only for collections.")
@@ -487,8 +520,11 @@ class LicenseReport
                         // phpcs:ignore
                         "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
                     ],
-                    // phpcs:ignore
-                    "recommendation" => _("Ensure that your work is legally a collection or ensure that the license of the subcontent is compatible with the license of the parent content.")
+                    "recommendation" => _(
+                        "Ensure that your work is legally a collection or " .
+                        "ensure that the license of the subcontent is compatible " .
+                        "with the license of the parent content."
+                    )
                 ]);
             } elseif (
                 isset($validVersions[$subcontentLicenseVersion]) &&
@@ -503,8 +539,10 @@ class LicenseReport
                     ),
                     "description" => [
                         sprintf(
-                            // phpcs:ignore
-                            _("Subcontent %s is licensed under a CC BY-NC-SA %s license, but content %s uses version %s instead of the same license version or later version."),
+                            _(
+                                "Subcontent %s is licensed under a CC BY-NC-SA %s license, " .
+                                "but content %s uses version %s instead of the same license version or later version."
+                            ),
                             $subcontent->getDescription(),
                             $subcontentLicenseVersion,
                             $content->getDescription(),
@@ -519,8 +557,11 @@ class LicenseReport
                         // phpcs:ignore
                         "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
                     ],
-                    // phpcs:ignore
-                    "recommendation" => _("Ensure that your work is legally a collection or ensure that the license of the subcontent is compatible with the license of the parent content.")
+                    "recommendation" => _(
+                        "Ensure that your work is legally a collection or " .
+                        "ensure that the license of the subcontent is compatible " .
+                        "with the license of the parent content."
+                    )
                 ]);
             }
         }
@@ -800,8 +841,10 @@ class LicenseReport
                     "title" => $content->getDescription("{title}"),
                     "reference" => $reference
                 ],
-                // phpcs:ignore
-                "recommendation" => _("Add the link to the content in the metadata if the link target contains a copyright notice or licensing information."),
+                "recommendation" => _(
+                    "Add the link to the content in the metadata " .
+                    "if the link target contains a copyright notice or licensing information."
+                ),
                 "level" => "warning"
             ]);
         }
@@ -859,8 +902,11 @@ class LicenseReport
                     "title" => $content->getDescription("{title}"),
                     "reference" => $reference
                 ],
-                // phpcs:ignore
-                "recommendation" => _("If this is not your work and you made changes to a degree that you created a derivative, you must indicate your changes and all previous modifications in the metadata."),
+                "recommendation" => _(
+                    "If this is not your work and you made changes to a degree " .
+                    "that you created a derivative, you must indicate your changes and " .
+                    "all previous modifications in the metadata."
+                ),
                 "level" => "warning"
             ]);
         }
@@ -880,8 +926,11 @@ class LicenseReport
                     "title" => $content->getDescription("{title}"),
                     "reference" => $reference
                 ],
-                // phpcs:ignore
-                "recommendation" => _("If this is not your work and you made changes to a degree that you created a derivative, you must indicate your changes and all previous modifications in the metadata."),
+                "recommendation" => _(
+                    "If this is not your work and you made changes to a degree " .
+                    "that you created a derivative, you must indicate your changes and " .
+                    "all previous modifications in the metadata."
+                ),
                 "level" => "warning"
             ]);
         }
