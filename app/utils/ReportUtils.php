@@ -28,6 +28,7 @@ class ReportUtils
     /**
      * Build a message for a report.
      *
+     * @param array $params The parameters for the message.
      * @param string $category The category of the message.
      * @param string $type The type of the message.
      * @param string|array $summary The summary of the message.
@@ -37,14 +38,16 @@ class ReportUtils
      *
      * @return array The message.
      */
-    public static function buildMessage(
-        $category,
-        $type,
-        $summary,
-        $details = null,
-        $recommendation = null,
-        $level = "error"
-    ) {
+    public static function buildMessage($params)
+    {
+        $category = $params["category"];
+        $type = $params["type"];
+        $summary = $params["summary"];
+        $description = $params["description"] ?? null;
+        $details = $params["details"] ?? null;
+        $recommendation = $params["recommendation"] ?? null;
+        $level = $params["level"] ?? "error";
+
         if (is_array($summary)) {
             $summary = implode(" ", $summary);
         }
@@ -55,6 +58,10 @@ class ReportUtils
             "summary" => $summary,
         ];
 
+        if ($description !== null) {
+            $message["description"] = $description;
+        }
+
         if ($recommendation !== null) {
             $message["recommendation"] = $recommendation;
         }
@@ -64,6 +71,13 @@ class ReportUtils
         }
 
         if ($details !== null && is_array($details)) {
+            $details = array_filter(
+                $details,
+                function ($value) {
+                    return ($value !== null && $value !== "");
+                }
+            );
+
             $message["details"] = $details;
         }
 

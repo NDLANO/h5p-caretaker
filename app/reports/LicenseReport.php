@@ -146,23 +146,23 @@ class LicenseReport
             strpos($subcontentLicense, "NC") !== false &&
             strpos($license, "NC") === false
         ) {
-            return ReportUtils::buildMessage(
-                "license",
-                "invalidLicenseAdaptation",
-                sprintf(
+            return ReportUtils::buildMessage([
+                "category" => "license",
+                "type" => "invalidLicenseAdaptation",
+                "summary" => sprintf(
                     _("Invalid license adaptation for %s: Does allow commercial use, but subcontent %s does not."),
                     $content->getDescription(),
                     $subcontent->getDescription()
                 ),
-                [
+                "details" => [
                     "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
                     "title" => $subcontent->getDescription("{title}"),
                     "subContentId" => $subcontent->getAttribute("id"),
                     // phpcs:ignore
                     "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
                 ],
-                _("Ensure that the license of the subcontent is compatible with the license of the parent content.")
-            );
+                "recommendation" => _("Ensure that the license of the subcontent is compatible with the license of the parent content.")
+            ]);
         }
     }
 
@@ -186,24 +186,24 @@ class LicenseReport
             $subcontentLicense === "CC BY" &&
             in_array($license, ["CC0 1.0", "PD", "CC PDM", "ODC PDDL"])
         ) {
-            return ReportUtils::buildMessage(
-                "license",
-                "discouragedLicenseAdaptation",
-                sprintf(
+            return ReportUtils::buildMessage([
+                "category" => "license",
+                "type" => "discouragedLicenseAdaptation",
+                "summary" => sprintf(
                     // phpcs:ignore
                     _("Discouraged license adaptation for %s: Subcontent %s is licensed under a CC BY license, but content is more openly licensed."),
                     $content->getDescription(),
                     $subcontent->getDescription()
                 ),
-                [
+                "details" => [
                     "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
                     "title" => $subcontent->getDescription("{title}"),
                     "subContentId" => $subcontent->getAttribute("id"),
                     // phpcs:ignore
                     "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
                 ],
-                _("Ensure that the license of the subcontent is compatible with the license of the parent content.")
-            );
+                "recommendation" => _("Ensure that the license of the subcontent is compatible with the license of the parent content.")
+            ]);
         }
     }
 
@@ -263,17 +263,17 @@ class LicenseReport
                 $content->getParent()->getDescription()
             );
 
-            return ReportUtils::buildMessage(
-                "license",
-                "missingLicense",
-                $summary,
-                [
-                "semanticsPath" => $content->getAttribute("semanticsPath"),
-                "title" => $content->getDescription("{title}"),
-                "subContentId" => $content->getAttribute("id"),
+            return ReportUtils::buildMessage([
+                "category" => "license",
+                "type" => "missingLicense",
+                "summary" => $summary,
+                "details" => [
+                    "semanticsPath" => $content->getAttribute("semanticsPath"),
+                    "title" => $content->getDescription("{title}"),
+                    "subContentId" => $content->getAttribute("id"),
                 ],
-                _("Check the license information of the content and add it to the metadata.")
-            );
+                "recommendation" => _("Check the license information of the content and add it to the metadata.")
+            ]);
     }
 
     /**
@@ -297,19 +297,19 @@ class LicenseReport
             return;
         }
 
-        return ReportUtils::buildMessage(
-            "license",
-            "missingLicenseVersion",
-            sprintf(
+        return ReportUtils::buildMessage([
+            "category" => "license",
+            "type" => "missingLicenseVersion",
+            "summary" => sprintf(
                 _("Missing license version information for %s"),
                 $content->getDescription()
             ),
-            [
+            "details" => [
                 "semanticsPath" => $content->getAttribute("semanticsPath"),
                 "title" => $content->getDescription("{title}"),
             ],
-            _("Set the license version in the metadata.")
-        );
+            "recommendation" => _("Set the license version in the metadata.")
+        ]);
     }
 
     /**
@@ -345,20 +345,20 @@ class LicenseReport
             $reference = "https://www.gnu.org/licenses/gpl-3.0.txt";
         }
 
-        return ReportUtils::buildMessage(
-            "license",
-            "missingAuthor",
-            sprintf(
+        return ReportUtils::buildMessage([
+            "category" => "license",
+            "type" => "missingAuthor",
+            "summary" => sprintf(
                 _("Missing author information for %s"),
                 $content->getDescription()
             ),
-            [
+            "details" => [
                 "semanticsPath" => $content->getAttribute("semanticsPath"),
                 "title" => $content->getDescription("{title}"),
                 "reference" => $reference
             ],
-            _("Add the author name or creator name in the metadata.")
-        );
+            "recommendation" => _("Add the author name or creator name in the metadata.")
+        ]);
     }
 
     /**
@@ -395,22 +395,22 @@ class LicenseReport
             );
         }
 
-        return  ReportUtils::buildMessage(
-            "license",
-            "missingTitle",
-            sprintf(
+        return  ReportUtils::buildMessage([
+            "category" => "license",
+            "type" => "missingTitle",
+            "summary" => sprintf(
                 _("Missing title information for %s"),
                 $content->getDescription()
             ),
-            [
+            "details" => [
                 "semanticsPath" => $content->getAttribute(
                     "semanticsPath"
                 ),
                 "title" => $content->getDescription("{title}"),
                 "reference" => $reference
             ],
-            _("Add the title of the content (if supplied) in the metadata.")
-        );
+            "recommendation" => _("Add the title of the content (if supplied) in the metadata.")
+        ]);
     }
 
     /**
@@ -450,31 +450,31 @@ class LicenseReport
         }
 
         if ($licenseVersion === "4.0") {
-            return ReportUtils::buildMessage(
-                "license",
-                "missingSource",
-                sprintf(
+            return ReportUtils::buildMessage([
+                "category" => "license",
+                "type" => "missingSource",
+                "summary" => sprintf(
                     _("Missing source information for %s"),
                     $content->getDescription()
                 ),
-                [
+                "details" => [
                     "semanticsPath" => $content->getAttribute(
                         "semanticsPath"
                     ),
                     "title" => $content->getDescription("{title}"),
                     "reference" => $reference
                 ],
-                _("Add the link to the content in the metadata.")
-            );
+                "recommendation" => _("Add the link to the content in the metadata.")
+            ]);
         } else {
-            return ReportUtils::buildMessage(
-                "license",
-                "missingSource",
-                sprintf(
+            return ReportUtils::buildMessage([
+                "category" => "license",
+                "type" => "missingSource",
+                "summary" => sprintf(
                     _("Potentially missing source information for %s"),
                     $content->getDescription()
                 ),
-                [
+                "details" => [
                     "semanticsPath" => $content->getAttribute(
                         "semanticsPath"
                     ),
@@ -482,9 +482,9 @@ class LicenseReport
                     "reference" => $reference
                 ],
                 // phpcs:ignore
-                _("Add the link to the content in the metadata if the link target contains a copyright notice or licensing information."),
-                "warning"
-            );
+                "recommendation" => _("Add the link to the content in the metadata if the link target contains a copyright notice or licensing information."),
+                "level" => "warning"
+            ]);
         }
     }
 
@@ -526,14 +526,14 @@ class LicenseReport
         }
 
         if (strpos($license, "CC BY") === 0 && $licenseVersion === "4.0") {
-            return ReportUtils::buildMessage(
-                "license",
-                "missingChanges",
-                sprintf(
+            return ReportUtils::buildMessage([
+                "category" => "license",
+                "type" => "missingChanges",
+                "summary" => sprintf(
                     _("Potentially missing changes information for %s"),
                     $content->getDescription()
                 ),
-                [
+                "details" => [
                     "semanticsPath" => $content->getAttribute(
                         "semanticsPath"
                     ),
@@ -541,20 +541,20 @@ class LicenseReport
                     "reference" => $reference
                 ],
                 // phpcs:ignore
-                _("If this is not your work and you made changes to a degree that you created a derivative, you must indicate your changes and all previous modifications in the metadata."),
-                "warning"
-            );
+                "recommendation" => _("If this is not your work and you made changes to a degree that you created a derivative, you must indicate your changes and all previous modifications in the metadata."),
+                "level" => "warning"
+            ]);
         }
 
         if (strpos($license, "CC BY") === 0 && $licenseVersion !== "4.0") {
-            return ReportUtils::buildMessage(
-                "license",
-                "missingChanges",
-                sprintf(
+            return ReportUtils::buildMessage([
+                "category" => "license",
+                "type" => "missingChanges",
+                "summary" => sprintf(
                     _("Potentially missing changes information for %s"),
                     $content->getDescription()
                 ),
-                [
+                "details" => [
                     "semanticsPath" => $content->getAttribute(
                         "semanticsPath"
                     ),
@@ -562,29 +562,29 @@ class LicenseReport
                     "reference" => $reference
                 ],
                 // phpcs:ignore
-                _("If this is not your work and you made changes to a degree that you created a derivative, you must indicate your changes and all previous modifications in the metadata."),
-                "warning"
-            );
+                "recommendation" => _("If this is not your work and you made changes to a degree that you created a derivative, you must indicate your changes and all previous modifications in the metadata."),
+                "level" => "warning"
+            ]);
         }
 
         if ($license === "GNU GPL") {
-            return ReportUtils::buildMessage(
-                "license",
-                "missingChanges",
-                sprintf(
+            return ReportUtils::buildMessage([
+                "category" => "license",
+                "type" => "missingChanges",
+                "summary" => sprintf(
                     _("Potentially missing changes information for %s"),
                     $content->getDescription()
                 ),
-                [
+                "details" => [
                     "semanticsPath" => $content->getAttribute(
                         "semanticsPath"
                     ),
                     "title" => $content->getDescription("{title}"),
                     "reference" => $reference
                 ],
-                _("List any changes you made in the metadata."),
-                "warning"
-            );
+                "recommendation" => _("List any changes you made in the metadata."),
+                "level" => "warning"
+            ]);
         }
     }
 
@@ -607,21 +607,21 @@ class LicenseReport
             return;
         }
 
-        return ReportUtils::buildMessage(
-            "license",
-            "missingLicenseExtras",
-            sprintf(
+        return ReportUtils::buildMessage([
+            "category" => "license",
+            "type" => "missingLicenseExtras",
+            "summary" => sprintf(
                 _("Missing license extras information for %s"),
                 $content->getDescription()
             ),
-            [
+            "details" => [
                 "semanticsPath" => $content->getAttribute(
                     "semanticsPath"
                 ),
                 "title" => $content->getDescription("{title}"),
                 "reference" => "https://www.gnu.org/licenses/gpl-3.0.txt"
             ],
-            _("Add the original GPL license text in the \"license extras\" field.")
-        );
+            "recommendation" => _("Add the original GPL license text in the \"license extras\" field.")
+        ]);
     }
 }

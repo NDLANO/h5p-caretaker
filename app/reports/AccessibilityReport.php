@@ -47,11 +47,11 @@ class AccessibilityReport
                         $content->getAttribute("versionedMachineName")
                     )[0]
                 );
-                $report["messages"][] = ReportUtils::buildMessage(
-                    "accessibility",
-                    "libreText",
-                    $summary,
-                    [
+                $report["messages"][] = ReportUtils::buildMessage([
+                    "category" => "accessibility",
+                    "type" => "libreText",
+                    "summary" => $summary,
+                    "details" => [
                         "type" => $libreText["type"],
                         // Should be added in the libretext API response, "type" is "title" and not unique
                         //'machineName' => $library->libreTextA11y->machineName,
@@ -59,9 +59,8 @@ class AccessibilityReport
                         "status" => $libreText["status"],
                         "reference" => $libreText["url"],
                     ],
-                    null,
-                    "info"
-                );
+                    "level" => "info"
+                ]);
             }
         }
 
@@ -89,14 +88,14 @@ class AccessibilityReport
 
                     if ($hasCustomHandling) {
                         if ($alt === "" && $decorative === false) {
-                            $report["messages"][] = ReportUtils::buildMessage(
-                                "accessibility",
-                                "missingAltText",
-                                sprintf(
+                            $report["messages"][] = ReportUtils::buildMessage([
+                                "category" => "accessibility",
+                                "type" => "missingAltText",
+                                "summary" => sprintf(
                                     _("Missing alt text for image inside %s"),
                                     $content->getDescription()
                                 ),
-                                [
+                                "details" => [
                                     "path" => $contentFile->getAttribute(
                                         "path"
                                     ),
@@ -109,18 +108,18 @@ class AccessibilityReport
                                     ),
                                     "reference" => "https://www.w3.org/WAI/alt/"
                                 ],
-                                $recommendation
-                            );
+                                "recommendation" => $recommendation
+                            ]);
                         }
                     } else {
-                        $report["messages"][] = ReportUtils::buildMessage(
-                            "accessibility",
-                            "missingAltText",
-                            sprintf(
+                        $report["messages"][] = ReportUtils::buildMessage([
+                            "category" => "accessibility",
+                            "type" => "missingAltText",
+                            "summary" => sprintf(
                                 _("Missing alt text for image inside %s"),
                                 $content->getDescription()
                             ),
-                            [
+                            "details" => [
                                 "path" => $contentFile->getAttribute("path"),
                                 "semanticsPath" => $contentFile->getAttribute(
                                     "semanticsPath"
@@ -132,8 +131,8 @@ class AccessibilityReport
                                 "reference" => "https://www.w3.org/WAI/alt/"
                             ],
                             // phpcs:ignore
-                            _("Check whether the content type that uses the image offers a custom alternative text field or whether it is not required to have one here.")
-                        );
+                            "recommendation" => _("Check whether the content type that uses the image offers a custom alternative text field or whether it is not required to have one here.")
+                        ]);
                     }
                 }
             }
