@@ -91,7 +91,9 @@ class LicenseReport
             foreach (
                 [
                     self::checkLicenseAdaptationNC($content, $child),
-                    self::checkLicenseAdaptationBY($content, $child)
+                    self::checkLicenseAdaptationND($content, $child),
+                    self::checkLicenseAdaptationBY($content, $child),
+                    self::checkLicenseAdaptationVersion($content, $child)
                 ] as $result
             ) {
                 if (isset($result)) {
@@ -113,7 +115,9 @@ class LicenseReport
                 foreach (
                     [
                         self::checkLicenseAdaptationNC($content, $contentFile),
-                        self::checkLicenseAdaptationBY($content, $contentFile)
+                        self::checkLicenseAdaptationND($content, $child),
+                        self::checkLicenseAdaptationBY($content, $contentFile),
+                        self::checkLicenseAdaptationVersion($content, $child)
                     ] as $result
                 ) {
                     if (isset($result)) {
@@ -143,6 +147,13 @@ class LicenseReport
         }
 
         if (
+            strpos($license, "CC BY") !== 0 ||
+            strpos($subcontentLicense, "CC BY") !== 0
+        ) {
+            return; // Only relevant for CC BY licenses
+        }
+
+        if (
             strpos($subcontentLicense, "NC") !== false &&
             strpos($license, "NC") === false
         ) {
@@ -150,9 +161,13 @@ class LicenseReport
                 "category" => "license",
                 "type" => "invalidLicenseAdaptation",
                 "summary" => sprintf(
-                    _("Invalid license adaptation for %s: Does allow commercial use, but subcontent %s does not."),
-                    $content->getDescription(),
-                    $subcontent->getDescription()
+                    _("Invalid license adaptation for %s"),
+                    $content->getDescription()
+                ),
+                "description" => sprintf(
+                    _("Subcontent %s does not allow commercial use, but parent content %s does."),
+                    $subcontent->getDescription(),
+                    $content->getDescription()
                 ),
                 "details" => [
                     "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
@@ -162,6 +177,61 @@ class LicenseReport
                     "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
                 ],
                 "recommendation" => _("Ensure that the license of the subcontent is compatible with the license of the parent content.")
+            ]);
+        }
+    }
+
+    /**
+     * Check if the license of a content is adapted to its subcontent for ND.
+     *
+     * @param Content $content The content to check.
+     * @param Content|ContentFile $subcontent The subcontent or content file to check.
+     *
+     * @return array The messages.
+     */
+    private static function checkLicenseAdaptationND($content, $subcontent)
+    {
+        $license = $content->getAttribute("metadata")["license"] ?? "";
+        $subcontentLicense = $subcontent->getAttribute("metadata")["license"] ?? "";
+        if ($subcontentLicense === "U") {
+            return; // License should be set first anyway.
+        }
+
+        if (
+            strpos($license, "CC BY") !== 0 ||
+            strpos($subcontentLicense, "CC BY") !== 0
+        ) {
+            return; // Only relevant for CC BY licenses
+        }
+
+        if (
+            strpos($subcontentLicense, "ND") !== false &&
+            strpos($license, "ND") === false
+        ) {
+            return ReportUtils::buildMessage([
+                "category" => "license",
+                "type" => "invalidLicenseAdaptation",
+                "summary" => sprintf(
+                    _("Probably invalid license adaptation for %s"),
+                    $content->getDescription()
+                ),
+                "description" => [
+                    sprintf(
+                        _("Subcontent %s does not allow derivates, but parent %s uses it."),
+                        $subcontent->getDescription(),
+                        $content->getDescription()
+                    ),
+                    _("This is not allowed for remixes, but only for collections.")
+                ],
+                "details" => [
+                    "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
+                    "title" => $subcontent->getDescription("{title}"),
+                    "subContentId" => $subcontent->getAttribute("id"),
+                    // phpcs:ignore
+                    "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
+                ],
+                // phpcs:ignore
+                "recommendation" => _("Ensure that your work is legally a collection or ensure that the license of the subcontent is compatible with the license of the parent content.")
             ]);
         }
     }
@@ -190,9 +260,11 @@ class LicenseReport
                 "category" => "license",
                 "type" => "discouragedLicenseAdaptation",
                 "summary" => sprintf(
-                    // phpcs:ignore
-                    _("Discouraged license adaptation for %s: Subcontent %s is licensed under a CC BY license, but content is more openly licensed."),
-                    $content->getDescription(),
+                    _("Discouraged license adaptation for %s"),
+                    $content->getDescription()
+                ),
+                "description" => sprintf(
+                    _("Subcontent %s is licensed under a CC BY license, but content is more openly licensed."),
                     $subcontent->getDescription()
                 ),
                 "details" => [
@@ -204,6 +276,245 @@ class LicenseReport
                 ],
                 "recommendation" => _("Ensure that the license of the subcontent is compatible with the license of the parent content.")
             ]);
+        }
+    }
+
+    /**
+     * Check if the license of a content is adapted to its subcontent for version.
+     *
+     * @param Content $content The content to check.
+     * @param Content|ContentFile $subcontent The subcontent or content file to check.
+     *
+     * @return array|undefined The message or undefined if OK.
+     */
+    private static function checkLicenseAdaptationVersion($content, $subcontent)
+    {
+        $license = $content->getAttribute("metadata")["license"] ?? "";
+        $licenseVersion =
+            $content->getAttribute("metadata")["licenseVersion"] ?? "";
+        $subcontentLicense = $subcontent->getAttribute("metadata")["license"] ?? "";
+        $subcontentLicenseVersion =
+            $subcontent->getAttribute("metadata")["licenseVersion"] ?? "";
+
+        if ($subcontentLicense === "U") {
+            return; // License should be set first anyway.
+        }
+
+        if (
+            strpos($subcontentLicense, "CC BY") !== 0 ||
+            $subcontentLicenseVersion === "" ||
+            $licenseVersion === ""
+        ) {
+            return; // Version should be set anyway
+        }
+
+        if ($subcontentLicense === "CC BY-SA") {
+            if ($subcontentLicenseVersion !== "4.0" && $license === "GNU GPL") {
+                return ReportUtils::buildMessage([
+                    "category" => "license",
+                    "type" => "invalidLicenseAdaptation",
+                    "summary" => sprintf(
+                        _("Probably invalid license adaptation for %s"),
+                        $content->getDescription()
+                    ),
+                    "description" => [
+                        sprintf(
+                            // phpcs:ignore
+                            _("Subcontent %s is licensed under a CC BY-SA %s license, but content is licensed under a GNU GPL license."),
+                            $subcontent->getDescription(),
+                            $subcontentLicenseVersion
+                        ),
+                        _("This is not allowed for remixes, but only for collections.")
+                    ],
+                    "details" => [
+                        "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
+                        "title" => $subcontent->getDescription("{title}"),
+                        "subContentId" => $subcontent->getAttribute("id"),
+                        // phpcs:ignore
+                        "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
+                    ],
+                    // phpcs:ignore
+                    "recommendation" => _("Ensure that your work is legally a collection or ensure that the license of the subcontent is compatible with the license of the parent content.")
+                ]);
+            } elseif ($license !== "CC BY-SA") {
+                return ReportUtils::buildMessage([
+                    "category" => "license",
+                    "type" => "invalidLicenseAdaptation",
+                    "summary" => sprintf(
+                        _("Probably invalid license adaptation for %s"),
+                        $content->getDescription()
+                    ),
+                    "description" => [
+                        sprintf(
+                            _("Subcontent %s is licensed under a CC BY-SA license, but content %s is not licensed under a CC BY-SA license."),
+                            $subcontent->getDescription(),
+                            $content->getDescription()
+                        ),
+                        _("This is not allowed for remixes, but only for collections.")
+                    ],
+                    "details" => [
+                        "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
+                        "title" => $subcontent->getDescription("{title}"),
+                        "subContentId" => $subcontent->getAttribute("id"),
+                        // phpcs:ignore
+                        "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
+                    ],
+                    // phpcs:ignore
+                    "recommendation" => _("Ensure that your work is legally a collection or ensure that the license of the subcontent is compatible with the license of the parent content.")
+                ]);
+            } elseif (
+                $subcontentLicenseVersion === "1.0" &&
+                $licenseVersion !== "1.0"
+            ) {
+                return ReportUtils::buildMessage([
+                    "category" => "license",
+                    "type" => "invalidLicenseAdaptation",
+                    "summary" => sprintf(
+                        _("Probably invalid license adaptation for %s"),
+                        $content->getDescription()
+                    ),
+                    "description" => [
+                        sprintf(
+                            _("Subcontent %s is licensed under a CC BY-SA 1.0 license, but parent content is not."),
+                            $subcontent->getDescription()
+                        ),
+                        _("This is not allowed for remixes, but only for collections.")
+                    ],
+                    "details" => [
+                        "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
+                        "title" => $subcontent->getDescription("{title}"),
+                        "subContentId" => $subcontent->getAttribute("id"),
+                        // phpcs:ignore
+                        "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
+                    ],
+                    // phpcs:ignore
+                    "recommendation" => _("Ensure that your work is legally a collection or ensure that the license of the subcontent is compatible with the license of the parent content.")
+                ]);
+            } elseif (
+                ($subcontentLicenseVersion === "2.0" && $licenseVersion !== "2.0" && $licenseVersion !== "2.5" && $licenseVersion !== "3.0" && $licenseVersion !== "4.0") ||
+                ($subcontentLicenseVersion === "2.5" && $licenseVersion !== "2.5" && $licenseVersion !== "3.0" && $licenseVersion !== "4.0") ||
+                ($subcontentLicenseVersion === "3.0" && $licenseVersion !== "3.0" && $licenseVersion !== "4.0") ||
+                ($subcontentLicenseVersion === "4.0" && $licenseVersion !== "4.0")
+            ) {
+                return ReportUtils::buildMessage([
+                    "category" => "license",
+                    "type" => "invalidLicenseAdaptation",
+                    "summary" => sprintf(
+                        _("Probably invalid license adaptation for %s"),
+                        $content->getDescription()
+                    ),
+                    "description" => [
+                        sprintf(
+                            _("Subcontent %s is licensed under a CC BY-SA %s license, but content %s uses version %s instead of the same license version or later version."),
+                            $subcontent->getDescription(),
+                            $subcontentLicenseVersion,
+                            $content->getDescription(),
+                            $licenseVersion
+                        ),
+                        _("This is not allowed for remixes, but only for collections.")
+                    ],
+                    "details" => [
+                        "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
+                        "title" => $subcontent->getDescription("{title}"),
+                        "subContentId" => $subcontent->getAttribute("id"),
+                        // phpcs:ignore
+                        "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
+                    ],
+                    // phpcs:ignore
+                    "recommendation" => _("Ensure that your work is legally a collection or ensure that the license of the subcontent is compatible with the license of the parent content.")
+                ]);
+            }
+        } elseif ($subcontentLicense === "CC BY-NC-SA") {
+            if ($license !== "CC BY-NC-SA") {
+                return ReportUtils::buildMessage([
+                    "category" => "license",
+                    "type" => "invalidLicenseAdaptation",
+                    "summary" => sprintf(
+                        _("Probably invalid license adaptation for %s"),
+                        $content->getDescription()
+                    ),
+                    "description" => [
+                        sprintf(
+                            // phpcs:ignore
+                            _("Subcontent %s is licensed under a CC BY-NC-SA license, but content %s is not licensed under a CC BY-NC-SA license."),
+                            $subcontent->getDescription(),
+                            $content->getDescription()
+                        ),
+                        _("This is not allowed for remixes, but only for collections.")
+                    ],
+                    "details" => [
+                        "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
+                        "title" => $subcontent->getDescription("{title}"),
+                        "subContentId" => $subcontent->getAttribute("id"),
+                        // phpcs:ignore
+                        "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
+                    ],
+                    // phpcs:ignore
+                    "recommendation" => _("Ensure that your work is legally a collection or ensure that the license of the subcontent is compatible with the license of the parent content.")
+                ]);
+            } elseif (
+                $subcontentLicenseVersion === "1.0" &&
+                $licenseVersion !== "1.0"
+            ) {
+                return ReportUtils::buildMessage([
+                    "category" => "license",
+                    "type" => "invalidLicenseAdaptation",
+                    "summary" => sprintf(
+                        _("Probably invalid license adaptation for %s"),
+                        $content->getDescription()
+                    ),
+                    "description" => [
+                        sprintf(
+                            // phpcs:ignore
+                            _("Subcontent %s is licensed under a CC BY-NC-SA 1.0 license, but parent content is not."),
+                            $subcontent->getDescription()
+                        ),
+                        _("This is not allowed for remixes, but only for collections.")
+                    ],
+                    "details" => [
+                        "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
+                        "title" => $subcontent->getDescription("{title}"),
+                        "subContentId" => $subcontent->getAttribute("id"),
+                        // phpcs:ignore
+                        "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
+                    ],
+                    // phpcs:ignore
+                    "recommendation" => _("Ensure that your work is legally a collection or ensure that the license of the subcontent is compatible with the license of the parent content.")
+                ]);
+            } elseif (
+                ($subcontentLicenseVersion === "2.0" && $licenseVersion !== "2.0" && $licenseVersion !== "2.5" && $licenseVersion !== "3.0" && $licenseVersion !== "4.0") ||
+                ($subcontentLicenseVersion === "2.5" && $licenseVersion !== "2.5" && $licenseVersion !== "3.0" && $licenseVersion !== "4.0") ||
+                ($subcontentLicenseVersion === "3.0" && $licenseVersion !== "3.0" && $licenseVersion !== "4.0") ||
+                ($subcontentLicenseVersion === "4.0" && $licenseVersion !== "4.0")
+            ) {
+                return ReportUtils::buildMessage([
+                    "category" => "license",
+                    "type" => "invalidLicenseAdaptation",
+                    "summary" => sprintf(
+                        _("Probably invalid license adaptation for %s"),
+                        $content->getDescription()
+                    ),
+                    "description" => [
+                        sprintf(
+                            _("Subcontent %s is licensed under a CC BY-NC-SA %s license, but content %s uses version %s instead of the same license version or later version."),
+                            $subcontent->getDescription(),
+                            $subcontentLicenseVersion,
+                            $content->getDescription(),
+                            $licenseVersion
+                        ),
+                        _("This is not allowed for remixes, but only for collections.")
+                    ],
+                    "details" => [
+                        "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
+                        "title" => $subcontent->getDescription("{title}"),
+                        "subContentId" => $subcontent->getAttribute("id"),
+                        // phpcs:ignore
+                        "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
+                    ],
+                    // phpcs:ignore
+                    "recommendation" => _("Ensure that your work is legally a collection or ensure that the license of the subcontent is compatible with the license of the parent content.")
+                ]);
+            }
         }
     }
 

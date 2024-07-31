@@ -157,7 +157,7 @@ class LocaleUtils
             "missingChanges" => _("missingChanges"),
             "missingAltText" => _("missingAltText"),
             "libreText" => "libreText",
-            "invalidLicenseAdaptation" => "invalidLicenseAdaptation",
+            "invalidLicenseAdaptation" => _("invalidLicenseAdaptation"),
         ];
 
         if ($isEnglish) {

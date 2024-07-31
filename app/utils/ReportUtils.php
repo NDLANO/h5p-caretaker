@@ -52,6 +52,14 @@ class ReportUtils
             $summary = implode(" ", $summary);
         }
 
+        if (is_array($description)) {
+            $description = implode(" ", $description);
+        }
+
+        if (is_array($recommendation)) {
+            $recommendation = implode(" ", $recommendation);
+        }
+
         $message = [
             "category" => $category,
             "type" => $type,
