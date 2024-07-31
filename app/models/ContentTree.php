@@ -94,7 +94,7 @@ class ContentTree
             $contentFiles = $content->getAttribute("contentFiles") ?? [];
             foreach ($contentFiles as $contentFile) {
                 $pathSegments = explode(
-                    "/",
+                    DIRECTORY_SEPARATOR,
                     $contentFile->getAttribute("path")
                 );
 
