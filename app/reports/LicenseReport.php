@@ -176,6 +176,7 @@ class LicenseReport
                     // phpcs:ignore
                     "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
                 ],
+                // phpcs:ignore
                 "recommendation" => _("Ensure that the license of the subcontent is compatible with the license of the parent content.")
             ]);
         }
@@ -274,6 +275,7 @@ class LicenseReport
                     // phpcs:ignore
                     "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
                 ],
+                // phpcs:ignore
                 "recommendation" => _("Ensure that the license of the subcontent is compatible with the license of the parent content.")
             ]);
         }
@@ -307,6 +309,13 @@ class LicenseReport
         ) {
             return; // Version should be set anyway
         }
+
+        $validVersions = [
+            "2.0" => ["2.0", "2.5", "3.0", "4.0"],
+            "2.5" => ["2.5", "3.0", "4.0"],
+            "3.0" => ["3.0", "4.0"],
+            "4.0" => ["4.0"]
+        ];
 
         if ($subcontentLicense === "CC BY-SA") {
             if ($subcontentLicenseVersion !== "4.0" && $license === "GNU GPL") {
@@ -346,6 +355,7 @@ class LicenseReport
                     ),
                     "description" => [
                         sprintf(
+                            // phpcs:ignore
                             _("Subcontent %s is licensed under a CC BY-SA license, but content %s is not licensed under a CC BY-SA license."),
                             $subcontent->getDescription(),
                             $content->getDescription()
@@ -391,10 +401,8 @@ class LicenseReport
                     "recommendation" => _("Ensure that your work is legally a collection or ensure that the license of the subcontent is compatible with the license of the parent content.")
                 ]);
             } elseif (
-                ($subcontentLicenseVersion === "2.0" && $licenseVersion !== "2.0" && $licenseVersion !== "2.5" && $licenseVersion !== "3.0" && $licenseVersion !== "4.0") ||
-                ($subcontentLicenseVersion === "2.5" && $licenseVersion !== "2.5" && $licenseVersion !== "3.0" && $licenseVersion !== "4.0") ||
-                ($subcontentLicenseVersion === "3.0" && $licenseVersion !== "3.0" && $licenseVersion !== "4.0") ||
-                ($subcontentLicenseVersion === "4.0" && $licenseVersion !== "4.0")
+                isset($validVersions[$subcontentLicenseVersion]) &&
+                !in_array($licenseVersion, $validVersions[$subcontentLicenseVersion])
             ) {
                 return ReportUtils::buildMessage([
                     "category" => "license",
@@ -405,6 +413,7 @@ class LicenseReport
                     ),
                     "description" => [
                         sprintf(
+                            // phpcs:ignore
                             _("Subcontent %s is licensed under a CC BY-SA %s license, but content %s uses version %s instead of the same license version or later version."),
                             $subcontent->getDescription(),
                             $subcontentLicenseVersion,
@@ -482,10 +491,8 @@ class LicenseReport
                     "recommendation" => _("Ensure that your work is legally a collection or ensure that the license of the subcontent is compatible with the license of the parent content.")
                 ]);
             } elseif (
-                ($subcontentLicenseVersion === "2.0" && $licenseVersion !== "2.0" && $licenseVersion !== "2.5" && $licenseVersion !== "3.0" && $licenseVersion !== "4.0") ||
-                ($subcontentLicenseVersion === "2.5" && $licenseVersion !== "2.5" && $licenseVersion !== "3.0" && $licenseVersion !== "4.0") ||
-                ($subcontentLicenseVersion === "3.0" && $licenseVersion !== "3.0" && $licenseVersion !== "4.0") ||
-                ($subcontentLicenseVersion === "4.0" && $licenseVersion !== "4.0")
+                isset($validVersions[$subcontentLicenseVersion]) &&
+                !in_array($licenseVersion, $validVersions[$subcontentLicenseVersion])
             ) {
                 return ReportUtils::buildMessage([
                     "category" => "license",
@@ -496,6 +503,7 @@ class LicenseReport
                     ),
                     "description" => [
                         sprintf(
+                            // phpcs:ignore
                             _("Subcontent %s is licensed under a CC BY-NC-SA %s license, but content %s uses version %s instead of the same license version or later version."),
                             $subcontent->getDescription(),
                             $subcontentLicenseVersion,
