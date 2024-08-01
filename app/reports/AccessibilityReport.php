@@ -166,7 +166,31 @@ class AccessibilityReport
         $recommendation = "";
         $hasCustomHandling = false;
 
-        if ($parentMachineName === "H5P.Image") {
+        if ($parentMachineName === "H5P.Collage") {
+            $semanticsPath = $contentFile->getAttribute("semanticsPath");
+            $semanticsPath = preg_replace('/\.image$/', "", $semanticsPath);
+            $imageParams = JSONUtils::getElementAtPath(
+                $contentTree->getRoot()->getAttribute("params"),
+                $semanticsPath
+            );
+
+            $alt = $imageParams["alt"] ?? "";
+
+            $title = $contentFile->getDescription("{title}");
+            $recommendation =
+                _("Set an alternative text for the image.");
+
+            $hasCustomHandling = true;
+        }
+        else if ($parentMachineName === "H5P.GameMap") {
+            if (
+                $contentFile->getAttribute("semanticsPath") ===
+                    "gamemapSteps.backgroundImageSettings.backgroundImage"
+            ) {
+                $decorative = true; // Is background image
+                $hasCustomHandling = true;
+            }
+        } elseif ($parentMachineName === "H5P.Image") {
             $alt = $content->getAttribute("params")["alt"] ?? "";
             $decorative =
                 $content->getAttribute("params")["decorative"] ?? false;
@@ -178,6 +202,11 @@ class AccessibilityReport
             );
 
             $hasCustomHandling = true;
+        } elseif ($parentMachineName === "H5P.ImageHotspots") {
+            if ($contentFile->getAttribute("semanticsPath") === "image") {
+                $decorative = true; // Is background image
+                $hasCustomHandling = true;
+            }
         } elseif ($parentMachineName === "H5P.MemoryGame") {
             $semanticsPath = $contentFile->getAttribute("semanticsPath");
             $semanticsPath = preg_replace('/\.image$/', "", $semanticsPath);
@@ -193,19 +222,6 @@ class AccessibilityReport
                 _("Set an alternative text for the image of the card.");
 
             $hasCustomHandling = true;
-        } elseif ($parentMachineName === "H5P.ImageHotspots") {
-            if ($contentFile->getAttribute("semanticsPath") === "image") {
-                $decorative = true; // Is background image
-                $hasCustomHandling = true;
-            }
-        } elseif ($parentMachineName === "H5P.GameMap") {
-            if (
-                $contentFile->getAttribute("semanticsPath") ===
-                    "gamemapSteps.backgroundImageSettings.backgroundImage"
-            ) {
-                $decorative = true; // Is background image
-                $hasCustomHandling = true;
-            }
         }
 
         return [$alt, $decorative, $title, $recommendation, $hasCustomHandling];
