@@ -683,6 +683,10 @@ class LicenseReport
     private static function checkMissingAuthor($content)
     {
         $license = $content->getAttribute("metadata")["license"] ?? "";
+        if ($license === "U") {
+            return; // License should be set first anyway.
+        }
+
         $authors =
             $content->getAttribute("metadata")["authors"] ?? [];
         if (
@@ -732,8 +736,12 @@ class LicenseReport
      */
     private static function checkMissingTitle($content)
     {
-        $title = $content->getAttribute("metadata")["title"] ?? "";
         $license = $content->getAttribute("metadata")["license"] ?? "";
+        if ($license === "U") {
+            return; // License should be set first anyway.
+        }
+
+        $title = $content->getAttribute("metadata")["title"] ?? "";
         $licenseVersion =
             $content->getAttribute("metadata")["licenseVersion"] ?? "";
 
@@ -786,8 +794,12 @@ class LicenseReport
      */
     private static function checkMissingLink($content)
     {
-        $link = $content->getAttribute("metadata")["source"] ?? "";
         $license = $content->getAttribute("metadata")["license"] ?? "";
+        if ($license === "U") {
+            return; // License should be set first anyway.
+        }
+
+        $link = $content->getAttribute("metadata")["source"] ?? "";
         $licenseVersion =
             $content->getAttribute("metadata")["licenseVersion"] ?? "";
 
@@ -865,9 +877,13 @@ class LicenseReport
      */
     private static function checkMissingChanges($content)
     {
+        $license = $content->getAttribute("metadata")["license"] ?? "";
+        if ($license === "U") {
+            return; // License should be set first anyway.
+        }
+
         $changes =
             $content->getAttribute("metadata")["changes"] ?? [];
-        $license = $content->getAttribute("metadata")["license"] ?? "";
         $licenseVersion =
             $content->getAttribute("metadata")["licenseVersion"] ?? "";
 
@@ -968,6 +984,10 @@ class LicenseReport
     private static function checkMissingLicenseExtras($content)
     {
         $license = $content->getAttribute("metadata")["license"] ?? "";
+        if ($license === "U") {
+            return; // License should be set first anyway.
+        }
+
         $licenseExtras =
             $content->getAttribute("metadata")["licenseExtras"] ?? "";
 
