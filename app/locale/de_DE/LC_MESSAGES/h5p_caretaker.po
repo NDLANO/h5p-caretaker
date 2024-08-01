@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: H5P-Caretaker\n"
-"POT-Creation-Date: 2024-07-31 14:13+0200\n"
-"PO-Revision-Date: 2024-07-31 14:13+0200\n"
+"POT-Creation-Date: 2024-08-01 19:48+0200\n"
+"PO-Revision-Date: 2024-08-01 19:48+0200\n"
 "Last-Translator: H5P-Careraker\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -68,6 +68,22 @@ msgstr "Die Datei h5p.json existiert nicht im Archiv."
 msgid "Error decoding h5p.json file."
 msgstr "Fehler beim Decodieren der Datei h5p.json."
 
+#: models/ContentFile.php:138
+msgid "image"
+msgstr "Bild"
+
+#: models/ContentFile.php:139
+msgid "video"
+msgstr "Video"
+
+#: models/ContentFile.php:140
+msgid "audio"
+msgstr "Tondatei"
+
+#: models/ContentFile.php:143
+msgid "file"
+msgstr "Datei"
+
 #: reports/AccessibilityReport.php:44
 #, php-format
 msgid "LibreText evaluation for %s"
@@ -87,7 +103,11 @@ msgstr ""
 "Feld für den Alternativtext anbietet oder ob es nicht erforderlich ist, ein "
 "solches zu haben."
 
-#: reports/AccessibilityReport.php:176
+#: reports/AccessibilityReport.php:181
+msgid "Set an alternative text for the image."
+msgstr "Lege einen Alternativtext für das Bild fest."
+
+#: reports/AccessibilityReport.php:200
 msgid ""
 "Check whether there is a reason for the image to not have an alternative "
 "text. If so, explicitly set the image as decorative in the editor."
@@ -95,7 +115,7 @@ msgstr ""
 "Prüfe, ob es einen Grund gibt, warum das Bild keinen Alternativtext haben "
 "soll. Wenn ja, lege das Bild im Editor ausdrücklich als dekorativ fest."
 
-#: reports/AccessibilityReport.php:193
+#: reports/AccessibilityReport.php:222
 msgid "Set an alternative text for the image of the card."
 msgstr "Lege einen Alternativtext für das Bild der Karte fest."
 
@@ -256,40 +276,40 @@ msgstr "Fehlende Lizenzinformationen für %s"
 msgid "Set the license version in the metadata."
 msgstr "Füge die Lizenzversion in den Metadaten hinzu."
 
-#: reports/LicenseReport.php:712
+#: reports/LicenseReport.php:716
 #, php-format
 msgid "Missing author information for %s"
 msgstr "Fehlende Autor*inneninformationen für %s"
 
-#: reports/LicenseReport.php:720
+#: reports/LicenseReport.php:724
 msgid "Add the author name or creator name in the metadata."
 msgstr ""
 "Füge den Namen der Autor*innen oder Ersteller*innen in den Metadaten hinzu."
 
-#: reports/LicenseReport.php:762
+#: reports/LicenseReport.php:770
 #, php-format
 msgid "Missing title information for %s"
 msgstr "Fehlende Titelangabe für %s"
 
-#: reports/LicenseReport.php:772
+#: reports/LicenseReport.php:780
 msgid "Add the title of the content (if supplied) in the metadata."
 msgstr "Füge den Titel des Inhalts (falls angegeben) in den Metadaten hinzu."
 
-#: reports/LicenseReport.php:817
+#: reports/LicenseReport.php:829
 #, php-format
 msgid "Missing source information for %s"
 msgstr "Fehlende Quelleninformation für %s"
 
-#: reports/LicenseReport.php:827
+#: reports/LicenseReport.php:839
 msgid "Add the link to the content in the metadata."
 msgstr "Füge den Link zum Inhalt in den Metadaten hinzu."
 
-#: reports/LicenseReport.php:834
+#: reports/LicenseReport.php:846
 #, php-format
 msgid "Potentially missing source information for %s"
 msgstr "Potenziell fehlende Quelleninformation für %s"
 
-#: reports/LicenseReport.php:845
+#: reports/LicenseReport.php:857
 msgid ""
 "Add the link to the content in the metadata if the link target contains a "
 "copyright notice or licensing information."
@@ -297,13 +317,13 @@ msgstr ""
 "Füge den Link zum Inhalt in den Metadaten hinzu, falls das Linkziel einen "
 "Urheberrechtshinweis oder Lizenzinformationen enthält."
 
-#: reports/LicenseReport.php:895 reports/LicenseReport.php:919
-#: reports/LicenseReport.php:943
+#: reports/LicenseReport.php:911 reports/LicenseReport.php:935
+#: reports/LicenseReport.php:959
 #, php-format
 msgid "Potentially missing changes information for %s"
 msgstr "Potenziell fehlende Informationen zu Änderungen für %s"
 
-#: reports/LicenseReport.php:906 reports/LicenseReport.php:930
+#: reports/LicenseReport.php:922 reports/LicenseReport.php:946
 msgid ""
 "If this is not your work and you made changes to a degree that you created a "
 "derivative, you must indicate your changes and all previous modifications in "
@@ -313,16 +333,16 @@ msgstr ""
 "abgeleitetes Werk begründen, musst du deine Änderungen und frühere "
 "Modifikationen in den Metadaten anführen."
 
-#: reports/LicenseReport.php:953
+#: reports/LicenseReport.php:969
 msgid "List any changes you made in the metadata."
 msgstr "Führe alle von dir gemachten Änderungen in den Metadaten auf."
 
-#: reports/LicenseReport.php:982
+#: reports/LicenseReport.php:1002
 #, php-format
 msgid "Missing license extras information for %s"
 msgstr "Fehlende zusätzliche Lizenzinformationen für %s"
 
-#: reports/LicenseReport.php:992
+#: reports/LicenseReport.php:1012
 msgid "Add the original GPL license text in the \"license extras\" field."
 msgstr "Füge den ursprüngliche GPL-Lizenztext im Feld \"Lizenzextras\" ein."
 

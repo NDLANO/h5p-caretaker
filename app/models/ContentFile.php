@@ -112,17 +112,34 @@ class ContentFile
         $template = "{title} ({type}) inside {parentTitle} ({parentMachineName})"
     ) {
         $title = $this->attributes["metadata"]["title"] ?? "Untitled";
-        $type = $this->attributes["type"] ?? "file";
 
         return str_replace(
             ["{title}", "{type}", "{parentTitle}", "{parentMachineName}"],
             [
                 $title,
-                $type,
+                self::mapTypeToText($this->attributes["type"]),
                 $this->parent->getDescription("{title}"),
                 $this->parent->getDescription("{machineName}"),
             ],
             $template
         );
+    }
+
+    /**
+     * Get mapping of type to translatable text.
+     *
+     * @param string $type The type.
+     *
+     * @return string The translatable text.
+     */
+    private static function mapTypeToText($type)
+    {
+        $types = [
+            "image" => _("image"),
+            "video" => _("video"),
+            "audio" => _("audio")
+        ];
+
+        return $types[$type] ?? _("file");
     }
 }
