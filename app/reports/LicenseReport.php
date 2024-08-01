@@ -62,7 +62,7 @@ class LicenseReport
 
                 $report["messages"] = array_merge(
                     $report["messages"],
-                    self::checkLicense($content)
+                    self::checkLicense($contentFile)
                 );
             }
 
