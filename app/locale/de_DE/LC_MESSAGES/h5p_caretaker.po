@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: H5P-Caretaker\n"
 "POT-Creation-Date: 2024-08-01 19:48+0200\n"
-"PO-Revision-Date: 2024-08-01 19:48+0200\n"
+"PO-Revision-Date: 2024-08-01 19:51+0200\n"
 "Last-Translator: H5P-Careraker\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -259,7 +259,7 @@ msgstr "Fehlende Lizenzinformationen für %s als H5P-Hauptinhalt"
 #: reports/LicenseReport.php:621
 #, php-format
 msgid "Missing license information for %s inside %s"
-msgstr "Fehlender Lizenzinformationen für %s in %s"
+msgstr "Fehlende Lizenzinformationen für %s in %s"
 
 #: reports/LicenseReport.php:635
 msgid ""
