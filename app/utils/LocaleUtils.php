@@ -158,6 +158,7 @@ class LocaleUtils
             "missingAltText" => _("missingAltText"),
             "libreText" => "libreText",
             "invalidLicenseAdaptation" => _("invalidLicenseAdaptation"),
+            "invalidLicenseRemix" => _("invalidLicenseRemix"),
         ];
 
         if ($isEnglish) {
@@ -169,6 +170,7 @@ class LocaleUtils
             $translations["missingChanges"] = "missing changes";
             $translations["missingAltText"] = "missing alternative text";
             $translations["invalidLicenseAdaptation"] = "invalid license adaptation";
+            $translations["invalidLicenseRemix"] = "invalid license remix";
         }
 
         return $translations;

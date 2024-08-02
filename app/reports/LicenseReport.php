@@ -41,7 +41,8 @@ class LicenseReport
             $report["messages"] = array_merge(
                 $report["messages"],
                 self::checkLicense($content),
-                self::checkLicenseAdaptation($content)
+                self::checkLicenseAdaptation($content),
+                self::checkLicenseRemixing($content)
             );
 
             $contentFiles = $content->getAttribute("contentFiles");
@@ -71,6 +72,184 @@ class LicenseReport
     }
 
     /**
+     * Check if the licenses of a content's subcontents are compatible.
+     *
+     * @param Content $content The content to check.
+     *
+     * @return array The messages.
+     */
+    private static function checkLicenseRemixing($content)
+    {
+        $messages = [];
+
+        // Combine subcontents and content files
+        $children = $content->getChildren();
+        $machineName = $content->getDescription("{machineName}");
+        if (
+            !in_array($machineName, [
+                "H5P.Image",
+                "H5P.Audio",
+                "H5P.Video",
+            ])
+        ) {
+            $children = array_merge(
+                $children,
+                $content->getAttribute("contentFiles")
+            );
+        }
+
+        $messages = array_merge(
+            $messages,
+            self::checkLicenseRemixND($children)
+        );
+
+        $messages = array_merge(
+            $messages,
+            self::checkLicenseRemixNCSA($children)
+        );
+
+        return $messages;
+    }
+
+    /**
+     * Check if the CC BY-SA license of a subcontent is compatible with sibling contents.
+     *
+     * @param array $contents The contents to check.
+     *
+     * @return array The messages.
+     */
+    private static function checkLicenseRemixNCSA($contents)
+    {
+        if (count($contents) < 2) {
+            return [];
+        }
+
+        $messages = [];
+
+        $contentLicenses = array_map(
+            function ($content) {
+                return [
+                    "content" => $content,
+                    "license" => $content->getAttribute("metadata")["license"] ?? ""
+                ];
+            },
+            $contents
+        );
+
+        $contentLicensedNCorNCSA = array_filter(
+            $contentLicenses,
+            function ($content) {
+                return (
+                    $content["license"] === "CC BY-NC" ||
+                    $content["license"] === "CC BY-NC-SA"
+                );
+            }
+        );
+
+        $contentLicensedSA = array_filter(
+            $contentLicenses,
+            function ($content) {
+                return $content["license"] === "CC BY-SA";
+            }
+        );
+
+        foreach ($contentLicensedSA as $sa) {
+            foreach ($contentLicensedNCorNCSA as $nc) {
+                $messages[] = ReportUtils::buildMessage([
+                    "category" => "license",
+                    "type" => "invalidLicenseRemix",
+                    "summary" => sprintf(
+                        _("Probably invalid license remix regarding %s inside %s"),
+                        $sa["content"]->getDescription(),
+                        $sa["content"]->getParent()->getDescription()
+                    ),
+                    "description" => sprintf(
+                        _(
+                            "Content %s is licensed under a CC BY-SA license. " .
+                            "Content %s is licensed under a %s license. " .
+                            "These cannot be combined in a remix."
+                        ),
+                        $sa["content"]->getDescription(),
+                        $nc["content"]->getDescription(),
+                        $nc["license"]
+                    ),
+                    "details" => [
+                        "semanticsPath" => $sa["content"]->getAttribute("semanticsPath"),
+                        "title" => $sa["content"]->getDescription("{title}"),
+                        "subContentId" => $sa["content"]->getAttribute("id"),
+                        // phpcs:ignore
+                        "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
+                    ],
+                    "recommendation" => _(
+                        "Ensure that your work is legally a collection or ensure " .
+                        "that the license of the subcontent is compatible with " .
+                        "the license of the parent content."
+                    )
+                ]);
+            }
+        }
+
+        return $messages;
+    }
+
+    /**
+     * Check if the non derivative-license of a subcontent is compatible with a sibling content.
+     *
+     * @param array $contents The contents to check.
+     *
+     * @return array The messages.
+     */
+    private static function checkLicenseRemixND($contents)
+    {
+        if (count($contents) < 2) {
+            return [];
+        }
+
+        $messages = [];
+        foreach ($contents as $content) {
+            $license = $content->getAttribute("metadata")["license"] ?? "";
+            if ($license === "U") {
+                continue; // License should be set first anyway.
+            } elseif (
+                strpos($license, "CC BY") === 0 &&
+                strpos($license, "ND") !== false
+            ) {
+                $messages[] = ReportUtils::buildMessage([
+                    "category" => "license",
+                    "type" => "invalidLicenseRemix",
+                    "summary" => sprintf(
+                        _("Probably invalid license remix regarding %s inside %s"),
+                        $content->getDescription(),
+                        $content->getParent()->getDescription()
+                    ),
+                    "description" => sprintf(
+                        _(
+                            "The license of content %s does not allow derivates, " .
+                            "but is probably combined with other contents in %s as a remix."
+                        ),
+                        $content->getDescription(),
+                        $content->getParent()->getDescription()
+                    ),
+                    "details" => [
+                        "semanticsPath" => $content->getAttribute("semanticsPath"),
+                        "title" => $content->getDescription("{title}"),
+                        "subContentId" => $content->getAttribute("id"),
+                        // phpcs:ignore
+                        "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
+                    ],
+                    "recommendation" => _(
+                        "Ensure that your work is legally a collection or ensure " .
+                        "that the license of the subcontent is compatible with " .
+                        "the license of the parent content."
+                    )
+                ]);
+            }
+        }
+
+        return $messages;
+    }
+
+    /**
      * Check if the license of a content is adapted to its subcontent.
      *
      * @param Content $content The content to check.
@@ -86,7 +265,22 @@ class LicenseReport
             return []; // License should be set first anyway.
         }
 
+        // Combine subcontents and content files
         $children = $content->getChildren();
+        $machineName = $content->getDescription("{machineName}");
+        if (
+            !in_array($machineName, [
+                "H5P.Image",
+                "H5P.Audio",
+                "H5P.Video",
+            ])
+        ) {
+            $children = array_merge(
+                $children,
+                $content->getAttribute("contentFiles")
+            );
+        }
+
         foreach ($children as $child) {
             foreach (
                 [
@@ -98,31 +292,6 @@ class LicenseReport
             ) {
                 if (isset($result)) {
                     $messages[] = $result;
-                }
-            }
-        }
-
-        $machineName = $content->getDescription("{machineName}");
-        if (
-            !in_array($machineName, [
-                "H5P.Image",
-                "H5P.Audio",
-                "H5P.Video",
-            ])
-        ) {
-            $contentFiles = $content->getAttribute("contentFiles");
-            foreach ($contentFiles as $contentFile) {
-                foreach (
-                    [
-                        self::checkLicenseAdaptationNC($content, $contentFile),
-                        self::checkLicenseAdaptationND($content, $child),
-                        self::checkLicenseAdaptationBY($content, $contentFile),
-                        self::checkLicenseAdaptationVersion($content, $child)
-                    ] as $result
-                ) {
-                    if (isset($result)) {
-                        $messages[] = $result;
-                    }
                 }
             }
         }
