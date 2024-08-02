@@ -181,8 +181,7 @@ class AccessibilityReport
                 _("Set an alternative text for the image.");
 
             $hasCustomHandling = true;
-        }
-        else if ($parentMachineName === "H5P.GameMap") {
+        } elseif ($parentMachineName === "H5P.GameMap") {
             if (
                 $contentFile->getAttribute("semanticsPath") ===
                     "gamemapSteps.backgroundImageSettings.backgroundImage"

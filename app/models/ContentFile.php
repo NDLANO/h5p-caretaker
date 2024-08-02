@@ -108,7 +108,8 @@ class ContentFile
      *
      * @return string The description.
      */
-    public function getDescription($template = "{title} ({type})") {
+    public function getDescription($template = "{title} ({type})")
+    {
         $title = $this->attributes["metadata"]["title"] ?? "Untitled";
 
         return str_replace(
