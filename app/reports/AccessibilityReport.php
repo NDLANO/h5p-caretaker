@@ -166,8 +166,14 @@ class AccessibilityReport
         $recommendation = "";
         $hasCustomHandling = false;
 
-        if ($parentMachineName === "H5P.Collage") {
-            $semanticsPath = $contentFile->getAttribute("semanticsPath");
+        $semanticsPath = $contentFile->getAttribute("semanticsPath");
+        if ($parentMachineName === "H5P.ARScavenger") {
+            if (str_ends_with($semanticsPath, "markerImage")) {
+                $decorative = true;
+                $hasCustomHandling = true;
+            }
+        }
+        else if ($parentMachineName === "H5P.Collage") {
             $semanticsPath = preg_replace('/\.image$/', "", $semanticsPath);
             $imageParams = JSONUtils::getElementAtPath(
                 $contentTree->getRoot()->getAttribute("params"),
@@ -181,9 +187,28 @@ class AccessibilityReport
                 _("Set an alternative text for the image.");
 
             $hasCustomHandling = true;
+        } elseif ($parentMachineName === "H5P.CoursePresentation") {
+            if (
+                str_ends_with(
+                    $semanticsPath,
+                    "slideBackgroundSelector.imageSlideBackground"
+                ) ||
+                str_ends_with(
+                    $semanticsPath,
+                    "globalBackgroundSelector.imageGlobalBackground"
+                )
+            ) {
+                $decorative = true; // Is background image
+                $hasCustomHandling = true;
+            }
+        } elseif ($parentMachineName === "H5P.DragQuestion") {
+            if (str_ends_with($semanticsPath, "question.settings.background")) {
+                $decorative = true; // Is background image
+                $hasCustomHandling = true;
+            }
         } elseif ($parentMachineName === "H5P.GameMap") {
             if (
-                $contentFile->getAttribute("semanticsPath") ===
+                $semanticsPath ===
                     "gamemapSteps.backgroundImageSettings.backgroundImage"
             ) {
                 $decorative = true; // Is background image
@@ -202,12 +227,11 @@ class AccessibilityReport
 
             $hasCustomHandling = true;
         } elseif ($parentMachineName === "H5P.ImageHotspots") {
-            if ($contentFile->getAttribute("semanticsPath") === "image") {
+            if ($semanticsPath === "image") {
                 $decorative = true; // Is background image
                 $hasCustomHandling = true;
             }
         } elseif ($parentMachineName === "H5P.MemoryGame") {
-            $semanticsPath = $contentFile->getAttribute("semanticsPath");
             $semanticsPath = preg_replace('/\.image$/', "", $semanticsPath);
             $cardParams = JSONUtils::getElementAtPath(
                 $contentTree->getRoot()->getAttribute("params"),
