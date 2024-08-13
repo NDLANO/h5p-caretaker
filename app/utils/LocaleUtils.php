@@ -155,6 +155,7 @@ class LocaleUtils
             "missingTitle" => _("missingTitle"),
             "missingSource" => _("missingSource"),
             "missingChanges" => _("missingChanges"),
+            "discouragedLicenseAdaptation" => _("discouragedLicenseAdaptation"),
             "missingAltText" => _("missingAltText"),
             "libreText" => "libreText",
             "invalidLicenseAdaptation" => _("invalidLicenseAdaptation"),
@@ -169,6 +170,7 @@ class LocaleUtils
             $translations["missingSource"] = "missing source";
             $translations["missingChanges"] = "missing changes";
             $translations["missingAltText"] = "missing alternative text";
+            $translations["discouragedLicenseAdaptation"] = "discouraged license adaptation";
             $translations["invalidLicenseAdaptation"] = "invalid license adaptation";
             $translations["invalidLicenseRemix"] = "invalid license remix";
         }

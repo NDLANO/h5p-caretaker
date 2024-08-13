@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: H5P-Caretaker\n"
-"POT-Creation-Date: 2024-08-02 14:34+0200\n"
-"PO-Revision-Date: 2024-08-02 14:37+0200\n"
+"POT-Creation-Date: 2024-08-13 16:46+0200\n"
+"PO-Revision-Date: 2024-08-13 16:47+0200\n"
 "Last-Translator: H5P-Careraker\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -103,11 +103,11 @@ msgstr ""
 "Feld für den Alternativtext anbietet oder ob es nicht erforderlich ist, ein "
 "solches zu haben."
 
-#: reports/AccessibilityReport.php:181
+#: reports/AccessibilityReport.php:187
 msgid "Set an alternative text for the image."
 msgstr "Lege einen Alternativtext für das Bild fest."
 
-#: reports/AccessibilityReport.php:199
+#: reports/AccessibilityReport.php:224
 msgid ""
 "Check whether there is a reason for the image to not have an alternative "
 "text. If so, explicitly set the image as decorative in the editor."
@@ -115,7 +115,7 @@ msgstr ""
 "Prüfe, ob es einen Grund gibt, warum das Bild keinen Alternativtext haben "
 "soll. Wenn ja, lege das Bild im Editor ausdrücklich als dekorativ fest."
 
-#: reports/AccessibilityReport.php:221
+#: reports/AccessibilityReport.php:245
 msgid "Set an alternative text for the image of the card."
 msgstr "Lege einen Alternativtext für das Bild der Karte fest."
 
@@ -468,18 +468,20 @@ msgid "missingChanges"
 msgstr "fehlende Änderungen"
 
 #: utils/LocaleUtils.php:158
+msgid "discouragedLicenseAdaptation"
+msgstr "Nicht ratsame Lizenzwahl"
+
+#: utils/LocaleUtils.php:159
 msgid "missingAltText"
 msgstr "fehlender Alternativtext"
 
-#: utils/LocaleUtils.php:160
-msgid "invalidLicenseAdaptation"
-msgstr "Ungültige Lizenzwahl"
-
 #: utils/LocaleUtils.php:161
-#, fuzzy
-#| msgid "invalidLicenseAdaptation"
+msgid "invalidLicenseAdaptation"
+msgstr "Ungültige Lizenzwahl für Adaption"
+
+#: utils/LocaleUtils.php:162
 msgid "invalidLicenseRemix"
-msgstr "Ungültige Lizenzwahl"
+msgstr "Ungültige Lizenzwahl für Remix"
 
 #, fuzzy, php-format
 #~ msgid ""
