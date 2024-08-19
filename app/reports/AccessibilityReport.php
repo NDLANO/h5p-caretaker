@@ -204,6 +204,36 @@ class AccessibilityReport
                 $hasCustomHandling = true;
             }
         }
+        else if ($parentMachineName === "H5P.BranchingQuestion") {
+            if (str_ends_with($semanticsPath, ".feedback.image")) {
+                $decorative = true; // Has no alt text option
+                $hasCustomHandling = true;
+            }
+        }
+        else if ($parentMachineName === "H5P.BranchingScenario") {
+            if (
+                str_ends_with($semanticsPath, ".endScreenImage") ||
+                str_ends_with($semanticsPath, ".feedback.image")
+            ) {
+                $decorative = true; // Has no alt text option
+                $hasCustomHandling = true;
+            }
+            elseif (str_ends_with($semanticsPath, ".startScreenImage")) {
+                $semanticsPath = preg_replace('/\.startScreenImage$/', "", $semanticsPath);
+                $imageParams = JSONUtils::getElementAtPath(
+                    $contentTree->getRoot()->getAttribute("params"),
+                    $semanticsPath
+                );
+
+                $alt = $imageParams["startScreenAltText"] ?? "";
+
+                $title = $contentFile->getDescription("{title}");
+                $recommendation =
+                    _("Set an alternative text for the start screen image.");
+
+                $hasCustomHandling = true;
+            }
+        }
         else if ($parentMachineName === "H5P.Collage") {
             $semanticsPath = preg_replace('/\.image$/', "", $semanticsPath);
             $imageParams = JSONUtils::getElementAtPath(
