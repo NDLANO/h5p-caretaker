@@ -37,31 +37,43 @@ class AccessibilityReport
         $report = [];
         $report["messages"] = [];
 
-        foreach ($contents as $content) {
-            $libreText = $content->getAttribute("libreText") ?? "";
-            if ($libreText !== "") {
-                $summary = sprintf(
-                    _("LibreText evaluation for %s"),
-                    explode(
-                        " ",
-                        $content->getAttribute("versionedMachineName")
-                    )[0]
-                );
-                $report["messages"][] = ReportUtils::buildMessage([
-                    "category" => "accessibility",
-                    "type" => "libreText",
-                    "summary" => $summary,
-                    "details" => [
-                        "type" => $libreText["type"],
-                        // Should be added in the libretext API response, "type" is "title" and not unique
-                        //'machineName' => $library->libreTextA11y->machineName,
-                        "description" => $libreText["description"],
-                        "status" => $libreText["status"],
-                        "reference" => $libreText["url"],
-                    ],
-                    "level" => "info"
-                ]);
+        // Get all unique libreText evaluations
+        $contentsLibreOffice = array_filter($contents, function ($content) {
+            $libreText = $content->getAttribute("libreText");
+            return $libreText !== null && $libreText !== "";
+        });
+
+        $contentsLibreOffice = array_values(array_reduce($contentsLibreOffice, function ($carry, $content) {
+            $type = $content->getAttribute("libreText")["type"];
+            if (!isset($carry[$type])) {
+                $carry[$type] = $content;
             }
+            return $carry;
+        }, []));
+
+        foreach ($contentsLibreOffice as $content) {
+            $libreText = $content->getAttribute("libreText") ?? "";
+            $summary = sprintf(
+                _("LibreText evaluation for %s"),
+                explode(
+                    " ",
+                    $content->getAttribute("versionedMachineName")
+                )[0]
+            );
+            $report["messages"][] = ReportUtils::buildMessage([
+                "category" => "accessibility",
+                "type" => "libreText",
+                "summary" => $summary,
+                "details" => [
+                    "type" => $libreText["type"],
+                    // Should be added in the libretext API response, "type" is "title" and not unique
+                    //'machineName' => $library->libreTextA11y->machineName,
+                    "description" => $libreText["description"],
+                    "status" => $libreText["status"],
+                    "reference" => $libreText["url"],
+                ],
+                "level" => "info"
+            ]);
         }
 
         foreach ($contents as $content) {
