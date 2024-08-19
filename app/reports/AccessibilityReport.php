@@ -167,7 +167,26 @@ class AccessibilityReport
         $hasCustomHandling = false;
 
         $semanticsPath = $contentFile->getAttribute("semanticsPath");
-        if ($parentMachineName === "H5P.ARScavenger") {
+        if ($parentMachineName === "H5P.AdventCalendar") {
+            if (
+                str_ends_with(
+                    $semanticsPath,
+                    ".previewImage"
+                ) ||
+                str_ends_with(
+                    $semanticsPath,
+                    ".doorCover"
+                ) ||
+                str_ends_with(
+                    $semanticsPath,
+                    "visuals.backgroundImage"
+                )
+            ) {
+                $decorative = true;
+                $hasCustomHandling = true;
+            }
+        }
+        else if ($parentMachineName === "H5P.ARScavenger") {
             if (str_ends_with($semanticsPath, "markerImage")) {
                 $decorative = true;
                 $hasCustomHandling = true;
