@@ -328,6 +328,21 @@ class AccessibilityReport
                 $hasCustomHandling = true;
             }
         }
+        elseif ($parentMachineName === "H5P.ImageSequencing") {
+            $semanticsPath = preg_replace('/\.image$/', "", $semanticsPath);
+            $cardParams = JSONUtils::getElementAtPath(
+                $contentTree->getRoot()->getAttribute("params"),
+                $semanticsPath
+            );
+
+            $alt = $cardParams["imageDescription"] ?? "";
+
+            $title = $contentFile->getDescription("{title}");
+            $recommendation =
+                _("Set a description text for the image.");
+
+            $hasCustomHandling = true;
+        }
         elseif ($parentMachineName === "H5P.MemoryGame") {
             $semanticsPath = preg_replace('/\.image$/', "", $semanticsPath);
             $cardParams = JSONUtils::getElementAtPath(
