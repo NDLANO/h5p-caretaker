@@ -343,6 +343,10 @@ class AccessibilityReport
 
             $hasCustomHandling = true;
         }
+        elseif ($parentMachineName === "H5P.ImpressivePresentation") {
+            $decorative = true; // Does not allow to enter anything
+            $hasCustomHandling = true;
+        }
         elseif ($parentMachineName === "H5P.MemoryGame") {
             $semanticsPath = preg_replace('/\.image$/', "", $semanticsPath);
             $cardParams = JSONUtils::getElementAtPath(
@@ -356,6 +360,10 @@ class AccessibilityReport
             $recommendation =
                 _("Set an alternative text for the image of the card.");
 
+            $hasCustomHandling = true;
+        }
+        elseif ($parentMachineName === "H5P.QuestionSet") {
+            $decorative = true; // Does not allow to enter anything
             $hasCustomHandling = true;
         }
 
