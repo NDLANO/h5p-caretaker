@@ -241,6 +241,21 @@ class AccessibilityReport
                 $hasCustomHandling = true;
             }
         }
+        elseif ($parentMachineName === "H5P.Flashcards") {
+            $semanticsPath = preg_replace('/\.image$/', "", $semanticsPath);
+            $imageParams = JSONUtils::getElementAtPath(
+                $contentTree->getRoot()->getAttribute("params"),
+                $semanticsPath
+            );
+
+            $alt = $imageParams["imageAltText"] ?? "";
+
+            $title = $contentFile->getDescription("{title}");
+            $recommendation =
+                _("Set an alternative text for the image.");
+
+            $hasCustomHandling = true;
+        }
         elseif ($parentMachineName === "H5P.GameMap") {
             if (
                 $semanticsPath ===
