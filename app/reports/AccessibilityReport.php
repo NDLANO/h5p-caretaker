@@ -423,6 +423,12 @@ class AccessibilityReport
 
             $hasCustomHandling = true;
         }
+        else if ($parentMachineName === "H5P.ThreeImage") {
+            if (str_ends_with($semanticsPath, ".scenesrc")) {
+                $decorative = true; // Does not allow entering alt text
+                $hasCustomHandling = true;
+            }
+        }
         elseif ($parentMachineName === "H5P.Timeline") {
             if (str_ends_with($semanticsPath, "backgroundImage")) {
                 $decorative = true; // Does not allow entering alt text
