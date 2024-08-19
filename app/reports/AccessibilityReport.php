@@ -240,7 +240,8 @@ class AccessibilityReport
                 $decorative = true; // Is background image
                 $hasCustomHandling = true;
             }
-        } elseif ($parentMachineName === "H5P.GameMap") {
+        }
+        elseif ($parentMachineName === "H5P.GameMap") {
             if (
                 $semanticsPath ===
                     "gamemapSteps.backgroundImageSettings.backgroundImage"
@@ -263,6 +264,16 @@ class AccessibilityReport
         } elseif ($parentMachineName === "H5P.ImageHotspots") {
             if ($semanticsPath === "image") {
                 $decorative = true; // Is background image
+                $hasCustomHandling = true;
+            }
+        } elseif ($parentMachineName === "H5P.ImageHotspotQuestion") {
+            if (str_ends_with($semanticsPath, "backgroundImageSettings")) {
+                $decorative = true; // Does not allow entering alt text
+                $hasCustomHandling = true;
+            }
+        } elseif ($parentMachineName === "H5P.ImageMultipleHotspotQuestion") {
+            if (str_ends_with($semanticsPath, "backgroundImage")) {
+                $decorative = true; // Does not allow entering alt text
                 $hasCustomHandling = true;
             }
         } elseif ($parentMachineName === "H5P.MemoryGame") {
