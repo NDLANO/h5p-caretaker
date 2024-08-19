@@ -231,7 +231,7 @@ class AccessibilityReport
 
             $title = $contentFile->getDescription("{title}");
             $recommendation =
-                _("Set an alternative text for the image.");
+                _("Set an alternative text for the image of the card.");
 
             $hasCustomHandling = true;
         }
@@ -252,7 +252,7 @@ class AccessibilityReport
 
             $title = $contentFile->getDescription("{title}");
             $recommendation =
-                _("Set an alternative text for the image.");
+                _("Set an alternative text for the image of the card.");
 
             $hasCustomHandling = true;
         }
@@ -291,7 +291,44 @@ class AccessibilityReport
                 $decorative = true; // Does not allow entering alt text
                 $hasCustomHandling = true;
             }
-        } elseif ($parentMachineName === "H5P.MemoryGame") {
+        }
+        elseif ($parentMachineName === "H5P.ImagePair") {
+            if (str_ends_with($semanticsPath, "image")) {
+                $semanticsPath = preg_replace('/\.image$/', "", $semanticsPath);
+                $cardParams = JSONUtils::getElementAtPath(
+                    $contentTree->getRoot()->getAttribute("params"),
+                    $semanticsPath
+                );
+
+                $alt = $cardParams["imageAlt"] ?? "";
+
+                $title = $contentFile->getDescription("{title}");
+                $recommendation =
+                    _("Set an alternative text for the original image.");
+
+                $hasCustomHandling = true;
+            }
+            elseif (str_ends_with($semanticsPath, "match")) {
+                $semanticsPath = preg_replace('/\.match$/', "", $semanticsPath);
+                $cardParams = JSONUtils::getElementAtPath(
+                    $contentTree->getRoot()->getAttribute("params"),
+                    $semanticsPath
+                );
+
+                $alt = $cardParams["matchAlt"] ?? "";
+
+                $title = $contentFile->getDescription("{title}");
+                $recommendation =
+                    _("Set an alternative text for the matching image.");
+
+                $hasCustomHandling = true;
+            }
+            else if (str_ends_with($semanticsPath, "originalImage")) {
+                $decorative = true; // Old parameter that should have been removed by an upgrades.js script
+                $hasCustomHandling = true;
+            }
+        }
+        elseif ($parentMachineName === "H5P.MemoryGame") {
             $semanticsPath = preg_replace('/\.image$/', "", $semanticsPath);
             $cardParams = JSONUtils::getElementAtPath(
                 $contentTree->getRoot()->getAttribute("params"),
