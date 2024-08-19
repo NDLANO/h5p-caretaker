@@ -201,7 +201,22 @@ class AccessibilityReport
                 $decorative = true; // Is background image
                 $hasCustomHandling = true;
             }
-        } elseif ($parentMachineName === "H5P.DragQuestion") {
+        } elseif ($parentMachineName === "H5P.Dialogcards") {
+            $semanticsPath = preg_replace('/\.image$/', "", $semanticsPath);
+            $imageParams = JSONUtils::getElementAtPath(
+                $contentTree->getRoot()->getAttribute("params"),
+                $semanticsPath
+            );
+
+            $alt = $imageParams["imageAltText"] ?? "";
+
+            $title = $contentFile->getDescription("{title}");
+            $recommendation =
+                _("Set an alternative text for the image.");
+
+            $hasCustomHandling = true;
+        }
+        elseif ($parentMachineName === "H5P.DragQuestion") {
             if (str_ends_with($semanticsPath, "question.settings.background")) {
                 $decorative = true; // Is background image
                 $hasCustomHandling = true;
