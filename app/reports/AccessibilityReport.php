@@ -393,6 +393,41 @@ class AccessibilityReport
 
             $hasCustomHandling = true;
         }
+        elseif ($parentMachineName === "H5P.Timeline") {
+            if (str_ends_with($semanticsPath, "backgroundImage")) {
+                $decorative = true; // Does not allow entering alt text
+                $hasCustomHandling = true;
+            }
+            elseif (str_ends_with($semanticsPath, "thumbnail")) {
+                $semanticsPath = preg_replace('/\.thumbnail$/', "", $semanticsPath);
+                $assetParams = JSONUtils::getElementAtPath(
+                    $contentTree->getRoot()->getAttribute("params"),
+                    $semanticsPath
+                );
+
+                $alt = $assetParams["caption"] ?? "";
+
+                $title = $contentFile->getDescription("{title}");
+                $recommendation =
+                    _("Set a caption text for the asset thumbnail image.");
+
+                $hasCustomHandling = true;
+            }
+
+            $semanticsPath = preg_replace('/\.introductionImage$/', "", $semanticsPath);
+            $introParams = JSONUtils::getElementAtPath(
+                $contentTree->getRoot()->getAttribute("params"),
+                $semanticsPath
+            );
+
+            $alt = $introParams["introductionImageAltText"] ?? "";
+
+            $title = $contentFile->getDescription("{title}");
+            $recommendation =
+                _("Set an alternative text for the introduction image.");
+
+            $hasCustomHandling = true;
+        }
 
         return [$alt, $decorative, $title, $recommendation, $hasCustomHandling];
     }
