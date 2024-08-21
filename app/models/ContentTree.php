@@ -165,12 +165,14 @@ class ContentTree
         foreach ($this->contents as $content) {
 
             $contentReports = $content->getReports();
-            foreach($contentReports as $category => $message) {
+            foreach($contentReports as $category => $messages) {
                 if (!isset($reports[$category])) {
                     $reports[$category] = [];
                 }
 
-                $reports[$category][] = $message[0];
+                foreach ($messages as $message) {
+                    $reports[$category][] = $message;
+                }
             }
         }
 

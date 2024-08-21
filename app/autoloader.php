@@ -17,12 +17,9 @@ spl_autoload_register(function ($class) {
             "H5PCaretaker\ContentFile" => "models/ContentFile.php",
             "H5PCaretaker\Content" => "models/Content.php",
             "H5PCaretaker\ContentTree" => "models/ContentTree.php",
-            "H5PCaretaker\AccessibilityReport" =>
-                "reports/AccessibilityReport.php",
-            "H5PCaretaker\AccessibilityReport2" =>
-                "reports/AccessibilityReport2.php",
-            "H5PCaretaker\LicenseReport" => "reports/LicenseReport.php",
-            "H5PCaretaker\LicenseReport2" => "reports/LicenseReport2.php",
+            "H5PCaretaker\AccessibilityReport" => "reports/AccessibilityReport.php",
+            "H5PCaretaker\FeatureReport" => "reports/FeatureReport.php",
+            "H5PCaretaker\LicenseReport" => "reports/LicenseReport.php"
         ];
     }
 

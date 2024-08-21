@@ -159,6 +159,7 @@ class H5PCaretaker
         $contentTree = new ContentTree($reportRaw);
 
         AccessibilityReport::generateReport($contentTree);
+        FeatureReport::generateReport($contentTree, $reportRaw);
         LicenseReport::generateReport($contentTree);
 
         $report = [
