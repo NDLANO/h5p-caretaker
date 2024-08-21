@@ -164,6 +164,8 @@ class LocaleUtils
             "discouragedLicenseAdaptation" => _("discouragedLicenseAdaptation"),
             "invalidLicenseAdaptation" => _("invalidLicenseAdaptation"),
             "invalidLicenseRemix" => _("invalidLicenseRemix"),
+            "statistics" => _("statistics"),
+            "contentTypeCount" => _("contentTypeCount"),
         ];
 
         if ($isEnglish) {
@@ -178,6 +180,7 @@ class LocaleUtils
             $translations["invalidLicenseAdaptation"] = "invalid license adaptation";
             $translations["invalidLicenseRemix"] = "invalid license remix";
             $translations["questionTypeContract"] = "question type contract";
+            $translations["contentTypeCount"] = "content type count";
         }
 
         return $translations;

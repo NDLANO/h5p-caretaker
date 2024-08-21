@@ -176,6 +176,11 @@ class H5PCaretaker
             }
         }
 
+        $stats = StatisticsReport::generateReport($contentTree, $reportRaw);
+        foreach ($stats as $key => $message) {
+            $report["messages"][] = $message;
+        }
+
         // TODO: Ultimately, $report only contain the raw data on request
         $report["raw"] = $reportRaw;
 
