@@ -29,6 +29,7 @@ class FeatureReport
      * Get the license report.
      *
      * @param ContentTree $contentTree The content tree.
+     * @param array       $rawInfo     The raw info.
      */
     public static function generateReport($contentTree, $rawInfo)
     {
