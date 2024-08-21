@@ -125,6 +125,16 @@ class ContentFile
     }
 
     /**
+     * Add a report message.
+     *
+     * @param array $message The message.
+     */
+    public function addReportMessage($message)
+    {
+        $this->parent->addReportMessage($message);
+    }
+
+    /**
      * Get mapping of type to translatable text.
      *
      * @param string $type The type.

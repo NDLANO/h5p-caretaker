@@ -38,12 +38,9 @@ class LicenseReport
         $report["messages"] = [];
 
         foreach ($contents as $content) {
-            $report["messages"] = array_merge(
-                $report["messages"],
-                self::checkLicense($content),
-                self::checkLicenseAdaptation($content),
-                self::checkLicenseRemixing($content)
-            );
+            self::checkLicense($content);
+            self::checkLicenseAdaptation($content);
+            self::checkLicenseRemixing($content);
 
             $contentFiles = $content->getAttribute("contentFiles");
 
@@ -61,13 +58,8 @@ class LicenseReport
                     continue; // Already handled by content type specific reports
                 }
 
-                $report["messages"] = array_merge(
-                    $report["messages"],
-                    self::checkLicense($contentFile)
-                );
+                self::checkLicense($contentFile);
             }
-
-            $content->setReport("license", $report);
         }
     }
 
@@ -75,13 +67,9 @@ class LicenseReport
      * Check if the licenses of a content's subcontents are compatible.
      *
      * @param Content $content The content to check.
-     *
-     * @return array The messages.
      */
     private static function checkLicenseRemixing($content)
     {
-        $messages = [];
-
         // Combine subcontents and content files
         $children = $content->getChildren();
         $machineName = $content->getDescription("{machineName}");
@@ -98,33 +86,20 @@ class LicenseReport
             );
         }
 
-        $messages = array_merge(
-            $messages,
-            self::checkLicenseRemixND($children)
-        );
-
-        $messages = array_merge(
-            $messages,
-            self::checkLicenseRemixNCSA($children)
-        );
-
-        return $messages;
+        self::checkLicenseRemixND($children);
+        self::checkLicenseRemixNCSA($children);
     }
 
     /**
      * Check if the CC BY-SA license of a subcontent is compatible with sibling contents.
      *
      * @param array $contents The contents to check.
-     *
-     * @return array The messages.
      */
     private static function checkLicenseRemixNCSA($contents)
     {
         if (count($contents) < 2) {
             return [];
         }
-
-        $messages = [];
 
         $contentLicenses = array_map(
             function ($content) {
@@ -155,7 +130,7 @@ class LicenseReport
 
         foreach ($contentLicensedSA as $sa) {
             foreach ($contentLicensedNCorNCSA as $nc) {
-                $messages[] = ReportUtils::buildMessage([
+                $message = ReportUtils::buildMessage([
                     "category" => "license",
                     "type" => "invalidLicenseRemix",
                     "summary" => sprintf(
@@ -186,18 +161,16 @@ class LicenseReport
                         "the license of the parent content."
                     )
                 ]);
+
+                $sa["content"]->getParent()->addReportMessage($message);
             }
         }
-
-        return $messages;
     }
 
     /**
      * Check if the non derivative-license of a subcontent is compatible with a sibling content.
      *
      * @param array $contents The contents to check.
-     *
-     * @return array The messages.
      */
     private static function checkLicenseRemixND($contents)
     {
@@ -205,7 +178,6 @@ class LicenseReport
             return [];
         }
 
-        $messages = [];
         foreach ($contents as $content) {
             $license = $content->getAttribute("metadata")["license"] ?? "";
             if ($license === "U") {
@@ -214,7 +186,7 @@ class LicenseReport
                 strpos($license, "CC BY") === 0 &&
                 strpos($license, "ND") !== false
             ) {
-                $messages[] = ReportUtils::buildMessage([
+                $message = ReportUtils::buildMessage([
                     "category" => "license",
                     "type" => "invalidLicenseRemix",
                     "summary" => sprintf(
@@ -243,23 +215,18 @@ class LicenseReport
                         "the license of the parent content."
                     )
                 ]);
+                $content->addReportMessage($message);
             }
         }
-
-        return $messages;
     }
 
     /**
      * Check if the license of a content is adapted to its subcontent.
      *
      * @param Content $content The content to check.
-     *
-     * @return array The messages.
      */
     private static function checkLicenseAdaptation($content)
     {
-        $messages = [];
-
         $license = $content->getAttribute("metadata")["license"] ?? "";
         if ($license === "U") {
             return []; // License should be set first anyway.
@@ -282,21 +249,11 @@ class LicenseReport
         }
 
         foreach ($children as $child) {
-            foreach (
-                [
-                    self::checkLicenseAdaptationNC($content, $child),
-                    self::checkLicenseAdaptationND($content, $child),
-                    self::checkLicenseAdaptationBY($content, $child),
-                    self::checkLicenseAdaptationVersion($content, $child)
-                ] as $result
-            ) {
-                if (isset($result)) {
-                    $messages[] = $result;
-                }
-            }
+            self::checkLicenseAdaptationNC($content, $child);
+            self::checkLicenseAdaptationND($content, $child);
+            self::checkLicenseAdaptationBY($content, $child);
+            self::checkLicenseAdaptationVersion($content, $child);
         }
-
-        return $messages;
     }
 
     /**
@@ -304,8 +261,6 @@ class LicenseReport
      *
      * @param Content $content The content to check.
      * @param Content|ContentFile $subcontent The subcontent or content file to check.
-     *
-     * @return array|undefined The message or undefined if OK.
      */
     private static function checkLicenseAdaptationNC($content, $subcontent)
     {
@@ -326,7 +281,7 @@ class LicenseReport
             strpos($subcontentLicense, "NC") !== false &&
             strpos($license, "NC") === false
         ) {
-            return ReportUtils::buildMessage([
+            $message = ReportUtils::buildMessage([
                 "category" => "license",
                 "type" => "invalidLicenseAdaptation",
                 "summary" => sprintf(
@@ -350,6 +305,7 @@ class LicenseReport
                     "with the license of the parent content."
                 )
             ]);
+            $content->addReportMessage($message);
         }
     }
 
@@ -358,8 +314,6 @@ class LicenseReport
      *
      * @param Content $content The content to check.
      * @param Content|ContentFile $subcontent The subcontent or content file to check.
-     *
-     * @return array The messages.
      */
     private static function checkLicenseAdaptationND($content, $subcontent)
     {
@@ -380,7 +334,7 @@ class LicenseReport
             strpos($subcontentLicense, "ND") !== false &&
             strpos($license, "ND") === false
         ) {
-            return ReportUtils::buildMessage([
+            $message = ReportUtils::buildMessage([
                 "category" => "license",
                 "type" => "invalidLicenseAdaptation",
                 "summary" => sprintf(
@@ -408,6 +362,7 @@ class LicenseReport
                     "the license of the parent content."
                 )
             ]);
+            $content->addReportMessage($message);
         }
     }
 
@@ -416,8 +371,6 @@ class LicenseReport
      *
      * @param Content $content The content to check.
      * @param Content|ContentFile $subcontent The subcontent or content file to check.
-     *
-     * @return array|undefined The message or undefined if OK.
      */
     private static function checkLicenseAdaptationBY($content, $subcontent)
     {
@@ -431,7 +384,7 @@ class LicenseReport
             $subcontentLicense === "CC BY" &&
             in_array($license, ["CC0 1.0", "PD", "CC PDM", "ODC PDDL"])
         ) {
-            return ReportUtils::buildMessage([
+            $message = ReportUtils::buildMessage([
                 "category" => "license",
                 "type" => "discouragedLicenseAdaptation",
                 "summary" => sprintf(
@@ -454,6 +407,7 @@ class LicenseReport
                     "with the license of the parent content."
                 )
             ]);
+            $content->addReportMessage($message);
         }
     }
 
@@ -495,7 +449,7 @@ class LicenseReport
 
         if ($subcontentLicense === "CC BY-SA") {
             if ($subcontentLicenseVersion !== "4.0" && $license === "GNU GPL") {
-                return ReportUtils::buildMessage([
+                $message = ReportUtils::buildMessage([
                     "category" => "license",
                     "type" => "invalidLicenseAdaptation",
                     "summary" => sprintf(
@@ -526,8 +480,9 @@ class LicenseReport
                         "with the license of the parent content."
                     )
                 ]);
+                $content->addReportMessage($message);
             } elseif ($license !== "CC BY-SA") {
-                return ReportUtils::buildMessage([
+                $message = ReportUtils::buildMessage([
                     "category" => "license",
                     "type" => "invalidLicenseAdaptation",
                     "summary" => sprintf(
@@ -558,11 +513,12 @@ class LicenseReport
                         "with the license of the parent content."
                     )
                 ]);
+                $content->addReportMessage($message);
             } elseif (
                 $subcontentLicenseVersion === "1.0" &&
                 $licenseVersion !== "1.0"
             ) {
-                return ReportUtils::buildMessage([
+                $message = ReportUtils::buildMessage([
                     "category" => "license",
                     "type" => "invalidLicenseAdaptation",
                     "summary" => sprintf(
@@ -589,11 +545,12 @@ class LicenseReport
                         "with the license of the parent content."
                     )
                 ]);
+                $content->addReportMessage($message);
             } elseif (
                 isset($validVersions[$subcontentLicenseVersion]) &&
                 !in_array($licenseVersion, $validVersions[$subcontentLicenseVersion])
             ) {
-                return ReportUtils::buildMessage([
+                $message = ReportUtils::buildMessage([
                     "category" => "license",
                     "type" => "invalidLicenseAdaptation",
                     "summary" => sprintf(
@@ -627,10 +584,11 @@ class LicenseReport
                         "with the license of the parent content."
                     )
                 ]);
+                $content->addReportMessage($message);
             }
         } elseif ($subcontentLicense === "CC BY-NC-SA") {
             if ($license !== "CC BY-NC-SA") {
-                return ReportUtils::buildMessage([
+                $message = ReportUtils::buildMessage([
                     "category" => "license",
                     "type" => "invalidLicenseAdaptation",
                     "summary" => sprintf(
@@ -661,11 +619,12 @@ class LicenseReport
                         "with the license of the parent content."
                     )
                 ]);
+                $content->addReportMessage($message);
             } elseif (
                 $subcontentLicenseVersion === "1.0" &&
                 $licenseVersion !== "1.0"
             ) {
-                return ReportUtils::buildMessage([
+                $message = ReportUtils::buildMessage([
                     "category" => "license",
                     "type" => "invalidLicenseAdaptation",
                     "summary" => sprintf(
@@ -695,11 +654,12 @@ class LicenseReport
                         "with the license of the parent content."
                     )
                 ]);
+                $content->addReportMessage($message);
             } elseif (
                 isset($validVersions[$subcontentLicenseVersion]) &&
                 !in_array($licenseVersion, $validVersions[$subcontentLicenseVersion])
             ) {
-                return ReportUtils::buildMessage([
+                $message = ReportUtils::buildMessage([
                     "category" => "license",
                     "type" => "invalidLicenseAdaptation",
                     "summary" => sprintf(
@@ -732,6 +692,7 @@ class LicenseReport
                         "with the license of the parent content."
                     )
                 ]);
+                $content->addReportMessage($message);
             }
         }
     }
@@ -740,38 +701,22 @@ class LicenseReport
      * Check the license of a content or content file.
      *
      * @param Content|Contentfile $content The content or contentFile to check.
-     *
-     * @return array The messages.
      */
     private static function checkLicense($content)
     {
-        $messages = [];
-
-        foreach (
-            [
-            self::checkMissingLicense($content),
-            self::checkMissingLicenseVersion($content),
-            self::checkMissingAuthor($content),
-            self::checkMissingTitle($content),
-            self::checkMissingLink($content),
-            self::checkMissingChanges($content),
-            self::checkMissingLicenseExtras($content)
-            ] as $result
-        ) {
-            if (isset($result)) {
-                $messages[] = $result;
-            }
-        }
-
-        return $messages;
+        self::checkMissingLicense($content);
+        self::checkMissingLicenseVersion($content);
+        self::checkMissingAuthor($content);
+        self::checkMissingTitle($content);
+        self::checkMissingLink($content);
+        self::checkMissingChanges($content);
+        self::checkMissingLicenseExtras($content);
     }
 
     /**
      * Check if the license is missing.
      *
      * @param Content|ContentFile $content The content or content file to check.
-     *
-     * @return array|undefined The message or undefined if OK.
      */
     private static function checkMissingLicense($content)
     {
@@ -792,7 +737,7 @@ class LicenseReport
                 $content->getParent()->getDescription()
             );
 
-            return ReportUtils::buildMessage([
+            $message = ReportUtils::buildMessage([
                 "category" => "license",
                 "type" => "missingLicense",
                 "summary" => $summary,
@@ -803,6 +748,7 @@ class LicenseReport
                 ],
                 "recommendation" => _("Check the license information of the content and add it to the metadata.")
             ]);
+            $content->addReportMessage($message);
     }
 
     /**
@@ -810,8 +756,6 @@ class LicenseReport
      * This is only relevant for Creative Commons licenses, but they need a version.
      *
      * @param Content|ContentFile $content The content or content file to check.
-     *
-     * @return array|undefined The message or undefined if OK.
      */
     private static function checkMissingLicenseVersion($content)
     {
@@ -826,7 +770,7 @@ class LicenseReport
             return;
         }
 
-        return ReportUtils::buildMessage([
+        $message = ReportUtils::buildMessage([
             "category" => "license",
             "type" => "missingLicenseVersion",
             "summary" => sprintf(
@@ -839,6 +783,7 @@ class LicenseReport
             ],
             "recommendation" => _("Set the license version in the metadata.")
         ]);
+        $content->addReportMessage($message);
     }
 
     /**
@@ -846,8 +791,6 @@ class LicenseReport
      * Public Domain licenses do not need an author, but others must or should have at least.
      *
      * @param Content|ContentFile $content The content or content file to check.
-     *
-     * @return array|undefined The message or undefined if OK.
      */
     private static function checkMissingAuthor($content)
     {
@@ -878,7 +821,7 @@ class LicenseReport
             $reference = "https://www.gnu.org/licenses/gpl-3.0.txt";
         }
 
-        return ReportUtils::buildMessage([
+        $message = ReportUtils::buildMessage([
             "category" => "license",
             "type" => "missingAuthor",
             "summary" => sprintf(
@@ -892,6 +835,7 @@ class LicenseReport
             ],
             "recommendation" => _("Add the author name or creator name in the metadata.")
         ]);
+        $content->addReportMessage($message);
     }
 
     /**
@@ -900,8 +844,6 @@ class LicenseReport
      * @see https://creativecommons.org/licenses/by/4.0/#ref-appropriate-credit
      *
      * @param Content|ContentFile $content The content or content file to check.
-     *
-     * @return array|undefined The message or undefined if OK.
      */
     private static function checkMissingTitle($content)
     {
@@ -932,7 +874,7 @@ class LicenseReport
             );
         }
 
-        return  ReportUtils::buildMessage([
+        $message = ReportUtils::buildMessage([
             "category" => "license",
             "type" => "missingTitle",
             "summary" => sprintf(
@@ -948,6 +890,7 @@ class LicenseReport
             ],
             "recommendation" => _("Add the title of the content (if supplied) in the metadata.")
         ]);
+        $content->addReportMessage($message);
     }
 
     /**
@@ -958,8 +901,6 @@ class LicenseReport
      * @see https://wiki.creativecommons.org/wiki/License_Versions#Attribution-specific_elements
      *
      * @param Content|ContentFile $content The content or content file to check.
-     *
-     * @return array|undefined The message or undefined if OK.
      */
     private static function checkMissingLink($content)
     {
@@ -991,7 +932,7 @@ class LicenseReport
         }
 
         if ($licenseVersion === "4.0") {
-            return ReportUtils::buildMessage([
+            $message = ReportUtils::buildMessage([
                 "category" => "license",
                 "type" => "missingSource",
                 "summary" => sprintf(
@@ -1007,8 +948,9 @@ class LicenseReport
                 ],
                 "recommendation" => _("Add the link to the content in the metadata.")
             ]);
+            $content->addReportMessage($message);
         } else {
-            return ReportUtils::buildMessage([
+            $message = ReportUtils::buildMessage([
                 "category" => "license",
                 "type" => "missingSource",
                 "summary" => sprintf(
@@ -1028,6 +970,7 @@ class LicenseReport
                 ),
                 "level" => "warning"
             ]);
+            $content->addReportMessage($message);
         }
     }
 
@@ -1041,8 +984,6 @@ class LicenseReport
      * @see https://www.gnu.org/licenses/gpl-3.0.txt
      *
      * @param Content|ContentFile $content The content or content file to check.
-     *
-     * @return array|undefined The message or undefined if OK.
      */
     private static function checkMissingChanges($content)
     {
@@ -1073,7 +1014,7 @@ class LicenseReport
         }
 
         if (strpos($license, "CC BY") === 0 && $licenseVersion === "4.0") {
-            return ReportUtils::buildMessage([
+            $message = ReportUtils::buildMessage([
                 "category" => "license",
                 "type" => "missingChanges",
                 "summary" => sprintf(
@@ -1094,10 +1035,11 @@ class LicenseReport
                 ),
                 "level" => "warning"
             ]);
+            $content->addReportMessage($message);
         }
 
         if (strpos($license, "CC BY") === 0 && $licenseVersion !== "4.0") {
-            return ReportUtils::buildMessage([
+            $message = ReportUtils::buildMessage([
                 "category" => "license",
                 "type" => "missingChanges",
                 "summary" => sprintf(
@@ -1118,10 +1060,11 @@ class LicenseReport
                 ),
                 "level" => "warning"
             ]);
+            $content->addReportMessage($message);
         }
 
         if ($license === "GNU GPL") {
-            return ReportUtils::buildMessage([
+            $message = ReportUtils::buildMessage([
                 "category" => "license",
                 "type" => "missingChanges",
                 "summary" => sprintf(
@@ -1138,6 +1081,7 @@ class LicenseReport
                 "recommendation" => _("List any changes you made in the metadata."),
                 "level" => "warning"
             ]);
+            $content->addReportMessage($message);
         }
     }
 
@@ -1147,8 +1091,6 @@ class LicenseReport
      * @see https://www.gnu.org/licenses/gpl-3.0.txt
      *
      * @param Content|ContentFile $content The content or content file to check.
-     *
-     * @return array|undefined The message or undefined if OK.
      */
     private static function checkMissingLicenseExtras($content)
     {
@@ -1164,7 +1106,7 @@ class LicenseReport
             return;
         }
 
-        return ReportUtils::buildMessage([
+        $message = ReportUtils::buildMessage([
             "category" => "license",
             "type" => "missingLicenseExtras",
             "summary" => sprintf(
@@ -1180,5 +1122,6 @@ class LicenseReport
             ],
             "recommendation" => _("Add the original GPL license text in the \"license extras\" field.")
         ]);
+        $content->addReportMessage($message);
     }
 }

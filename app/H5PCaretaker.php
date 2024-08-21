@@ -169,14 +169,9 @@ class H5PCaretaker
         ];
 
         $reports = $contentTree->getReports();
-        foreach ($reports as $key => $subArray) {
-            if (
-                isset($subArray["messages"]) &&
-                is_array($subArray["messages"])
-            ) {
-                foreach ($subArray["messages"] as $message) {
-                    $report["messages"][] = $message;
-                }
+        foreach ($reports as $category => $messages) {
+            foreach($messages as $message) {
+                $report["messages"][] = $message;
             }
         }
 

@@ -34,9 +34,6 @@ class AccessibilityReport
     {
         $contents = $contentTree->getContents();
 
-        $report = [];
-        $report["messages"] = [];
-
         // Get all unique libreText evaluations
         $contentsLibreOffice = array_filter($contents, function ($content) {
             $libreText = $content->getAttribute("libreText");
@@ -60,7 +57,8 @@ class AccessibilityReport
                     $content->getAttribute("versionedMachineName")
                 )[0]
             );
-            $report["messages"][] = ReportUtils::buildMessage([
+
+            $message = ReportUtils::buildMessage([
                 "category" => "accessibility",
                 "type" => "libreText",
                 "summary" => $summary,
@@ -74,6 +72,8 @@ class AccessibilityReport
                 ],
                 "level" => "info"
             ]);
+
+            $content->addReportMessage($message);
         }
 
         foreach ($contents as $content) {
@@ -100,7 +100,8 @@ class AccessibilityReport
 
                     if ($hasCustomHandling) {
                         if ($alt === "" && $decorative === false) {
-                            $report["messages"][] = ReportUtils::buildMessage([
+
+                            $message = ReportUtils::buildMessage([
                                 "category" => "accessibility",
                                 "type" => "missingAltText",
                                 "summary" => sprintf(
@@ -122,9 +123,11 @@ class AccessibilityReport
                                 ],
                                 "recommendation" => $recommendation
                             ]);
+
+                            $content->addReportMessage($message);
                         }
                     } else {
-                        $report["messages"][] = ReportUtils::buildMessage([
+                        $message = ReportUtils::buildMessage([
                             "category" => "accessibility",
                             "type" => "missingAltText",
                             "summary" => sprintf(
@@ -148,12 +151,12 @@ class AccessibilityReport
                                 "whether it is not required to have one here."
                             )
                         ]);
+
+                        $content->addReportMessage($message);
                     }
                 }
             }
         }
-
-        $content->setReport("accessibility", $report);
     }
 
     /**

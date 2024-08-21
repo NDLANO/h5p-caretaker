@@ -189,14 +189,22 @@ class Content
     }
 
     /**
-     * Set report.
-     *
-     * @param string $name     The name of the report.
-     * @param array  $messages The messages of the report.
+     * Add message to report.
+     * @param string $category
+     * @param array $message
      */
-    public function setReport($name, $messages)
+    public function addReportMessage($message)
     {
-        $this->reports[$name] = $messages;
+        $category = $message["category"] ?? null;
+        if (!isset($category)) {
+            return;
+        }
+
+        if (!isset($this->reports[$category])) {
+            $this->reports[$category] = [];
+        }
+
+        $this->reports[$category][] = $message;
     }
 
     /**
