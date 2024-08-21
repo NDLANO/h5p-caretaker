@@ -148,6 +148,12 @@ class LocaleUtils
             "error" => _("error"),
             "reference" => _("reference"),
             "accessibility" => _("accessibility"),
+            "missingAltText" => _("missingAltText"),
+            "libreText" => "libreText",
+            "features" => _("features"),
+            "resume" => _("resume"),
+            "xAPI" => _("xAPI"),
+            "questionTypeContract" => _("questionTypeContract"),
             "license" => _("license"),
             "missingLicense" => _("missingLicense"),
             "missingLicenseExtras" => _("missingLicenseExtras"),
@@ -156,8 +162,6 @@ class LocaleUtils
             "missingSource" => _("missingSource"),
             "missingChanges" => _("missingChanges"),
             "discouragedLicenseAdaptation" => _("discouragedLicenseAdaptation"),
-            "missingAltText" => _("missingAltText"),
-            "libreText" => "libreText",
             "invalidLicenseAdaptation" => _("invalidLicenseAdaptation"),
             "invalidLicenseRemix" => _("invalidLicenseRemix"),
         ];
@@ -173,6 +177,7 @@ class LocaleUtils
             $translations["discouragedLicenseAdaptation"] = "discouraged license adaptation";
             $translations["invalidLicenseAdaptation"] = "invalid license adaptation";
             $translations["invalidLicenseRemix"] = "invalid license remix";
+            $translations["questionTypeContract"] = "question type contract";
         }
 
         return $translations;

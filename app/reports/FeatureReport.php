@@ -113,7 +113,7 @@ class FeatureReport
                 ];
             } elseif (count($supported) !== 0) {
                 // phpcs:ignore
-                $summary = _("Content %s seems to partially support functions/variables of the H5P question type contract");
+                $summary = _("Content %s seems to partially support the full H5P question type contract.");
                 $description = [
                 sprintf(
                     _("Supported functions/variables: %s."),
@@ -126,7 +126,7 @@ class FeatureReport
                 ];
             } else {
                 // phpcs:ignore
-                $summary = _("Content %s does not seem to support any of the H5P question type contract functions/variables.");
+                $summary = _("Content %s does not seem to support the H5P question type contract.");
                 $description = [
                 sprintf(
                     _("Unsupported functions/variables: %s."),
