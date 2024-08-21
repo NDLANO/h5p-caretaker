@@ -100,7 +100,6 @@ class AccessibilityReport
 
                     if ($hasCustomHandling) {
                         if ($alt === "" && $decorative === false) {
-
                             $message = ReportUtils::buildMessage([
                                 "category" => "accessibility",
                                 "type" => "missingAltText",
@@ -200,28 +199,24 @@ class AccessibilityReport
                 $decorative = true;
                 $hasCustomHandling = true;
             }
-        }
-        else if ($parentMachineName === "H5P.ARScavenger") {
+        } elseif ($parentMachineName === "H5P.ARScavenger") {
             if (str_ends_with($semanticsPath, "markerImage")) {
                 $decorative = true;
                 $hasCustomHandling = true;
             }
-        }
-        else if ($parentMachineName === "H5P.BranchingQuestion") {
+        } elseif ($parentMachineName === "H5P.BranchingQuestion") {
             if (str_ends_with($semanticsPath, ".feedback.image")) {
                 $decorative = true; // Has no alt text option
                 $hasCustomHandling = true;
             }
-        }
-        else if ($parentMachineName === "H5P.BranchingScenario") {
+        } elseif ($parentMachineName === "H5P.BranchingScenario") {
             if (
                 str_ends_with($semanticsPath, ".endScreenImage") ||
                 str_ends_with($semanticsPath, ".feedback.image")
             ) {
                 $decorative = true; // Has no alt text option
                 $hasCustomHandling = true;
-            }
-            elseif (str_ends_with($semanticsPath, ".startScreenImage")) {
+            } elseif (str_ends_with($semanticsPath, ".startScreenImage")) {
                 $semanticsPath = preg_replace('/\.startScreenImage$/', "", $semanticsPath);
                 $imageParams = JSONUtils::getElementAtPath(
                     $contentTree->getRoot()->getAttribute("params"),
@@ -236,8 +231,7 @@ class AccessibilityReport
 
                 $hasCustomHandling = true;
             }
-        }
-        else if ($parentMachineName === "H5P.Collage") {
+        } elseif ($parentMachineName === "H5P.Collage") {
             $semanticsPath = preg_replace('/\.image$/', "", $semanticsPath);
             $imageParams = JSONUtils::getElementAtPath(
                 $contentTree->getRoot()->getAttribute("params"),
@@ -279,14 +273,12 @@ class AccessibilityReport
                 _("Set an alternative text for the image of the card.");
 
             $hasCustomHandling = true;
-        }
-        elseif ($parentMachineName === "H5P.DragQuestion") {
+        } elseif ($parentMachineName === "H5P.DragQuestion") {
             if (str_ends_with($semanticsPath, "question.settings.background")) {
                 $decorative = true; // Is background image
                 $hasCustomHandling = true;
             }
-        }
-        elseif ($parentMachineName === "H5P.Flashcards") {
+        } elseif ($parentMachineName === "H5P.Flashcards") {
             $semanticsPath = preg_replace('/\.image$/', "", $semanticsPath);
             $imageParams = JSONUtils::getElementAtPath(
                 $contentTree->getRoot()->getAttribute("params"),
@@ -300,8 +292,7 @@ class AccessibilityReport
                 _("Set an alternative text for the image of the card.");
 
             $hasCustomHandling = true;
-        }
-        elseif ($parentMachineName === "H5P.GameMap") {
+        } elseif ($parentMachineName === "H5P.GameMap") {
             if (
                 $semanticsPath ===
                     "gamemapSteps.backgroundImageSettings.backgroundImage"
@@ -336,8 +327,7 @@ class AccessibilityReport
                 $decorative = true; // Does not allow entering alt text
                 $hasCustomHandling = true;
             }
-        }
-        elseif ($parentMachineName === "H5P.ImagePair") {
+        } elseif ($parentMachineName === "H5P.ImagePair") {
             if (str_ends_with($semanticsPath, "image")) {
                 $semanticsPath = preg_replace('/\.image$/', "", $semanticsPath);
                 $cardParams = JSONUtils::getElementAtPath(
@@ -352,8 +342,7 @@ class AccessibilityReport
                     _("Set an alternative text for the original image.");
 
                 $hasCustomHandling = true;
-            }
-            elseif (str_ends_with($semanticsPath, "match")) {
+            } elseif (str_ends_with($semanticsPath, "match")) {
                 $semanticsPath = preg_replace('/\.match$/', "", $semanticsPath);
                 $cardParams = JSONUtils::getElementAtPath(
                     $contentTree->getRoot()->getAttribute("params"),
@@ -367,13 +356,11 @@ class AccessibilityReport
                     _("Set an alternative text for the matching image.");
 
                 $hasCustomHandling = true;
-            }
-            else if (str_ends_with($semanticsPath, "originalImage")) {
+            } elseif (str_ends_with($semanticsPath, "originalImage")) {
                 $decorative = true; // Old parameter that should have been removed by an upgrades.js script
                 $hasCustomHandling = true;
             }
-        }
-        elseif ($parentMachineName === "H5P.ImageSequencing") {
+        } elseif ($parentMachineName === "H5P.ImageSequencing") {
             $semanticsPath = preg_replace('/\.image$/', "", $semanticsPath);
             $cardParams = JSONUtils::getElementAtPath(
                 $contentTree->getRoot()->getAttribute("params"),
@@ -387,12 +374,10 @@ class AccessibilityReport
                 _("Set a description text for the image.");
 
             $hasCustomHandling = true;
-        }
-        elseif ($parentMachineName === "H5P.ImpressivePresentation") {
+        } elseif ($parentMachineName === "H5P.ImpressivePresentation") {
             $decorative = true; // Does not allow to enter anything
             $hasCustomHandling = true;
-        }
-        elseif ($parentMachineName === "H5P.MemoryGame") {
+        } elseif ($parentMachineName === "H5P.MemoryGame") {
             $semanticsPath = preg_replace('/\.image$/', "", $semanticsPath);
             $cardParams = JSONUtils::getElementAtPath(
                 $contentTree->getRoot()->getAttribute("params"),
@@ -406,12 +391,10 @@ class AccessibilityReport
                 _("Set an alternative text for the image of the card.");
 
             $hasCustomHandling = true;
-        }
-        elseif ($parentMachineName === "H5P.QuestionSet") {
+        } elseif ($parentMachineName === "H5P.QuestionSet") {
             $decorative = true; // Does not allow to enter anything
             $hasCustomHandling = true;
-        }
-        elseif ($parentMachineName === "H5P.SpeakTheWordsSet") {
+        } elseif ($parentMachineName === "H5P.SpeakTheWordsSet") {
             $semanticsPath = preg_replace('/\.introductionImage$/', "", $semanticsPath);
             $introParams = JSONUtils::getElementAtPath(
                 $contentTree->getRoot()->getAttribute("params"),
@@ -425,19 +408,16 @@ class AccessibilityReport
                 _("Set an alternative text for the introduction image.");
 
             $hasCustomHandling = true;
-        }
-        else if ($parentMachineName === "H5P.ThreeImage") {
+        } elseif ($parentMachineName === "H5P.ThreeImage") {
             if (str_ends_with($semanticsPath, ".scenesrc")) {
                 $decorative = true; // Does not allow entering alt text
                 $hasCustomHandling = true;
             }
-        }
-        elseif ($parentMachineName === "H5P.Timeline") {
+        } elseif ($parentMachineName === "H5P.Timeline") {
             if (str_ends_with($semanticsPath, "backgroundImage")) {
                 $decorative = true; // Does not allow entering alt text
                 $hasCustomHandling = true;
-            }
-            elseif (str_ends_with($semanticsPath, "thumbnail")) {
+            } elseif (str_ends_with($semanticsPath, "thumbnail")) {
                 $semanticsPath = preg_replace('/\.thumbnail$/', "", $semanticsPath);
                 $assetParams = JSONUtils::getElementAtPath(
                     $contentTree->getRoot()->getAttribute("params"),

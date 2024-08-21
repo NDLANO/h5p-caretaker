@@ -171,7 +171,7 @@ class H5PCaretaker
 
         $reports = $contentTree->getReports();
         foreach ($reports as $category => $messages) {
-            foreach($messages as $message) {
+            foreach ($messages as $message) {
                 $report["messages"][] = $message;
             }
         }
