@@ -32,6 +32,8 @@ class AccessibilityReport
      */
     public static function generateReport($contentTree)
     {
+        // TOOD: The semantics path should report the full path to the field, not just the content/file
+
         $contents = $contentTree->getContents();
 
         // Get all unique libreText evaluations
