@@ -196,4 +196,64 @@ class H5PCaretaker
 
         return $h5pFileHandler;
     }
+
+    /**
+     * Write values to an H5P content file.
+     *
+     * @param array $params The parameters. file (tmp file), values.
+     *
+     * @return array The result or error.
+     */
+    public function write($params)
+    {
+        if (!isset($params["values"])) {
+            return $this->done(null, _("No values were provided for writing."));
+        }
+
+        $fileCheckResults = $this->checkH5PFile($params["file"]);
+        if (getType($fileCheckResults) === "string") {
+            return $this->done(null, $fileCheckResults);
+        }
+
+        $h5pFileHandler = $fileCheckResults;
+
+        /*
+         * TODO: some options
+         * - overwrite/add values to content.json
+         *
+         * Function that takes a semantics path, a value and the content.json and returns the new content.json or null.
+         *
+         * The frontend will (need to) know the semantics path. E.g.:
+         * - the key `foo.bar[8].baz[].yada` and the value `42` should sequentially
+         *   - check if foo exists, if not throw an error
+         *   - check if foo is an object, if not throw an error
+         *   - check if foo.bar exists, if not throw an error
+         *   - check if foo.bar is an array, if not throw an error
+         *   - check if foo.bar[8] exists, if not throw an error
+         *   - check if foo.bar[8].baz exists, if not throw an error
+         *   - check if foo.bar[8].baz is an array, if not throw an error
+         *   - add an element to foo.bar[8].baz[] and as of now ignore if a field does not exist
+         *   - add yada to the newly created element
+         *   - set the value of yada to 42
+         *
+         * - the key `foo.yada` and the value `42` should sequentially
+         *   - check if foo exists, if not throw an error
+         *   - check if yada exists, if not set it (as it's the final field), but if set, check it's type to match the value's type
+         *   - set the value of yada to 42
+         *
+         * So, in short:
+         * - check each part of the path sequentially
+         * - check for existence if not the final field and no array item was added before,
+         * - check if type of current field matches (object/array) if not final field.
+         * - add array item if the field is an array and has []
+         * - add final field if not set yet.
+         * - check if type of current field matches the value's type if final field.
+         * - set the value of the final field.
+         *
+         * - overwrite/add values to h5p.json (?)
+         * - add files to the content folder (?)
+         */
+
+        return $this->done(null, _("Writing is not yet implemented."));
+    }
 }
