@@ -101,54 +101,12 @@ class H5PCaretaker
      */
     public function analyze($params)
     {
-        if (!isset($params["file"])) {
-            $this->done(null, _("It seems that no file was provided."));
+        $fileCheckResults = $this->checkH5PFile($params["file"]);
+        if (getType($fileCheckResults) === "string") {
+            return $this->done(null, $fileCheckResults);
         }
 
-        $file = $params["file"];
-
-        $fileSize = filesize($file);
-        $fileInfo = finfo_open(FILEINFO_MIME_TYPE);
-        $fileType = finfo_file($fileInfo, $file);
-
-        if ($fileSize === 0) {
-            return $this->done(null, _("The file is empty."));
-        }
-
-        $fileSizeLimit = 1024 * 1024 * 20; // 20 MB
-        if ($fileSize > $fileSizeLimit) {
-            return $this->done(
-                null,
-                sprintf(
-                    _("The file is larger than the limit of %s bytes."),
-                    $fileSizeLimit
-                )
-            );
-        }
-
-        if ($fileType !== "application/zip") {
-            return $this->done(
-                null,
-                _("The file is not a valid H5P file / ZIP archive.")
-            );
-        }
-
-        try {
-            $h5pFileHandler = new H5PFileHandler(
-                $file,
-                $this->config["uploadsPath"],
-                $this->config["cachePath"]
-            );
-        } catch (\Exception $error) {
-            return $this->done(null, $error->getMessage());
-        }
-
-        if (!$h5pFileHandler->isFileOkay()) {
-            return $this->done(
-                null,
-                _("The file does not seem to follow the H5P specification.")
-            );
-        }
+        $h5pFileHandler = $fileCheckResults;
 
         $reportRaw = [];
         $reportRaw["h5pJson"] = $h5pFileHandler->getH5PInformation();
@@ -187,5 +145,55 @@ class H5PCaretaker
         $h5pFileHandler = null;
 
         return $this->done(json_encode($report, JSON_UNESCAPED_SLASHES));
+    }
+
+    /**
+     * Check the H5P file.
+     *
+     * @param string $file The file.
+     *
+     * @return string|H5PFileHandler The error message or the file handler.
+     */
+    public function checkH5PFile($file)
+    {
+        if (!isset($file)) {
+            return _("It seems that no file was provided.");
+        }
+
+        $fileSize = filesize($file);
+        $fileInfo = finfo_open(FILEINFO_MIME_TYPE);
+        $fileType = finfo_file($fileInfo, $file);
+
+        if ($fileSize === 0) {
+            return _("The file is empty.");
+        }
+
+        $fileSizeLimit = 1024 * 1024 * 20; // 20 MB
+        if ($fileSize > $fileSizeLimit) {
+            return sprintf(
+                _("The file is larger than the limit of %s bytes."),
+                $fileSizeLimit
+            );
+        }
+
+        if ($fileType !== "application/zip") {
+            return _("The file is not a valid H5P file / ZIP archive.");
+        }
+
+        try {
+            $h5pFileHandler = new H5PFileHandler(
+                $file,
+                $this->config["uploadsPath"],
+                $this->config["cachePath"]
+            );
+        } catch (\Exception $error) {
+            return $error->getMessage();
+        }
+
+        if (!$h5pFileHandler->isFileOkay()) {
+            return _("The file does not seem to follow the H5P specification.");
+        }
+
+        return $h5pFileHandler;
     }
 }
