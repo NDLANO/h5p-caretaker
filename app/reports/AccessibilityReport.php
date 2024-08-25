@@ -89,6 +89,7 @@ class AccessibilityReport
 
                     list(
                         $alt,
+                        $altTextPath,
                         $decorative,
                         $title,
                         $recommendation,
@@ -110,16 +111,10 @@ class AccessibilityReport
                                     $content->getDescription()
                                 ),
                                 "details" => [
-                                    "path" => $contentFile->getAttribute(
-                                        "path"
-                                    ),
-                                    "semanticsPath" => $contentFile->getAttribute(
-                                        "semanticsPath"
-                                    ),
+                                    "path" => $contentFile->getAttribute("path"),
+                                    "semanticsPath" => $altTextPath,
                                     "title" => $title,
-                                    "subContentId" => $content->getAttribute(
-                                        "id"
-                                    ),
+                                    "subContentId" => $content->getAttribute("id"),
                                     "reference" => "https://www.w3.org/WAI/alt/"
                                 ],
                                 "recommendation" => $recommendation
@@ -177,12 +172,14 @@ class AccessibilityReport
         $contentTree
     ) {
         $alt = "";
+        $altTextPath = "";
         $decorative = false;
         $title = "";
         $recommendation = "";
         $hasCustomHandling = false;
 
         $semanticsPath = $contentFile->getAttribute("semanticsPath");
+
         if ($parentMachineName === "H5P.AdventCalendar") {
             if (
                 str_ends_with(
@@ -226,6 +223,7 @@ class AccessibilityReport
                 );
 
                 $alt = $imageParams["startScreenAltText"] ?? "";
+                $altTextPath = $semanticsPath . "." . "" . "startScreenAltText";
 
                 $title = $contentFile->getDescription("{title}");
                 $recommendation =
@@ -241,6 +239,7 @@ class AccessibilityReport
             );
 
             $alt = $imageParams["alt"] ?? "";
+            $altTextPath = $semanticsPath . "." . "" . "alt";
 
             $title = $contentFile->getDescription("{title}");
             $recommendation =
@@ -269,6 +268,7 @@ class AccessibilityReport
             );
 
             $alt = $imageParams["imageAltText"] ?? "";
+            $altTextPath = $semanticsPath . "." . "" . "imageAltText";
 
             $title = $contentFile->getDescription("{title}");
             $recommendation =
@@ -288,6 +288,7 @@ class AccessibilityReport
             );
 
             $alt = $imageParams["imageAltText"] ?? "";
+            $altTextPath = $semanticsPath . "." . "" . "imageAltText";
 
             $title = $contentFile->getDescription("{title}");
             $recommendation =
@@ -304,6 +305,7 @@ class AccessibilityReport
             }
         } elseif ($parentMachineName === "H5P.Image") {
             $alt = $content->getAttribute("params")["alt"] ?? "";
+            $altTextPath = preg_replace('/\.file$/', "", $semanticsPath) . ".alt";
             $decorative =
                 $content->getAttribute("params")["decorative"] ?? false;
 
@@ -315,8 +317,20 @@ class AccessibilityReport
 
             $hasCustomHandling = true;
         } elseif ($parentMachineName === "H5P.ImageHotspots") {
-            if ($semanticsPath === "image") {
-                $decorative = true; // Is background image
+            if (str_ends_with($semanticsPath, "image")) {
+                $semanticsPath = preg_replace('/\.image$/', "", $semanticsPath);
+                $imageParams = JSONUtils::getElementAtPath(
+                    $contentTree->getRoot()->getAttribute("params"),
+                    $semanticsPath
+                );
+
+                $alt = $imageParams["backgroundImageAltText"] ?? "";
+                $altTextPath = $semanticsPath . "." . "" . "backgroundImageAltText";
+
+                $title = $contentFile->getDescription("{title}");
+                $recommendation =
+                    _("Set an alternative text for the background image.");
+
                 $hasCustomHandling = true;
             }
         } elseif ($parentMachineName === "H5P.ImageHotspotQuestion") {
@@ -338,6 +352,7 @@ class AccessibilityReport
                 );
 
                 $alt = $cardParams["imageAlt"] ?? "";
+                $altTextPath = $semanticsPath . "." . "imageAlt";
 
                 $title = $contentFile->getDescription("{title}");
                 $recommendation =
@@ -352,6 +367,7 @@ class AccessibilityReport
                 );
 
                 $alt = $cardParams["matchAlt"] ?? "";
+                $altTextPath = $semanticsPath . "." . "matchAlt";
 
                 $title = $contentFile->getDescription("{title}");
                 $recommendation =
@@ -370,6 +386,7 @@ class AccessibilityReport
             );
 
             $alt = $cardParams["imageDescription"] ?? "";
+            $altTextPath = $semanticsPath . "." . "imageDescription";
 
             $title = $contentFile->getDescription("{title}");
             $recommendation =
@@ -387,6 +404,7 @@ class AccessibilityReport
             );
 
             $alt = $cardParams["imageAlt"] ?? "";
+            $altTextPath = $semanticsPath . "." . "" . "imageAlt";
 
             $title = $contentFile->getDescription("{title}");
             $recommendation =
@@ -404,6 +422,7 @@ class AccessibilityReport
             );
 
             $alt = $introParams["introductionImageAltText"] ?? "";
+            $altTextPath = $semanticsPath . "." . "" . "introductionImageAltText";
 
             $title = $contentFile->getDescription("{title}");
             $recommendation =
@@ -427,6 +446,7 @@ class AccessibilityReport
                 );
 
                 $alt = $assetParams["caption"] ?? "";
+                $altTextPath = $semanticsPath . "." . "" . "caption";
 
                 $title = $contentFile->getDescription("{title}");
                 $recommendation =
@@ -442,6 +462,7 @@ class AccessibilityReport
             );
 
             $alt = $introParams["introductionImageAltText"] ?? "";
+            $altTextPath = $semanticsPath . "." . "" . "introductionImageAltText";
 
             $title = $contentFile->getDescription("{title}");
             $recommendation =
@@ -450,6 +471,6 @@ class AccessibilityReport
             $hasCustomHandling = true;
         }
 
-        return [$alt, $decorative, $title, $recommendation, $hasCustomHandling];
+        return [$alt, $altTextPath, $decorative, $title, $recommendation, $hasCustomHandling];
     }
 }

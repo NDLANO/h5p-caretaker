@@ -257,10 +257,7 @@ class Content
                 "attributes" => [
                     "type" => "image",
                     "path" => $this->attributes["params"]["file"]["path"] ?? "",
-                    "semanticsPath" =>
-                        $this->attributes["semanticsPath"] .
-                        "." .
-                        "params.file",
+                    "semanticsPath" => $this->attributes["semanticsPath"] . "." . "file",
                     "mime" => $this->attributes["params"]["file"]["mime"] ?? "",
                     "metadata" => $this->attributes["metadata"],
                 ],
@@ -278,12 +275,7 @@ class Content
                     "attributes" => [
                         "type" => "audio",
                         "path" => $file["path"] ?? "",
-                        "semanticsPath" =>
-                            $this->attributes["semanticsPath"] .
-                            "." .
-                            "params.files[" .
-                            $i .
-                            "]",
+                        "semanticsPath" => $this->attributes["semanticsPath"] . "." . "files[" . $i . "]",
                         "mime" => $file["mime"] ?? "",
                         "metadata" => $this->attributes["metadata"],
                     ],
@@ -302,12 +294,7 @@ class Content
                     "attributes" => [
                         "type" => "video",
                         "path" => $file["path"] ?? "",
-                        "semanticsPath" =>
-                            $this->attributes["semanticsPath"] .
-                            "." .
-                            "params.sources[" .
-                            $i .
-                            "]",
+                        "semanticsPath" => $this->attributes["semanticsPath"] . "." . "sources[" . $i . "]",
                         "mime" => $file["mime"] ?? "",
                         "metadata" => $this->attributes["metadata"],
                     ],
