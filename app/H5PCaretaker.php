@@ -250,7 +250,8 @@ class H5PCaretaker
          * - check if type of current field matches the value's type if final field.
          * - set the value of the final field.
          *
-         * - overwrite/add values to h5p.json (?)
+         * - overwrite/add values to h5p.json
+         *   relevant for metadata at least!
          * - add files to the content folder (?)
          */
 
