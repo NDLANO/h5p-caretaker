@@ -25,7 +25,10 @@ namespace H5PCaretaker;
  */
 class EfficiencyReport
 {
-  // Maximum image sizes in bytes for different image types and resolutions
+    public static $categoryName = "efficiency";
+    public static $typeNames = ["imageSize"];
+
+    // Maximum image sizes in bytes for different image types and resolutions
     private const MAX_IMAGE_SIZES = [
     "jpeg" => [
       0 => 51200,

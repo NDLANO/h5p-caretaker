@@ -25,6 +25,9 @@ namespace H5PCaretaker;
  */
 class FeatureReport
 {
+    public static $categoryName = "features";
+    public static $typeNames = ["resume", "xAPI", "questionTypeContract"];
+
     /**
      * Get the license report.
      *

@@ -25,7 +25,10 @@ namespace H5PCaretaker;
  */
 class StatisticsReport
 {
-      /**
+    public static $categoryName = "statistics";
+    public static $typeNames = ["contentTypeCount"];
+
+    /**
      * Get the license report.
      *
      * @param ContentTree $contentTree The content tree.

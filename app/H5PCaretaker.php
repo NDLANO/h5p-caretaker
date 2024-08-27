@@ -123,17 +123,22 @@ class H5PCaretaker
 
         $report = [
             "messages" => [],
-            "translations" => LocaleUtils::getKeywordTranslations(
-                $this->config["locale"] === "en"
-            ),
+            "client" => [
+                "translations" => LocaleUtils::getKeywordTranslations(
+                    $this->config["locale"] === "en"
+                ),
+                "categories" => [
+                    AccessibilityReport::$categoryName => AccessibilityReport::$typeNames,
+                    FeatureReport::$categoryName => FeatureReport::$typeNames,
+                    LicenseReport::$categoryName => LicenseReport::$typeNames,
+                    EfficiencyReport::$categoryName => EfficiencyReport::$typeNames,
+                    StatisticsReport::$categoryName => StatisticsReport::$typeNames
+                ]
+            ]
         ];
 
         $reports = $contentTree->getReports();
-        foreach ($reports as $category => $messages) {
-            foreach ($messages as $message) {
-                $report["messages"][] = $message;
-            }
-        }
+        $report["messages"] = array_merge(...array_values($reports));
 
         $stats = StatisticsReport::generateReport($contentTree, $reportRaw);
         foreach ($stats as $key => $message) {

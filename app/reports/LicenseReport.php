@@ -25,7 +25,20 @@ namespace H5PCaretaker;
  */
 class LicenseReport
 {
-    // TODO: For subcontent, the semanticsPath should point towards the exact metadata field.
+    public static $categoryName = "license";
+    public static $typeNames = [
+        "missingLicense",
+        "missingLicenseVersion",
+        "missingAuthor",
+        "missingTitle",
+        "missingLink",
+        "missingChanges",
+        "missingLicenseExtras",
+        "invalidLicenseRemix",
+        "invalidLicenseAdaptation",
+        "discouragedLicenseAdaptation"
+    ];
+
     // TODO: For main content, there needs to be an extra field, because the semanticsPath is empty.
 
     /**

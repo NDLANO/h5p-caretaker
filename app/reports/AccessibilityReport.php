@@ -25,6 +25,9 @@ namespace H5PCaretaker;
  */
 class AccessibilityReport
 {
+    public static $categoryName = "accessibility";
+    public static $typeNames = ["libreText", "missingAltText"];
+
     /**
      * Get the license report.
      *
