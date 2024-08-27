@@ -37,9 +37,6 @@ class LicenseReport
     {
         $contents = $contentTree->getContents();
 
-        $report = [];
-        $report["messages"] = [];
-
         foreach ($contents as $content) {
             self::checkLicense($content);
             self::checkLicenseAdaptation($content);

@@ -260,6 +260,8 @@ class Content
                     "semanticsPath" => $this->attributes["semanticsPath"] . "." . "file",
                     "mime" => $this->attributes["params"]["file"]["mime"] ?? "",
                     "metadata" => $this->attributes["metadata"],
+                    "width" => $this->attributes["params"]["file"]["width"] ?? 0,
+                    "height" => $this->attributes["params"]["file"]["height"] ?? 0,
                 ],
             ]);
         } elseif ($machineName === "H5P.Audio") {

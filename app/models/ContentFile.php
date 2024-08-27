@@ -64,6 +64,10 @@ class ContentFile
             $value = "";
         } elseif ($name === "metadata" && !isset($value)) {
             $value = [];
+        } elseif ($name === "width" && (!isset($value) || getType($value) !== "integer")) {
+            return;
+        } elseif ($name === "height" && (!isset($value) || getType($value) !== "integer")) {
+            return;
         }
 
         $this->attributes[$name] = $value;

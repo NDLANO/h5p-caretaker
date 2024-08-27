@@ -119,6 +119,7 @@ class H5PCaretaker
         AccessibilityReport::generateReport($contentTree);
         FeatureReport::generateReport($contentTree, $reportRaw);
         LicenseReport::generateReport($contentTree);
+        EfficiencyReport::generateReport($contentTree, $reportRaw);
 
         $report = [
             "messages" => [],
@@ -238,7 +239,8 @@ class H5PCaretaker
          *
          * - the key `foo.yada` and the value `42` should sequentially
          *   - check if foo exists, if not throw an error
-         *   - check if yada exists, if not set it (as it's the final field), but if set, check it's type to match the value's type
+         *   - check if yada exists, if not set it (as it's the final field), but if set,
+         *     check it's type to match the value's type
          *   - set the value of yada to 42
          *
          * So, in short:
