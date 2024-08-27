@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: H5P-Caretaker\n"
-"POT-Creation-Date: 2024-08-21 14:57+0200\n"
-"PO-Revision-Date: 2024-08-21 14:58+0200\n"
+"POT-Creation-Date: 2024-08-27 12:40+0200\n"
+"PO-Revision-Date: 2024-08-27 12:40+0200\n"
 "Last-Translator: H5P-Careraker\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -21,66 +21,74 @@ msgid "Something went wrong, but I dunno what, sorry!"
 msgstr ""
 "Etwas ist schief gelaufen, aber ich weiß nicht was, bitte entschuldige!"
 
-#: H5PCaretaker.php:105
+#: H5PCaretaker.php:161
 msgid "It seems that no file was provided."
 msgstr "Es sieht so aus als sei keine Datei angegeben worden."
 
-#: H5PCaretaker.php:115
+#: H5PCaretaker.php:169
 msgid "The file is empty."
 msgstr "Die Datei ist leer."
 
-#: H5PCaretaker.php:123
+#: H5PCaretaker.php:175
 #, php-format
 msgid "The file is larger than the limit of %s bytes."
 msgstr "Die Datei ist größer als das Limit von %s Bytes."
 
-#: H5PCaretaker.php:132
+#: H5PCaretaker.php:181
 msgid "The file is not a valid H5P file / ZIP archive."
 msgstr "Die Datei ist keine gültige H5P-Datei/kein gültiges ZIP-Archiv."
 
-#: H5PCaretaker.php:149
+#: H5PCaretaker.php:195
 msgid "The file does not seem to follow the H5P specification."
 msgstr "Die Detai scheint der H5P-Spezifikation nicht zu folgen."
 
-#: H5PFileHandler.php:592
+#: H5PCaretaker.php:211
+msgid "No values were provided for writing."
+msgstr "Es wurden keine Daten zum Schreiben angegeben."
+
+#: H5PCaretaker.php:260
+msgid "Writing is not yet implemented."
+msgstr "Schreiben is noch nicht implementiert."
+
+#: H5PFileHandler.php:594
 #, php-format
 msgid "Upload directory %s is not writable."
 msgstr "Das Upload-Verzeichnis %s ist nicht schreibbar."
 
-#: H5PFileHandler.php:601
+#: H5PFileHandler.php:603
 #, php-format
 msgid "Could not create upload directory %s."
 msgstr "Konnte der Upload-Verzeichnis %s nicht anlegen."
 
-#: H5PFileHandler.php:611
+#: H5PFileHandler.php:613
 msgid "Error extracting H5P file ZIP archive."
 msgstr "Fehler beim Entpacken der H5P-Datei."
 
-#: H5PFileHandler.php:637
+#: H5PFileHandler.php:639
 msgid "Directory with extracted H5P files does not exist."
 msgstr "Das Verzeichnis mit den entpackten H5P-Dateien existiert nicht."
 
-#: H5PFileHandler.php:645
+#: H5PFileHandler.php:647
 msgid "h5p.json file does not exist in the archive."
 msgstr "Die Datei h5p.json existiert nicht im Archiv."
 
-#: H5PFileHandler.php:653
+#: H5PFileHandler.php:655
 msgid "Error decoding h5p.json file."
 msgstr "Fehler beim Decodieren der Datei h5p.json."
 
-#: models/ContentFile.php:147
+#: models/ContentFile.php:151
 msgid "image"
 msgstr "Bild"
 
-#: models/ContentFile.php:148
+#: models/ContentFile.php:152
 msgid "video"
 msgstr "Video"
 
-#: models/ContentFile.php:149
+#: models/ContentFile.php:153
 msgid "audio"
 msgstr "Tondatei"
 
-#: models/ContentFile.php:152
+#: models/ContentFile.php:156
 msgid "file"
 msgstr "Datei"
 
@@ -89,12 +97,12 @@ msgstr "Datei"
 msgid "LibreText evaluation for %s"
 msgstr "LibreText-Beurteilung für %s"
 
-#: reports/AccessibilityReport.php:107 reports/AccessibilityReport.php:133
+#: reports/AccessibilityReport.php:108 reports/AccessibilityReport.php:128
 #, php-format
 msgid "Missing alt text for image inside %s"
 msgstr "Fehlender Alternativtext für das Bild in %s"
 
-#: reports/AccessibilityReport.php:148
+#: reports/AccessibilityReport.php:143
 msgid ""
 "Check whether the content type that uses the image offers a custom "
 "alternative text field or whether it is not required to have one here."
@@ -103,20 +111,20 @@ msgstr ""
 "Feld für den Alternativtext anbietet oder ob es nicht erforderlich ist, ein "
 "solches zu haben."
 
-#: reports/AccessibilityReport.php:230
+#: reports/AccessibilityReport.php:228
 msgid "Set an alternative text for the start screen image."
 msgstr "Lege einen Alternativtext für das Bild des Startbildschirms fest."
 
-#: reports/AccessibilityReport.php:245
+#: reports/AccessibilityReport.php:244
 msgid "Set an alternative text for the image."
 msgstr "Lege einen Alternativtext für das Bild fest."
 
-#: reports/AccessibilityReport.php:273 reports/AccessibilityReport.php:292
-#: reports/AccessibilityReport.php:391
+#: reports/AccessibilityReport.php:273 reports/AccessibilityReport.php:293
+#: reports/AccessibilityReport.php:409
 msgid "Set an alternative text for the image of the card."
 msgstr "Lege einen Alternativtext für das Bild der Karte fest."
 
-#: reports/AccessibilityReport.php:310
+#: reports/AccessibilityReport.php:312
 msgid ""
 "Check whether there is a reason for the image to not have an alternative "
 "text. If so, explicitly set the image as decorative in the editor."
@@ -124,59 +132,120 @@ msgstr ""
 "Prüfe, ob es einen Grund gibt, warum das Bild keinen Alternativtext haben "
 "soll. Wenn ja, lege das Bild im Editor ausdrücklich als dekorativ fest."
 
-#: reports/AccessibilityReport.php:342
+#: reports/AccessibilityReport.php:330
+msgid "Set an alternative text for the background image."
+msgstr "Lege einen Alternativtext für den Bildhintergrund fest."
+
+#: reports/AccessibilityReport.php:357
 msgid "Set an alternative text for the original image."
 msgstr "Lege einen Alternativtext für das Ausgangsbild fest."
 
-#: reports/AccessibilityReport.php:356
+#: reports/AccessibilityReport.php:372
 msgid "Set an alternative text for the matching image."
 msgstr "Lege einen Alternativtext für das Zielbild fest."
 
-#: reports/AccessibilityReport.php:374
+#: reports/AccessibilityReport.php:391
 msgid "Set a description text for the image."
 msgstr "Ergänze eine Beschreibung für das Bild."
 
-#: reports/AccessibilityReport.php:408 reports/AccessibilityReport.php:446
+#: reports/AccessibilityReport.php:427 reports/AccessibilityReport.php:467
 msgid "Set an alternative text for the introduction image."
 msgstr "Lege einen Alternativtext für das Intobild fest."
 
-#: reports/AccessibilityReport.php:431
+#: reports/AccessibilityReport.php:451
 msgid "Set a caption text for the asset thumbnail image."
 msgstr "Lege einen Alternativtext für das Vorschaubild fest."
 
-#: reports/FeatureReport.php:55
+#: reports/EfficiencyReport.php:90
+#, php-format
+msgid "The image has a resolution of %dx%d pixels."
+msgstr "Die Auflösung des Bildes beträgt %dx%d Pixel."
+
+#: reports/EfficiencyReport.php:95
+msgid "The image has an unknown resolution."
+msgstr "Die Auflösung des Bildes ist unbekannt."
+
+#: reports/EfficiencyReport.php:99
+#, php-format
+msgid "The image file size is %s bytes."
+msgstr "Die Dateigröße des Bildes beträgt %s Bytes."
+
+#: reports/EfficiencyReport.php:104
+#, php-format
+msgid "The image type is %s."
+msgstr "Der Dateityp des Bildes ist %s."
+
+#: reports/EfficiencyReport.php:105
+msgid "unknown"
+msgstr "unbekannt."
+
+#: reports/EfficiencyReport.php:110
+#, php-format
+msgid ""
+"For this image type, we recommend a maximum file size of %s bytes in a web "
+"based context."
+msgstr ""
+"Für dieses Bildformat raten wir zu einer maximalen Dateigröße von %s Bytes "
+"in einen Webkontext."
+
+#: reports/EfficiencyReport.php:115
+msgid ""
+"You might consider reducing the image's resolution if it does not need to be "
+"this high."
+msgstr ""
+"Du könntest die Auflösung des Bildes reduzieren, wenn sie nicht so hoch sein "
+"muss."
+
+#: reports/EfficiencyReport.php:119
+msgid ""
+"You might consider converting the image to a JPEG file which often take less "
+"space."
+msgstr ""
+"Du könntest das Bild ins JPEG-Format konvertieren, welches oft weniger "
+"Speicherplatz beansprucht."
+
+#: reports/EfficiencyReport.php:122
+msgid "You might consider reducing the quality level of the JPEG image."
+msgstr "Du könntest die Qualität des JPEG-Bildes reduzieren."
+
+#: reports/EfficiencyReport.php:130
+#, php-format
+msgid "Image file inside %s feels quite large."
+msgstr "Die Bilddatei in %s scheint recht groß zu sein."
+
+#: reports/FeatureReport.php:56
 #, php-format
 msgid "Content %s seems to support resuming."
 msgstr "Inhalt %s scheint Fortfahren zu unterstützen."
 
-#: reports/FeatureReport.php:56
+#: reports/FeatureReport.php:57
 #, php-format
 msgid "Content %s does not seem to support resuming."
 msgstr "Inhalt %s scheint Fortfahren nicht zu unterstützen."
 
-#: reports/FeatureReport.php:75
+#: reports/FeatureReport.php:76
 #, php-format
 msgid "Content %s seems to support xAPI."
 msgstr "Inhalt %s scheint xAPI zu unterstützen."
 
-#: reports/FeatureReport.php:76
+#: reports/FeatureReport.php:77
 #, php-format
 msgid "Content %s does not seem to support xAPI."
 msgstr "Inhalt %s scheint xAPI nicht zu unterstützen."
 
-#: reports/FeatureReport.php:107
+#: reports/FeatureReport.php:108
 #, php-format
 msgid "Content %s seems to support the full H5P question type contract."
 msgstr ""
 "Inhalt %s scheint den kompletten H5P \"question type contract\" zu "
 "unterstützen."
 
-#: reports/FeatureReport.php:110 reports/FeatureReport.php:119
+#: reports/FeatureReport.php:111 reports/FeatureReport.php:120
 #, php-format
 msgid "Supported functions/variables: %s."
 msgstr "Unterstützte Funktionen/Variablen: %s."
 
-#: reports/FeatureReport.php:116
+#: reports/FeatureReport.php:117
 #, php-format
 msgid ""
 "Content %s seems to partially support the full H5P question type contract."
@@ -184,12 +253,12 @@ msgstr ""
 "Inhalt %s scheint den H5P \"question type contract\" teilweise zu "
 "unterstützen."
 
-#: reports/FeatureReport.php:123 reports/FeatureReport.php:132
+#: reports/FeatureReport.php:124 reports/FeatureReport.php:133
 #, php-format
 msgid "Unsupported functions/variables: %s."
 msgstr "Nicht unterstützte Funktionen/Variablen: %s."
 
-#: reports/FeatureReport.php:129
+#: reports/FeatureReport.php:130
 #, php-format
 msgid "Content %s does not seem to support the H5P question type contract."
 msgstr ""
@@ -580,10 +649,18 @@ msgid "invalidLicenseRemix"
 msgstr "Ungültige Lizenzwahl für Remix"
 
 #: utils/LocaleUtils.php:167
+msgid "efficiency"
+msgstr "Effizienz"
+
+#: utils/LocaleUtils.php:168
+msgid "imageSize"
+msgstr "Bildgröße"
+
+#: utils/LocaleUtils.php:169
 msgid "statistics"
 msgstr "Statistik"
 
-#: utils/LocaleUtils.php:168
+#: utils/LocaleUtils.php:170
 msgid "contentTypeCount"
 msgstr "Inhaltstyphäufigkeit"
 
