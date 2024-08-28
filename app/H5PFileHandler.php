@@ -110,6 +110,14 @@ class H5PFileHandler
                         );
                         $files[$fileName] = ["size" => $size];
 
+                        $resolution = getimagesize(
+                            $mediaDir . DIRECTORY_SEPARATOR . $fileName
+                        );
+                        if ($resolution !== false) {
+                            $files[$fileName]["width"] = $resolution[0];
+                            $files[$fileName]["height"] = $resolution[1];
+                        }
+
                         $extension = strtolower(
                             pathinfo($fileName, PATHINFO_EXTENSION)
                         );
