@@ -327,16 +327,23 @@ class Content
                 $semanticsPath .= $semanticsPath === "" ? "" : ".";
                 $semanticsPath .= $params["path"];
 
+                $attributes = [
+                    "type" => $type,
+                    "path" => $params["object"]["path"],
+                    "semanticsPath" => $semanticsPath,
+                    "mime" => $params["object"]["mime"],
+                    "metadata" => JSONUtils::copyrightToMetadata(
+                        $params["object"]["copyright"] ?? []
+                    ),
+                ];
+
+                if ($type === "image") {
+                    $attributes["width"] = $params["object"]["width"] ?? 0;
+                    $attributes["height"] = $params["object"]["height"] ?? 0;
+                }
+
                 $files[] = new ContentFile([
-                    "attributes" => [
-                        "type" => $type,
-                        "path" => $params["object"]["path"],
-                        "semanticsPath" => $semanticsPath,
-                        "mime" => $params["object"]["mime"],
-                        "metadata" => JSONUtils::copyrightToMetadata(
-                            $params["object"]["copyright"] ?? []
-                        ),
-                    ],
+                    "attributes" => $attributes,
                 ]);
             }
         }
