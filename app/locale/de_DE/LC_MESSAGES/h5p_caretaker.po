@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: H5P-Caretaker\n"
-"POT-Creation-Date: 2024-08-27 12:40+0200\n"
-"PO-Revision-Date: 2024-08-27 12:40+0200\n"
+"POT-Creation-Date: 2024-08-28 11:50+0200\n"
+"PO-Revision-Date: 2024-08-28 11:52+0200\n"
 "Last-Translator: H5P-Careraker\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -21,58 +21,58 @@ msgid "Something went wrong, but I dunno what, sorry!"
 msgstr ""
 "Etwas ist schief gelaufen, aber ich weiß nicht was, bitte entschuldige!"
 
-#: H5PCaretaker.php:161
+#: H5PCaretaker.php:166
 msgid "It seems that no file was provided."
 msgstr "Es sieht so aus als sei keine Datei angegeben worden."
 
-#: H5PCaretaker.php:169
+#: H5PCaretaker.php:174
 msgid "The file is empty."
 msgstr "Die Datei ist leer."
 
-#: H5PCaretaker.php:175
+#: H5PCaretaker.php:180
 #, php-format
 msgid "The file is larger than the limit of %s bytes."
 msgstr "Die Datei ist größer als das Limit von %s Bytes."
 
-#: H5PCaretaker.php:181
+#: H5PCaretaker.php:186
 msgid "The file is not a valid H5P file / ZIP archive."
 msgstr "Die Datei ist keine gültige H5P-Datei/kein gültiges ZIP-Archiv."
 
-#: H5PCaretaker.php:195
+#: H5PCaretaker.php:200
 msgid "The file does not seem to follow the H5P specification."
 msgstr "Die Detai scheint der H5P-Spezifikation nicht zu folgen."
 
-#: H5PCaretaker.php:211
+#: H5PCaretaker.php:216
 msgid "No values were provided for writing."
 msgstr "Es wurden keine Daten zum Schreiben angegeben."
 
-#: H5PCaretaker.php:260
+#: H5PCaretaker.php:265
 msgid "Writing is not yet implemented."
 msgstr "Schreiben is noch nicht implementiert."
 
-#: H5PFileHandler.php:594
+#: H5PFileHandler.php:602
 #, php-format
 msgid "Upload directory %s is not writable."
 msgstr "Das Upload-Verzeichnis %s ist nicht schreibbar."
 
-#: H5PFileHandler.php:603
+#: H5PFileHandler.php:611
 #, php-format
 msgid "Could not create upload directory %s."
 msgstr "Konnte der Upload-Verzeichnis %s nicht anlegen."
 
-#: H5PFileHandler.php:613
+#: H5PFileHandler.php:621
 msgid "Error extracting H5P file ZIP archive."
 msgstr "Fehler beim Entpacken der H5P-Datei."
 
-#: H5PFileHandler.php:639
+#: H5PFileHandler.php:647
 msgid "Directory with extracted H5P files does not exist."
 msgstr "Das Verzeichnis mit den entpackten H5P-Dateien existiert nicht."
 
-#: H5PFileHandler.php:647
+#: H5PFileHandler.php:655
 msgid "h5p.json file does not exist in the archive."
 msgstr "Die Datei h5p.json existiert nicht im Archiv."
 
-#: H5PFileHandler.php:655
+#: H5PFileHandler.php:663
 msgid "Error decoding h5p.json file."
 msgstr "Fehler beim Decodieren der Datei h5p.json."
 
@@ -92,17 +92,17 @@ msgstr "Tondatei"
 msgid "file"
 msgstr "Datei"
 
-#: reports/AccessibilityReport.php:54
+#: reports/AccessibilityReport.php:57
 #, php-format
 msgid "LibreText evaluation for %s"
 msgstr "LibreText-Beurteilung für %s"
 
-#: reports/AccessibilityReport.php:108 reports/AccessibilityReport.php:128
+#: reports/AccessibilityReport.php:111 reports/AccessibilityReport.php:131
 #, php-format
 msgid "Missing alt text for image inside %s"
 msgstr "Fehlender Alternativtext für das Bild in %s"
 
-#: reports/AccessibilityReport.php:143
+#: reports/AccessibilityReport.php:146
 msgid ""
 "Check whether the content type that uses the image offers a custom "
 "alternative text field or whether it is not required to have one here."
@@ -111,20 +111,20 @@ msgstr ""
 "Feld für den Alternativtext anbietet oder ob es nicht erforderlich ist, ein "
 "solches zu haben."
 
-#: reports/AccessibilityReport.php:228
+#: reports/AccessibilityReport.php:231
 msgid "Set an alternative text for the start screen image."
 msgstr "Lege einen Alternativtext für das Bild des Startbildschirms fest."
 
-#: reports/AccessibilityReport.php:244
+#: reports/AccessibilityReport.php:247
 msgid "Set an alternative text for the image."
 msgstr "Lege einen Alternativtext für das Bild fest."
 
-#: reports/AccessibilityReport.php:273 reports/AccessibilityReport.php:293
-#: reports/AccessibilityReport.php:409
+#: reports/AccessibilityReport.php:276 reports/AccessibilityReport.php:296
+#: reports/AccessibilityReport.php:412
 msgid "Set an alternative text for the image of the card."
 msgstr "Lege einen Alternativtext für das Bild der Karte fest."
 
-#: reports/AccessibilityReport.php:312
+#: reports/AccessibilityReport.php:315
 msgid ""
 "Check whether there is a reason for the image to not have an alternative "
 "text. If so, explicitly set the image as decorative in the editor."
@@ -132,54 +132,112 @@ msgstr ""
 "Prüfe, ob es einen Grund gibt, warum das Bild keinen Alternativtext haben "
 "soll. Wenn ja, lege das Bild im Editor ausdrücklich als dekorativ fest."
 
-#: reports/AccessibilityReport.php:330
+#: reports/AccessibilityReport.php:333
 msgid "Set an alternative text for the background image."
 msgstr "Lege einen Alternativtext für den Bildhintergrund fest."
 
-#: reports/AccessibilityReport.php:357
+#: reports/AccessibilityReport.php:360
 msgid "Set an alternative text for the original image."
 msgstr "Lege einen Alternativtext für das Ausgangsbild fest."
 
-#: reports/AccessibilityReport.php:372
+#: reports/AccessibilityReport.php:375
 msgid "Set an alternative text for the matching image."
 msgstr "Lege einen Alternativtext für das Zielbild fest."
 
-#: reports/AccessibilityReport.php:391
+#: reports/AccessibilityReport.php:394
 msgid "Set a description text for the image."
 msgstr "Ergänze eine Beschreibung für das Bild."
 
-#: reports/AccessibilityReport.php:427 reports/AccessibilityReport.php:467
+#: reports/AccessibilityReport.php:430 reports/AccessibilityReport.php:470
 msgid "Set an alternative text for the introduction image."
 msgstr "Lege einen Alternativtext für das Intobild fest."
 
-#: reports/AccessibilityReport.php:451
+#: reports/AccessibilityReport.php:454
 msgid "Set a caption text for the asset thumbnail image."
 msgstr "Lege einen Alternativtext für das Vorschaubild fest."
 
-#: reports/EfficiencyReport.php:90
+#: reports/EfficiencyReport.php:250 reports/EfficiencyReport.php:344
 #, php-format
 msgid "The image has a resolution of %dx%d pixels."
 msgstr "Die Auflösung des Bildes beträgt %dx%d Pixel."
 
-#: reports/EfficiencyReport.php:95
+#: reports/EfficiencyReport.php:255 reports/EfficiencyReport.php:349
 msgid "The image has an unknown resolution."
 msgstr "Die Auflösung des Bildes ist unbekannt."
 
-#: reports/EfficiencyReport.php:99
+#: reports/EfficiencyReport.php:260
+#, php-format
+msgid ""
+"The image will usually not be displayed larger than %d pixels in height."
+msgstr ""
+"Das Bild wird normalerweise in der Höhe nicht größer als %d Pixel "
+"dargestellt werden."
+
+#: reports/EfficiencyReport.php:267
+#, php-format
+msgid "The image will usually not be displayed larger than %d pixels in width."
+msgstr ""
+"Das Bild wird normalerweise in der Breite nicht größer als %d Pixel "
+"dargestellt werden."
+
+#: reports/EfficiencyReport.php:275
+#, php-format
+msgid ""
+"The image could safely be scaled down to a height of %d pixels without any "
+"visual quality loss."
+msgstr ""
+"Das Bild könnte ohne Gefahr visueller Qualitätsverliste auf eine Höhe von %d "
+"Pixel herunterskaliert werden."
+
+#: reports/EfficiencyReport.php:282
+#, php-format
+msgid ""
+"The image could safely be scaled down to a width of %d pixels without any "
+"visual quality loss."
+msgstr ""
+"Das Bild könnte ohne Gefahr visueller Qualitätsverliste auf eine Breite von "
+"%d Pixel herunterskaliert werden."
+
+#: reports/EfficiencyReport.php:289
+#, php-format
+msgid ""
+"The image could be scaled down to a height of %d pixels, but people who zoom "
+"into the page may experience a visual quality loss."
+msgstr ""
+"Das Bild könnte auf eine Höhe von %d Pixel herunterskaliert werden, aber "
+"Nutzende, die in die Seite hineinzoomen, könnten visuelle Qualitätsverluste "
+"wahrnehmen."
+
+#: reports/EfficiencyReport.php:296
+#, php-format
+msgid ""
+"The image could be scaled down to a width of %d pixels, but people who zoom "
+"into the page may experience a visual quality loss."
+msgstr ""
+"Das Bild könnte auf eine Breite von %d Pixel herunterskaliert werden, aber "
+"Nutzende, die in die Seite hineinzoomen, könnten visuelle Qualitätsverluste "
+"wahrnehmen."
+
+#: reports/EfficiencyReport.php:306
+#, php-format
+msgid "Image file inside %s could be scaled down."
+msgstr "Die Bilddatei in %s könnte herunterskaliert werden."
+
+#: reports/EfficiencyReport.php:353
 #, php-format
 msgid "The image file size is %s bytes."
 msgstr "Die Dateigröße des Bildes beträgt %s Bytes."
 
-#: reports/EfficiencyReport.php:104
+#: reports/EfficiencyReport.php:358
 #, php-format
 msgid "The image type is %s."
 msgstr "Der Dateityp des Bildes ist %s."
 
-#: reports/EfficiencyReport.php:105
+#: reports/EfficiencyReport.php:359
 msgid "unknown"
 msgstr "unbekannt."
 
-#: reports/EfficiencyReport.php:110
+#: reports/EfficiencyReport.php:364
 #, php-format
 msgid ""
 "For this image type, we recommend a maximum file size of %s bytes in a web "
@@ -188,7 +246,7 @@ msgstr ""
 "Für dieses Bildformat raten wir zu einer maximalen Dateigröße von %s Bytes "
 "in einen Webkontext."
 
-#: reports/EfficiencyReport.php:115
+#: reports/EfficiencyReport.php:369
 msgid ""
 "You might consider reducing the image's resolution if it does not need to be "
 "this high."
@@ -196,7 +254,7 @@ msgstr ""
 "Du könntest die Auflösung des Bildes reduzieren, wenn sie nicht so hoch sein "
 "muss."
 
-#: reports/EfficiencyReport.php:119
+#: reports/EfficiencyReport.php:373
 msgid ""
 "You might consider converting the image to a JPEG file which often take less "
 "space."
@@ -204,48 +262,48 @@ msgstr ""
 "Du könntest das Bild ins JPEG-Format konvertieren, welches oft weniger "
 "Speicherplatz beansprucht."
 
-#: reports/EfficiencyReport.php:122
+#: reports/EfficiencyReport.php:376
 msgid "You might consider reducing the quality level of the JPEG image."
 msgstr "Du könntest die Qualität des JPEG-Bildes reduzieren."
 
-#: reports/EfficiencyReport.php:130
+#: reports/EfficiencyReport.php:384
 #, php-format
 msgid "Image file inside %s feels quite large."
 msgstr "Die Bilddatei in %s scheint recht groß zu sein."
 
-#: reports/FeatureReport.php:56
+#: reports/FeatureReport.php:59
 #, php-format
 msgid "Content %s seems to support resuming."
 msgstr "Inhalt %s scheint Fortfahren zu unterstützen."
 
-#: reports/FeatureReport.php:57
+#: reports/FeatureReport.php:60
 #, php-format
 msgid "Content %s does not seem to support resuming."
 msgstr "Inhalt %s scheint Fortfahren nicht zu unterstützen."
 
-#: reports/FeatureReport.php:76
+#: reports/FeatureReport.php:79
 #, php-format
 msgid "Content %s seems to support xAPI."
 msgstr "Inhalt %s scheint xAPI zu unterstützen."
 
-#: reports/FeatureReport.php:77
+#: reports/FeatureReport.php:80
 #, php-format
 msgid "Content %s does not seem to support xAPI."
 msgstr "Inhalt %s scheint xAPI nicht zu unterstützen."
 
-#: reports/FeatureReport.php:108
+#: reports/FeatureReport.php:111
 #, php-format
 msgid "Content %s seems to support the full H5P question type contract."
 msgstr ""
 "Inhalt %s scheint den kompletten H5P \"question type contract\" zu "
 "unterstützen."
 
-#: reports/FeatureReport.php:111 reports/FeatureReport.php:120
+#: reports/FeatureReport.php:114 reports/FeatureReport.php:123
 #, php-format
 msgid "Supported functions/variables: %s."
 msgstr "Unterstützte Funktionen/Variablen: %s."
 
-#: reports/FeatureReport.php:117
+#: reports/FeatureReport.php:120
 #, php-format
 msgid ""
 "Content %s seems to partially support the full H5P question type contract."
@@ -253,23 +311,23 @@ msgstr ""
 "Inhalt %s scheint den H5P \"question type contract\" teilweise zu "
 "unterstützen."
 
-#: reports/FeatureReport.php:124 reports/FeatureReport.php:133
+#: reports/FeatureReport.php:127 reports/FeatureReport.php:136
 #, php-format
 msgid "Unsupported functions/variables: %s."
 msgstr "Nicht unterstützte Funktionen/Variablen: %s."
 
-#: reports/FeatureReport.php:130
+#: reports/FeatureReport.php:133
 #, php-format
 msgid "Content %s does not seem to support the H5P question type contract."
 msgstr ""
 "Inhalt %s scheint den H5P \"question type contract\" nicht zu unterstützen."
 
-#: reports/LicenseReport.php:137 reports/LicenseReport.php:193
+#: reports/LicenseReport.php:150 reports/LicenseReport.php:206
 #, php-format
 msgid "Probably invalid license remix regarding %s inside %s"
 msgstr "Wahrscheinlich ungültiger Lizenz-Remix für %s in %s"
 
-#: reports/LicenseReport.php:143
+#: reports/LicenseReport.php:156
 #, php-format
 msgid ""
 "Content %s is licensed under a CC BY-SA license. Content %s is licensed "
@@ -279,11 +337,11 @@ msgstr ""
 "einer %s Lizenz lizenziert. Diese können in einem Remix nicht kombiniert "
 "werden."
 
-#: reports/LicenseReport.php:159 reports/LicenseReport.php:213
-#: reports/LicenseReport.php:360 reports/LicenseReport.php:478
-#: reports/LicenseReport.php:511 reports/LicenseReport.php:543
-#: reports/LicenseReport.php:582 reports/LicenseReport.php:617
-#: reports/LicenseReport.php:652 reports/LicenseReport.php:690
+#: reports/LicenseReport.php:172 reports/LicenseReport.php:226
+#: reports/LicenseReport.php:373 reports/LicenseReport.php:491
+#: reports/LicenseReport.php:524 reports/LicenseReport.php:556
+#: reports/LicenseReport.php:595 reports/LicenseReport.php:630
+#: reports/LicenseReport.php:665 reports/LicenseReport.php:703
 msgid ""
 "Ensure that your work is legally a collection or ensure that the license of "
 "the subcontent is compatible with the license of the parent content."
@@ -292,7 +350,7 @@ msgstr ""
 "stelle sicher, dass die Lizenz des Unterinhalts mit der Lizenz des "
 "übergeordneten Inhalts kompatibel ist."
 
-#: reports/LicenseReport.php:199
+#: reports/LicenseReport.php:212
 #, php-format
 msgid ""
 "The license of content %s does not allow derivates, but is probably combined "
@@ -301,12 +359,12 @@ msgstr ""
 "Die Lizenz von Inhalt %s erlaubt keine abgeleiteten Werke, wurde aber "
 "wahrscheinlich mit anderen Inhalten als Remix in %s kombiniert."
 
-#: reports/LicenseReport.php:288
+#: reports/LicenseReport.php:301
 #, php-format
 msgid "Invalid license adaptation for %s"
 msgstr "Ungültige Lizenzwahl für %s"
 
-#: reports/LicenseReport.php:292
+#: reports/LicenseReport.php:305
 #, php-format
 msgid ""
 "Subcontent %s does not allow commercial use, but parent content %s does."
@@ -314,7 +372,7 @@ msgstr ""
 "Unterinhalt %s erlaubt keine kommerzielle Nutzung, aber der Oberinhalt %s "
 "erlaubt diese."
 
-#: reports/LicenseReport.php:304 reports/LicenseReport.php:406
+#: reports/LicenseReport.php:317 reports/LicenseReport.php:419
 msgid ""
 "Ensure that the license of the subcontent is compatible with the license of "
 "the parent content."
@@ -322,34 +380,34 @@ msgstr ""
 "Stelle sicher, dass die Lizenz des Unterinhalts mit der Lizenz des "
 "übergeordneten Inhalts kompatibel ist."
 
-#: reports/LicenseReport.php:341 reports/LicenseReport.php:456
-#: reports/LicenseReport.php:489 reports/LicenseReport.php:525
-#: reports/LicenseReport.php:557 reports/LicenseReport.php:595
-#: reports/LicenseReport.php:631 reports/LicenseReport.php:666
+#: reports/LicenseReport.php:354 reports/LicenseReport.php:469
+#: reports/LicenseReport.php:502 reports/LicenseReport.php:538
+#: reports/LicenseReport.php:570 reports/LicenseReport.php:608
+#: reports/LicenseReport.php:644 reports/LicenseReport.php:679
 #, php-format
 msgid "Probably invalid license adaptation for %s"
 msgstr "Wahrscheinlich ungültige Lizenzwahl für %s"
 
-#: reports/LicenseReport.php:346
+#: reports/LicenseReport.php:359
 #, php-format
 msgid "Subcontent %s does not allow derivates, but parent %s uses it."
 msgstr ""
 "Unterinhalt %s erlaubt keine abgeleiteten Werke, aber der Oberinhalt %s "
 "erlaubt diese."
 
-#: reports/LicenseReport.php:350 reports/LicenseReport.php:468
-#: reports/LicenseReport.php:501 reports/LicenseReport.php:533
-#: reports/LicenseReport.php:572 reports/LicenseReport.php:607
-#: reports/LicenseReport.php:642 reports/LicenseReport.php:680
+#: reports/LicenseReport.php:363 reports/LicenseReport.php:481
+#: reports/LicenseReport.php:514 reports/LicenseReport.php:546
+#: reports/LicenseReport.php:585 reports/LicenseReport.php:620
+#: reports/LicenseReport.php:655 reports/LicenseReport.php:693
 msgid "This is not allowed for remixes, but only for collections."
 msgstr "Das ist nicht für Remixes erlaubt, nur für Sammlungen."
 
-#: reports/LicenseReport.php:391
+#: reports/LicenseReport.php:404
 #, php-format
 msgid "Discouraged license adaptation for %s"
 msgstr "Nicht ratsame Lizenzwahl für %s"
 
-#: reports/LicenseReport.php:395
+#: reports/LicenseReport.php:408
 #, php-format
 msgid ""
 "Subcontent %s is licensed under a CC BY license, but content is more openly "
@@ -358,7 +416,7 @@ msgstr ""
 "Unterinhalt %s ist unter einer CC BY-Lizenz lizenziert, aber der Inhalt ist "
 "offener lizenziert."
 
-#: reports/LicenseReport.php:462
+#: reports/LicenseReport.php:475
 #, php-format
 msgid ""
 "Subcontent %s is licensed under a CC BY-SA %s license, but content is "
@@ -367,7 +425,7 @@ msgstr ""
 "Unterinhalt %s ist unter einer CC BY-SA %s-Lizenz lizenziert, aber der "
 "Inhalt ist unter einer GNU GPL-LIzenz lizenziert."
 
-#: reports/LicenseReport.php:495
+#: reports/LicenseReport.php:508
 #, php-format
 msgid ""
 "Subcontent %s is licensed under a CC BY-SA license, but content %s is not "
@@ -376,7 +434,7 @@ msgstr ""
 "Unterinhalt %s ist unter einer CC BY-SA Lizenz lizenziert, aber Inhalt %s "
 "ist nicht unter einer CC BY-SA-Lizenz lizenziert."
 
-#: reports/LicenseReport.php:530
+#: reports/LicenseReport.php:543
 #, php-format
 msgid ""
 "Subcontent %s is licensed under a CC BY-SA 1.0 license, but parent content "
@@ -385,7 +443,7 @@ msgstr ""
 "Unterinhalt %s ist unter einer CC BY-SA 1.0-Lizenz lizenziert, aber der "
 "Inhalt ist offener lizenziert."
 
-#: reports/LicenseReport.php:563
+#: reports/LicenseReport.php:576
 #, php-format
 msgid ""
 "Subcontent %s is licensed under a CC BY-SA %s license, but content %s uses "
@@ -394,7 +452,7 @@ msgstr ""
 "Unterinhalt %s ist unter einer CC BY-SA %s-Lizenz lizenziert, aber Inhalt %s "
 "nutzt Version %s statt der gleichen Lizenzversion oder einer späteren."
 
-#: reports/LicenseReport.php:601
+#: reports/LicenseReport.php:614
 #, php-format
 msgid ""
 "Subcontent %s is licensed under a CC BY-NC-SA license, but content %s is not "
@@ -403,7 +461,7 @@ msgstr ""
 "Unterinhalt %s ist unter einer CC BY-NC-SA-Lizenz lizenziert, aber Inhalt %s "
 "ist nicht unter einer CC BY-NC-SA-Lizenz lizenziert."
 
-#: reports/LicenseReport.php:637
+#: reports/LicenseReport.php:650
 #, php-format
 msgid ""
 "Subcontent %s is licensed under a CC BY-NC-SA 1.0 license, but parent "
@@ -412,7 +470,7 @@ msgstr ""
 "Unterinhalt %s ist unter einer CC BY-SA 1.0-Lizenz lizenziert, aber "
 "Oberinhalt nicht."
 
-#: reports/LicenseReport.php:672
+#: reports/LicenseReport.php:685
 #, php-format
 msgid ""
 "Subcontent %s is licensed under a CC BY-NC-SA %s license, but content %s "
@@ -421,65 +479,65 @@ msgstr ""
 "Unterinhalt %s ist unter einer CC BY-SA %s-Lizenz lizenziert, aber Inhalt %s "
 "nutzt Version %s statt der gleichen Lizenzversion oder einer späteren."
 
-#: reports/LicenseReport.php:731
+#: reports/LicenseReport.php:744
 #, php-format
 msgid "Missing license information for %s as H5P main content"
 msgstr "Fehlende Lizenzinformationen für %s als H5P-Hauptinhalt"
 
-#: reports/LicenseReport.php:735
+#: reports/LicenseReport.php:748
 #, php-format
 msgid "Missing license information for %s inside %s"
 msgstr "Fehlende Lizenzinformationen für %s in %s"
 
-#: reports/LicenseReport.php:749
+#: reports/LicenseReport.php:762
 msgid ""
 "Check the license information of the content and add it to the metadata."
 msgstr ""
 "Prüfe die Lizenzinformationen des Inhalts und füge sie den Metadaten hinzu."
 
-#: reports/LicenseReport.php:777
+#: reports/LicenseReport.php:790
 #, php-format
 msgid "Missing license version information for %s"
 msgstr "Fehlende Lizenzinformationen für %s"
 
-#: reports/LicenseReport.php:784
+#: reports/LicenseReport.php:797
 msgid "Set the license version in the metadata."
 msgstr "Füge die Lizenzversion in den Metadaten hinzu."
 
-#: reports/LicenseReport.php:828
+#: reports/LicenseReport.php:841
 #, php-format
 msgid "Missing author information for %s"
 msgstr "Fehlende Autor*inneninformationen für %s"
 
-#: reports/LicenseReport.php:836
+#: reports/LicenseReport.php:849
 msgid "Add the author name or creator name in the metadata."
 msgstr ""
 "Füge den Namen der Autor*innen oder Ersteller*innen in den Metadaten hinzu."
 
-#: reports/LicenseReport.php:881
+#: reports/LicenseReport.php:894
 #, php-format
 msgid "Missing title information for %s"
 msgstr "Fehlende Titelangabe für %s"
 
-#: reports/LicenseReport.php:891
+#: reports/LicenseReport.php:904
 msgid "Add the title of the content (if supplied) in the metadata."
 msgstr "Füge den Titel des Inhalts (falls angegeben) in den Metadaten hinzu."
 
-#: reports/LicenseReport.php:939
+#: reports/LicenseReport.php:952
 #, php-format
 msgid "Missing source information for %s"
 msgstr "Fehlende Quelleninformation für %s"
 
-#: reports/LicenseReport.php:949
+#: reports/LicenseReport.php:962
 msgid "Add the link to the content in the metadata."
 msgstr "Füge den Link zum Inhalt in den Metadaten hinzu."
 
-#: reports/LicenseReport.php:957
+#: reports/LicenseReport.php:970
 #, php-format
 msgid "Potentially missing source information for %s"
 msgstr "Potenziell fehlende Quelleninformation für %s"
 
-#: reports/LicenseReport.php:968
+#: reports/LicenseReport.php:981
 msgid ""
 "Add the link to the content in the metadata if the link target contains a "
 "copyright notice or licensing information."
@@ -487,13 +545,13 @@ msgstr ""
 "Füge den Link zum Inhalt in den Metadaten hinzu, falls das Linkziel einen "
 "Urheberrechtshinweis oder Lizenzinformationen enthält."
 
-#: reports/LicenseReport.php:1021 reports/LicenseReport.php:1046
-#: reports/LicenseReport.php:1071
+#: reports/LicenseReport.php:1034 reports/LicenseReport.php:1059
+#: reports/LicenseReport.php:1084
 #, php-format
 msgid "Potentially missing changes information for %s"
 msgstr "Potenziell fehlende Informationen zu Änderungen für %s"
 
-#: reports/LicenseReport.php:1032 reports/LicenseReport.php:1057
+#: reports/LicenseReport.php:1045 reports/LicenseReport.php:1070
 msgid ""
 "If this is not your work and you made changes to a degree that you created a "
 "derivative, you must indicate your changes and all previous modifications in "
@@ -503,20 +561,20 @@ msgstr ""
 "abgeleitetes Werk begründen, musst du deine Änderungen und frühere "
 "Modifikationen in den Metadaten anführen."
 
-#: reports/LicenseReport.php:1081
+#: reports/LicenseReport.php:1094
 msgid "List any changes you made in the metadata."
 msgstr "Führe alle von dir gemachten Änderungen in den Metadaten auf."
 
-#: reports/LicenseReport.php:1113
+#: reports/LicenseReport.php:1126
 #, php-format
 msgid "Missing license extras information for %s"
 msgstr "Fehlende zusätzliche Lizenzinformationen für %s"
 
-#: reports/LicenseReport.php:1123
+#: reports/LicenseReport.php:1136
 msgid "Add the original GPL license text in the \"license extras\" field."
 msgstr "Füge den ursprüngliche GPL-Lizenztext im Feld \"Lizenzextras\" ein."
 
-#: reports/StatisticsReport.php:58
+#: reports/StatisticsReport.php:61
 msgid "Numbers of content type uses"
 msgstr "Häufigkeit der Inhaltstypverwendung"
 
@@ -657,10 +715,14 @@ msgid "imageSize"
 msgstr "Bildgröße"
 
 #: utils/LocaleUtils.php:169
+msgid "imageResolution"
+msgstr "Bildauflösung"
+
+#: utils/LocaleUtils.php:170
 msgid "statistics"
 msgstr "Statistik"
 
-#: utils/LocaleUtils.php:170
+#: utils/LocaleUtils.php:171
 msgid "contentTypeCount"
 msgstr "Inhaltstyphäufigkeit"
 

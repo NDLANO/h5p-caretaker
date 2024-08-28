@@ -166,6 +166,7 @@ class LocaleUtils
             "invalidLicenseRemix" => _("invalidLicenseRemix"),
             "efficiency" => _("efficiency"),
             "imageSize" => _("imageSize"),
+            "imageResolution" => _("imageResolution"),
             "statistics" => _("statistics"),
             "contentTypeCount" => _("contentTypeCount"),
         ];
@@ -184,6 +185,7 @@ class LocaleUtils
             $translations["questionTypeContract"] = "question type contract";
             $translations["contentTypeCount"] = "content type count";
             $translations["imageSize"] = "image size";
+            $translations["imageResolution"] = "image resolution";
         }
 
         return $translations;
