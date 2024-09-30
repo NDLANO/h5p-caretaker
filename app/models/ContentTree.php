@@ -219,7 +219,7 @@ class ContentTree
                 $newPath =
                     $currentPath === "" ? $key : $currentPath . "." . $key;
 
-                if ($key === "library" && preg_match($libraryRegex, $value)) {
+                if ($key === "library" && getType($value) === 'string' && preg_match($libraryRegex, $value)) {
                     // Path should be in JavaScript notation
                     $paths[] = preg_replace(
                         '/\.(\d+)(\.|$)/',
