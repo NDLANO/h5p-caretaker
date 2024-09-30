@@ -42,6 +42,7 @@ class H5PCaretaker
         if (isset($language)) {
             putenv("LANG=" . $language);
             putenv("LANGUAGE=" . $language);
+            setlocale(LC_ALL, $language);
 
             $domain = "h5p_caretaker";
             $bindPath = realpath(__DIR__ . DIRECTORY_SEPARATOR . "locale");
@@ -147,7 +148,6 @@ class H5PCaretaker
 
         // TODO: Ultimately, $report only contain the raw data on request
         $report["raw"] = $reportRaw;
-
         $h5pFileHandler = null;
 
         return $this->done(json_encode($report, JSON_UNESCAPED_SLASHES));
