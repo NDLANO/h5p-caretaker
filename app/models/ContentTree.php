@@ -9,7 +9,7 @@
  * @package  H5PCare
  * @author   Oliver Tacke <oliver@snordian.de>
  * @license  MIT License
- * @link     https://github.com/ndlano/H5PCaretaker
+ * @link     https://github.com/ndlano/h5p-caretaker
  */
 
 namespace Ndlano\H5PCaretaker;
@@ -23,7 +23,7 @@ use Tree\Node\Node;
  * @package  H5PCare
  * @author   Oliver Tacke <oliver@snordian.de>
  * @license  MIT License
- * @link     https://github.com/ndlano/H5PCaretaker
+ * @link     https://github.com/ndlano/h5p-caretaker
  */
 class ContentTree
 {
