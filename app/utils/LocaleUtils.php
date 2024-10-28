@@ -172,6 +172,7 @@ class LocaleUtils
             "imageResolution" => _("imageResolution"),
             "statistics" => _("statistics"),
             "contentTypeCount" => _("contentTypeCount"),
+            "learnMore" => _("Learn more about this topic."),
         ];
 
         if ($isEnglish) {
