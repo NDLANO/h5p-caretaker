@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: H5P-Caretaker\n"
-"POT-Creation-Date: 2024-10-28 18:25+0100\n"
-"PO-Revision-Date: 2024-10-28 18:25+0100\n"
+"POT-Creation-Date: 2024-10-28 19:41+0100\n"
+"PO-Revision-Date: 2024-10-28 19:42+0100\n"
 "Last-Translator: H5P-Careraker\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -76,7 +76,7 @@ msgstr "Die Datei h5p.json existiert nicht im Archiv."
 msgid "Error decoding h5p.json file."
 msgstr "Fehler beim Decodieren der Datei h5p.json."
 
-#: models/ContentFile.php:151
+#: models/ContentFile.php:151 utils/LocaleUtils.php:176
 msgid "image"
 msgstr "Bild"
 
@@ -235,7 +235,7 @@ msgstr "Der Dateityp des Bildes ist %s."
 
 #: reports/EfficiencyReport.php:362
 msgid "unknown"
-msgstr "unbekannt."
+msgstr "unbekannt"
 
 #: reports/EfficiencyReport.php:367
 #, php-format

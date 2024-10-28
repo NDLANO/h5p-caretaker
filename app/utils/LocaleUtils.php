@@ -173,6 +173,10 @@ class LocaleUtils
             "statistics" => _("statistics"),
             "contentTypeCount" => _("contentTypeCount"),
             "learnMore" => _("Learn more about this topic."),
+            "image" => _("image"),
+            "audio" => _("audio"),
+            "video" => _("video"),
+            "file" => _("file"),
         ];
 
         if ($isEnglish) {
