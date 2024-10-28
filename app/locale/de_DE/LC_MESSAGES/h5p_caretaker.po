@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: H5P-Caretaker\n"
-"POT-Creation-Date: 2024-08-28 11:50+0200\n"
-"PO-Revision-Date: 2024-08-28 11:52+0200\n"
+"POT-Creation-Date: 2024-10-28 17:30+0100\n"
+"PO-Revision-Date: 2024-10-28 17:30+0100\n"
 "Last-Translator: H5P-Careraker\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: H5PCaretaker.php:86
+#: H5PCaretaker.php:87
 msgid "Something went wrong, but I dunno what, sorry!"
 msgstr ""
 "Etwas ist schief gelaufen, aber ich weiß nicht was, bitte entschuldige!"
@@ -156,16 +156,16 @@ msgstr "Lege einen Alternativtext für das Intobild fest."
 msgid "Set a caption text for the asset thumbnail image."
 msgstr "Lege einen Alternativtext für das Vorschaubild fest."
 
-#: reports/EfficiencyReport.php:250 reports/EfficiencyReport.php:344
+#: reports/EfficiencyReport.php:251 reports/EfficiencyReport.php:347
 #, php-format
 msgid "The image has a resolution of %dx%d pixels."
 msgstr "Die Auflösung des Bildes beträgt %dx%d Pixel."
 
-#: reports/EfficiencyReport.php:255 reports/EfficiencyReport.php:349
+#: reports/EfficiencyReport.php:256 reports/EfficiencyReport.php:352
 msgid "The image has an unknown resolution."
 msgstr "Die Auflösung des Bildes ist unbekannt."
 
-#: reports/EfficiencyReport.php:260
+#: reports/EfficiencyReport.php:261
 #, php-format
 msgid ""
 "The image will usually not be displayed larger than %d pixels in height."
@@ -173,14 +173,14 @@ msgstr ""
 "Das Bild wird normalerweise in der Höhe nicht größer als %d Pixel "
 "dargestellt werden."
 
-#: reports/EfficiencyReport.php:267
+#: reports/EfficiencyReport.php:268
 #, php-format
 msgid "The image will usually not be displayed larger than %d pixels in width."
 msgstr ""
 "Das Bild wird normalerweise in der Breite nicht größer als %d Pixel "
 "dargestellt werden."
 
-#: reports/EfficiencyReport.php:275
+#: reports/EfficiencyReport.php:276
 #, php-format
 msgid ""
 "The image could safely be scaled down to a height of %d pixels without any "
@@ -189,7 +189,7 @@ msgstr ""
 "Das Bild könnte ohne Gefahr visueller Qualitätsverliste auf eine Höhe von %d "
 "Pixel herunterskaliert werden."
 
-#: reports/EfficiencyReport.php:282
+#: reports/EfficiencyReport.php:283
 #, php-format
 msgid ""
 "The image could safely be scaled down to a width of %d pixels without any "
@@ -198,7 +198,7 @@ msgstr ""
 "Das Bild könnte ohne Gefahr visueller Qualitätsverliste auf eine Breite von "
 "%d Pixel herunterskaliert werden."
 
-#: reports/EfficiencyReport.php:289
+#: reports/EfficiencyReport.php:291
 #, php-format
 msgid ""
 "The image could be scaled down to a height of %d pixels, but people who zoom "
@@ -208,7 +208,7 @@ msgstr ""
 "Nutzende, die in die Seite hineinzoomen, könnten visuelle Qualitätsverluste "
 "wahrnehmen."
 
-#: reports/EfficiencyReport.php:296
+#: reports/EfficiencyReport.php:299
 #, php-format
 msgid ""
 "The image could be scaled down to a width of %d pixels, but people who zoom "
@@ -218,26 +218,26 @@ msgstr ""
 "Nutzende, die in die Seite hineinzoomen, könnten visuelle Qualitätsverluste "
 "wahrnehmen."
 
-#: reports/EfficiencyReport.php:306
+#: reports/EfficiencyReport.php:309
 #, php-format
 msgid "Image file inside %s could be scaled down."
 msgstr "Die Bilddatei in %s könnte herunterskaliert werden."
 
-#: reports/EfficiencyReport.php:353
+#: reports/EfficiencyReport.php:356
 #, php-format
 msgid "The image file size is %s bytes."
 msgstr "Die Dateigröße des Bildes beträgt %s Bytes."
 
-#: reports/EfficiencyReport.php:358
+#: reports/EfficiencyReport.php:361
 #, php-format
 msgid "The image type is %s."
 msgstr "Der Dateityp des Bildes ist %s."
 
-#: reports/EfficiencyReport.php:359
+#: reports/EfficiencyReport.php:362
 msgid "unknown"
 msgstr "unbekannt."
 
-#: reports/EfficiencyReport.php:364
+#: reports/EfficiencyReport.php:367
 #, php-format
 msgid ""
 "For this image type, we recommend a maximum file size of %s bytes in a web "
@@ -246,7 +246,7 @@ msgstr ""
 "Für dieses Bildformat raten wir zu einer maximalen Dateigröße von %s Bytes "
 "in einen Webkontext."
 
-#: reports/EfficiencyReport.php:369
+#: reports/EfficiencyReport.php:372
 msgid ""
 "You might consider reducing the image's resolution if it does not need to be "
 "this high."
@@ -254,7 +254,7 @@ msgstr ""
 "Du könntest die Auflösung des Bildes reduzieren, wenn sie nicht so hoch sein "
 "muss."
 
-#: reports/EfficiencyReport.php:373
+#: reports/EfficiencyReport.php:376
 msgid ""
 "You might consider converting the image to a JPEG file which often take less "
 "space."
@@ -262,11 +262,11 @@ msgstr ""
 "Du könntest das Bild ins JPEG-Format konvertieren, welches oft weniger "
 "Speicherplatz beansprucht."
 
-#: reports/EfficiencyReport.php:376
+#: reports/EfficiencyReport.php:379
 msgid "You might consider reducing the quality level of the JPEG image."
 msgstr "Du könntest die Qualität des JPEG-Bildes reduzieren."
 
-#: reports/EfficiencyReport.php:384
+#: reports/EfficiencyReport.php:387
 #, php-format
 msgid "Image file inside %s feels quite large."
 msgstr "Die Bilddatei in %s scheint recht groß zu sein."
@@ -639,90 +639,104 @@ msgid "error"
 msgstr "Fehler"
 
 #: utils/LocaleUtils.php:149
+msgid "infos"
+msgstr "Infos"
+
+#: utils/LocaleUtils.php:150
+msgid "warnings"
+msgstr "Warnungen"
+
+#: utils/LocaleUtils.php:151
+#, fuzzy
+#| msgid "error"
+msgid "errors"
+msgstr "Fehler"
+
+#: utils/LocaleUtils.php:152
 msgid "reference"
 msgstr "Referenz"
 
-#: utils/LocaleUtils.php:150
+#: utils/LocaleUtils.php:153
 msgid "accessibility"
 msgstr "Barrierefreiheit"
 
-#: utils/LocaleUtils.php:151
+#: utils/LocaleUtils.php:154
 msgid "missingAltText"
 msgstr "fehlender Alternativtext"
 
-#: utils/LocaleUtils.php:153
+#: utils/LocaleUtils.php:156
 msgid "features"
 msgstr "Funktionen"
 
-#: utils/LocaleUtils.php:154
+#: utils/LocaleUtils.php:157
 msgid "resume"
 msgstr "Fortfahren"
 
-#: utils/LocaleUtils.php:155
+#: utils/LocaleUtils.php:158
 msgid "xAPI"
 msgstr "xAPI"
 
-#: utils/LocaleUtils.php:156
+#: utils/LocaleUtils.php:159
 msgid "questionTypeContract"
 msgstr "question type contract"
 
-#: utils/LocaleUtils.php:157
+#: utils/LocaleUtils.php:160
 msgid "license"
 msgstr "Lizenz"
 
-#: utils/LocaleUtils.php:158
+#: utils/LocaleUtils.php:161
 msgid "missingLicense"
 msgstr "fehlende Lizenz"
 
-#: utils/LocaleUtils.php:159
+#: utils/LocaleUtils.php:162
 msgid "missingLicenseExtras"
 msgstr "fehlende Lizenzextras"
 
-#: utils/LocaleUtils.php:160
+#: utils/LocaleUtils.php:163
 msgid "missingAuthor"
 msgstr "fehlende*r Autor*in"
 
-#: utils/LocaleUtils.php:161
+#: utils/LocaleUtils.php:164
 msgid "missingTitle"
 msgstr "fehlender Titel"
 
-#: utils/LocaleUtils.php:162
+#: utils/LocaleUtils.php:165
 msgid "missingSource"
 msgstr "fehlende Quelle"
 
-#: utils/LocaleUtils.php:163
+#: utils/LocaleUtils.php:166
 msgid "missingChanges"
 msgstr "fehlende Änderungen"
 
-#: utils/LocaleUtils.php:164
+#: utils/LocaleUtils.php:167
 msgid "discouragedLicenseAdaptation"
 msgstr "Nicht ratsame Lizenzwahl"
 
-#: utils/LocaleUtils.php:165
+#: utils/LocaleUtils.php:168
 msgid "invalidLicenseAdaptation"
 msgstr "Ungültige Lizenzwahl für Adaption"
 
-#: utils/LocaleUtils.php:166
+#: utils/LocaleUtils.php:169
 msgid "invalidLicenseRemix"
 msgstr "Ungültige Lizenzwahl für Remix"
 
-#: utils/LocaleUtils.php:167
+#: utils/LocaleUtils.php:170
 msgid "efficiency"
 msgstr "Effizienz"
 
-#: utils/LocaleUtils.php:168
+#: utils/LocaleUtils.php:171
 msgid "imageSize"
 msgstr "Bildgröße"
 
-#: utils/LocaleUtils.php:169
+#: utils/LocaleUtils.php:172
 msgid "imageResolution"
 msgstr "Bildauflösung"
 
-#: utils/LocaleUtils.php:170
+#: utils/LocaleUtils.php:173
 msgid "statistics"
 msgstr "Statistik"
 
-#: utils/LocaleUtils.php:171
+#: utils/LocaleUtils.php:174
 msgid "contentTypeCount"
 msgstr "Inhaltstyphäufigkeit"
 
