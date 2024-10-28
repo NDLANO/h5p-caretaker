@@ -1,6 +1,6 @@
 {
     "name": "ndlano/h5p-caretaker",
-    "description": "Tool that is supposed to help people take care of H5P content types",
+    "description": "Library that is supposed to help people take care of H5P content types",
     "type": "library",
     "license": "MIT",
     "authors": [
