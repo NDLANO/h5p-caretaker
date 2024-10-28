@@ -194,6 +194,7 @@ class LocaleUtils
             $translations["contentTypeCount"] = "content type count";
             $translations["imageSize"] = "image size";
             $translations["imageResolution"] = "image resolution";
+            $translations["infos"] = "info";
         }
 
         return $translations;
