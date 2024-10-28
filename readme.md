@@ -9,7 +9,7 @@ kind or as a standalone application.
 In your own project, you can use common `composer` practices to use this library.
 For now, it is not on packagist yet, so you will need to fetch the sources from
 github like so: Inside your `composer.json` file, ensure that the repository is set
-and that `require` is set to the library. Change "@dev" to some particular commit if
+and that `require` is set to the library. Change "dev-master" to some particular commit if
 you need an older version explicitly.
 
 ```
@@ -20,6 +20,6 @@ you need an older version explicitly.
 		}
   ],
     "require": {
-        "ndlano/h5p-caretaker": "@dev"
+        "ndlano/h5p-caretaker": "dev-master"
     }
 ```
