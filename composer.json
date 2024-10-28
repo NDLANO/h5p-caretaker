@@ -1,0 +1,27 @@
+{
+    "name": "ndlano/h5p-caretaker",
+    "description": "Tool that is supposed to help people take care of H5P content types",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "NDLA",
+            "homepage": "https://ndla.no",
+            "role": "Producer"
+        },
+        {
+            "name": "Oliver Tacke",
+            "email": "oliver@snordian.de",
+            "homepage": "https://snordian.de",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Ndlano\\H5PCaretaker\\": "app/"
+        }
+    },
+    "require": {
+        "php": ">=8"
+    }
+}

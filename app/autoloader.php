@@ -6,22 +6,22 @@ spl_autoload_register(function ($class) {
 
     if (!isset($classmap)) {
         $classmap = [
-            "H5PCaretaker\H5PFileHandler" => "H5PFileHandler.php",
-            "H5PCaretaker\LibretextData" => "filehandlers/LibretextData.php",
-            "H5PCaretaker\FileUtils" => "utils/FileUtils.php",
-            "H5PCaretaker\GeneralUtils" => "utils/GeneralUtils.php",
-            "H5PCaretaker\H5PUtils" => "utils/H5PUtils.php",
-            "H5PCaretaker\JSONUtils" => "utils/JSONUtils.php",
-            "H5PCaretaker\LocaleUtils" => "utils/LocaleUtils.php",
-            "H5PCaretaker\ReportUtils" => "utils/ReportUtils.php",
-            "H5PCaretaker\ContentFile" => "models/ContentFile.php",
-            "H5PCaretaker\Content" => "models/Content.php",
-            "H5PCaretaker\ContentTree" => "models/ContentTree.php",
-            "H5PCaretaker\AccessibilityReport" => "reports/AccessibilityReport.php",
-            "H5PCaretaker\EfficiencyReport" => "reports/EfficiencyReport.php",
-            "H5PCaretaker\FeatureReport" => "reports/FeatureReport.php",
-            "H5PCaretaker\LicenseReport" => "reports/LicenseReport.php",
-            "H5PCaretaker\StatisticsReport" => "reports/StatisticsReport.php",
+            "Ndlano\H5PCaretaker\H5PFileHandler" => "H5PFileHandler.php",
+            "Ndlano\H5PCaretaker\LibretextData" => "filehandlers/LibretextData.php",
+            "Ndlano\H5PCaretaker\FileUtils" => "utils/FileUtils.php",
+            "Ndlano\H5PCaretaker\GeneralUtils" => "utils/GeneralUtils.php",
+            "Ndlano\H5PCaretaker\H5PUtils" => "utils/H5PUtils.php",
+            "Ndlano\H5PCaretaker\JSONUtils" => "utils/JSONUtils.php",
+            "Ndlano\H5PCaretaker\LocaleUtils" => "utils/LocaleUtils.php",
+            "Ndlano\H5PCaretaker\ReportUtils" => "utils/ReportUtils.php",
+            "Ndlano\H5PCaretaker\ContentFile" => "models/ContentFile.php",
+            "Ndlano\H5PCaretaker\Content" => "models/Content.php",
+            "Ndlano\H5PCaretaker\ContentTree" => "models/ContentTree.php",
+            "Ndlano\H5PCaretaker\AccessibilityReport" => "reports/AccessibilityReport.php",
+            "Ndlano\H5PCaretaker\EfficiencyReport" => "reports/EfficiencyReport.php",
+            "Ndlano\H5PCaretaker\FeatureReport" => "reports/FeatureReport.php",
+            "Ndlano\H5PCaretaker\LicenseReport" => "reports/LicenseReport.php",
+            "Ndlano\H5PCaretaker\StatisticsReport" => "reports/StatisticsReport.php",
         ];
     }
 

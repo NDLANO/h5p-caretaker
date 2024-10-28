@@ -12,7 +12,7 @@
  * @link     https://github.com/ndlano/H5PCaretaker
  */
 
-namespace H5PCaretaker;
+namespace Ndlano\H5PCaretaker;
 
 /**
  * Class for handling H5P specific stuff.
