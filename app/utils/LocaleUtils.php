@@ -104,8 +104,11 @@ class LocaleUtils
           // Add more mappings if needed
         ];
 
-    // Validate the input
-        if (preg_match("/^[a-zA-Z]{2}|fil|FIL$/", $language)) {
+        // Validate the input
+        if (preg_match("/^[a-zA-Z]{2}_[a-zA-Z]{2}$/", $language)) {
+            $split = explode("_", $language);
+            $completeLocale = strtolower($split[0]) . "_" . strtoupper($split[1]);
+        } elseif (preg_match("/^[a-zA-Z]{2}|fil|FIL$/", $language)) {
             $language = strtolower($language);
 
             if (isset($locales[$language])) {
@@ -113,9 +116,6 @@ class LocaleUtils
             } else {
                 $completeLocale = $language . "_" . strtoupper($language);
             }
-        } elseif (preg_match("/^[a-zA-Z]{2}_[a-zA-Z]{2}$/", $language)) {
-            $split = explode("_", $language);
-            $completeLocale = strtolower($split[0]) . "_" . strtoupper($split[1]);
         } else {
             return null;
         }
