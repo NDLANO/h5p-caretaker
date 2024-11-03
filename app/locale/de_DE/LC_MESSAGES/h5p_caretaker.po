@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: H5P-Caretaker\n"
-"POT-Creation-Date: 2024-10-28 19:41+0100\n"
-"PO-Revision-Date: 2024-10-28 19:42+0100\n"
+"POT-Creation-Date: 2024-11-03 18:45+0100\n"
+"PO-Revision-Date: 2024-11-03 18:45+0100\n"
 "Last-Translator: H5P-Careraker\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -76,19 +76,28 @@ msgstr "Die Datei h5p.json existiert nicht im Archiv."
 msgid "Error decoding h5p.json file."
 msgstr "Fehler beim Decodieren der Datei h5p.json."
 
-#: models/ContentFile.php:151 utils/LocaleUtils.php:176
+#: filehandlers/LibretextData.php:122
+#, php-format
+msgid ""
+"The H5P Accessibility Guide (%s) is shared under a CC BY 4.0 license (%s) "
+"and was authored, remixed, and/or curated by LibreTexts (%s)"
+msgstr ""
+"Der \"H5P Accessibility Guide\" (%s) steht unter einer \"CC BY 4.0\"-Lizenz "
+"(%s) und wurde erstellt, remixed und/oder kuratiert von LibreTexts (%s)"
+
+#: models/ContentFile.php:151 utils/LocaleUtils.php:177
 msgid "image"
 msgstr "Bild"
 
-#: models/ContentFile.php:152
+#: models/ContentFile.php:152 utils/LocaleUtils.php:179
 msgid "video"
 msgstr "Video"
 
-#: models/ContentFile.php:153
+#: models/ContentFile.php:153 utils/LocaleUtils.php:178
 msgid "audio"
 msgstr "Tondatei"
 
-#: models/ContentFile.php:156
+#: models/ContentFile.php:156 utils/LocaleUtils.php:180
 msgid "file"
 msgstr "Datei"
 
@@ -97,12 +106,12 @@ msgstr "Datei"
 msgid "LibreText evaluation for %s"
 msgstr "LibreText-Beurteilung für %s"
 
-#: reports/AccessibilityReport.php:111 reports/AccessibilityReport.php:131
+#: reports/AccessibilityReport.php:112 reports/AccessibilityReport.php:132
 #, php-format
 msgid "Missing alt text for image inside %s"
 msgstr "Fehlender Alternativtext für das Bild in %s"
 
-#: reports/AccessibilityReport.php:146
+#: reports/AccessibilityReport.php:147
 msgid ""
 "Check whether the content type that uses the image offers a custom "
 "alternative text field or whether it is not required to have one here."
@@ -111,20 +120,20 @@ msgstr ""
 "Feld für den Alternativtext anbietet oder ob es nicht erforderlich ist, ein "
 "solches zu haben."
 
-#: reports/AccessibilityReport.php:231
+#: reports/AccessibilityReport.php:232
 msgid "Set an alternative text for the start screen image."
 msgstr "Lege einen Alternativtext für das Bild des Startbildschirms fest."
 
-#: reports/AccessibilityReport.php:247
+#: reports/AccessibilityReport.php:248
 msgid "Set an alternative text for the image."
 msgstr "Lege einen Alternativtext für das Bild fest."
 
-#: reports/AccessibilityReport.php:276 reports/AccessibilityReport.php:296
-#: reports/AccessibilityReport.php:412
+#: reports/AccessibilityReport.php:277 reports/AccessibilityReport.php:297
+#: reports/AccessibilityReport.php:413
 msgid "Set an alternative text for the image of the card."
 msgstr "Lege einen Alternativtext für das Bild der Karte fest."
 
-#: reports/AccessibilityReport.php:315
+#: reports/AccessibilityReport.php:316
 msgid ""
 "Check whether there is a reason for the image to not have an alternative "
 "text. If so, explicitly set the image as decorative in the editor."
@@ -132,27 +141,27 @@ msgstr ""
 "Prüfe, ob es einen Grund gibt, warum das Bild keinen Alternativtext haben "
 "soll. Wenn ja, lege das Bild im Editor ausdrücklich als dekorativ fest."
 
-#: reports/AccessibilityReport.php:333
+#: reports/AccessibilityReport.php:334
 msgid "Set an alternative text for the background image."
 msgstr "Lege einen Alternativtext für den Bildhintergrund fest."
 
-#: reports/AccessibilityReport.php:360
+#: reports/AccessibilityReport.php:361
 msgid "Set an alternative text for the original image."
 msgstr "Lege einen Alternativtext für das Ausgangsbild fest."
 
-#: reports/AccessibilityReport.php:375
+#: reports/AccessibilityReport.php:376
 msgid "Set an alternative text for the matching image."
 msgstr "Lege einen Alternativtext für das Zielbild fest."
 
-#: reports/AccessibilityReport.php:394
+#: reports/AccessibilityReport.php:395
 msgid "Set a description text for the image."
 msgstr "Ergänze eine Beschreibung für das Bild."
 
-#: reports/AccessibilityReport.php:430 reports/AccessibilityReport.php:470
+#: reports/AccessibilityReport.php:431 reports/AccessibilityReport.php:471
 msgid "Set an alternative text for the introduction image."
 msgstr "Lege einen Alternativtext für das Intobild fest."
 
-#: reports/AccessibilityReport.php:454
+#: reports/AccessibilityReport.php:455
 msgid "Set a caption text for the asset thumbnail image."
 msgstr "Lege einen Alternativtext für das Vorschaubild fest."
 
@@ -623,122 +632,128 @@ msgid "status"
 msgstr "Status"
 
 #: utils/LocaleUtils.php:145
+#, fuzzy
+#| msgid "license"
+msgid "license note"
+msgstr "Lizenz"
+
+#: utils/LocaleUtils.php:146
 msgid "level"
 msgstr "Level"
 
-#: utils/LocaleUtils.php:146
+#: utils/LocaleUtils.php:147
 msgid "info"
 msgstr "Info"
 
-#: utils/LocaleUtils.php:147
+#: utils/LocaleUtils.php:148
 msgid "warning"
 msgstr "Warnung"
 
-#: utils/LocaleUtils.php:148
+#: utils/LocaleUtils.php:149
 msgid "error"
 msgstr "Fehler"
 
-#: utils/LocaleUtils.php:149
+#: utils/LocaleUtils.php:150
 msgid "infos"
 msgstr "Infos"
 
-#: utils/LocaleUtils.php:150
+#: utils/LocaleUtils.php:151
 msgid "warnings"
 msgstr "Warnungen"
 
-#: utils/LocaleUtils.php:151
+#: utils/LocaleUtils.php:152
 msgid "errors"
 msgstr "Fehler"
 
-#: utils/LocaleUtils.php:152
+#: utils/LocaleUtils.php:153
 msgid "reference"
 msgstr "Referenz"
 
-#: utils/LocaleUtils.php:153
+#: utils/LocaleUtils.php:154
 msgid "accessibility"
 msgstr "Barrierefreiheit"
 
-#: utils/LocaleUtils.php:154
+#: utils/LocaleUtils.php:155
 msgid "missingAltText"
 msgstr "fehlender Alternativtext"
 
-#: utils/LocaleUtils.php:156
+#: utils/LocaleUtils.php:157
 msgid "features"
 msgstr "Funktionen"
 
-#: utils/LocaleUtils.php:157
+#: utils/LocaleUtils.php:158
 msgid "resume"
 msgstr "Fortfahren"
 
-#: utils/LocaleUtils.php:158
+#: utils/LocaleUtils.php:159
 msgid "xAPI"
 msgstr "xAPI"
 
-#: utils/LocaleUtils.php:159
+#: utils/LocaleUtils.php:160
 msgid "questionTypeContract"
 msgstr "question type contract"
 
-#: utils/LocaleUtils.php:160
+#: utils/LocaleUtils.php:161
 msgid "license"
 msgstr "Lizenz"
 
-#: utils/LocaleUtils.php:161
+#: utils/LocaleUtils.php:162
 msgid "missingLicense"
 msgstr "fehlende Lizenz"
 
-#: utils/LocaleUtils.php:162
+#: utils/LocaleUtils.php:163
 msgid "missingLicenseExtras"
 msgstr "fehlende Lizenzextras"
 
-#: utils/LocaleUtils.php:163
+#: utils/LocaleUtils.php:164
 msgid "missingAuthor"
 msgstr "fehlende*r Autor*in"
 
-#: utils/LocaleUtils.php:164
+#: utils/LocaleUtils.php:165
 msgid "missingTitle"
 msgstr "fehlender Titel"
 
-#: utils/LocaleUtils.php:165
+#: utils/LocaleUtils.php:166
 msgid "missingSource"
 msgstr "fehlende Quelle"
 
-#: utils/LocaleUtils.php:166
+#: utils/LocaleUtils.php:167
 msgid "missingChanges"
 msgstr "fehlende Änderungen"
 
-#: utils/LocaleUtils.php:167
+#: utils/LocaleUtils.php:168
 msgid "discouragedLicenseAdaptation"
 msgstr "Nicht ratsame Lizenzwahl"
 
-#: utils/LocaleUtils.php:168
+#: utils/LocaleUtils.php:169
 msgid "invalidLicenseAdaptation"
 msgstr "Ungültige Lizenzwahl für Adaption"
 
-#: utils/LocaleUtils.php:169
+#: utils/LocaleUtils.php:170
 msgid "invalidLicenseRemix"
 msgstr "Ungültige Lizenzwahl für Remix"
 
-#: utils/LocaleUtils.php:170
+#: utils/LocaleUtils.php:171
 msgid "efficiency"
 msgstr "Effizienz"
 
-#: utils/LocaleUtils.php:171
+#: utils/LocaleUtils.php:172
 msgid "imageSize"
 msgstr "Bildgröße"
 
-#: utils/LocaleUtils.php:172
+#: utils/LocaleUtils.php:173
 msgid "imageResolution"
 msgstr "Bildauflösung"
 
-#: utils/LocaleUtils.php:173
+#: utils/LocaleUtils.php:174
 msgid "statistics"
 msgstr "Statistik"
 
-#: utils/LocaleUtils.php:174
+#: utils/LocaleUtils.php:175
 msgid "contentTypeCount"
 msgstr "Inhaltstyphäufigkeit"
 
-#: utils/LocaleUtils.php:175
+#: utils/LocaleUtils.php:176
 msgid "Learn more about this topic."
 msgstr "Lerne mehr über dieses Thema."
 

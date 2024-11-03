@@ -142,6 +142,7 @@ class LocaleUtils
             "subContentId" => _("subContentId"),
             "description" => _("description"),
             "status" => _("status"),
+            "licenseNote" => _("license note"),
             "level" => _("level"),
             "info" => _("info"),
             "warning" => _("warning"),
@@ -195,6 +196,7 @@ class LocaleUtils
             $translations["imageSize"] = "image size";
             $translations["imageResolution"] = "image resolution";
             $translations["infos"] = "info";
+            $translations["licenseNote"] = "license note";
         }
 
         return $translations;
