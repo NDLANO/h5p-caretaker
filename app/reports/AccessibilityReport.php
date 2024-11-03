@@ -72,6 +72,7 @@ class AccessibilityReport
                     "description" => $libreText["description"],
                     "status" => $libreText["status"],
                     "reference" => $libreText["url"],
+                    "licenseNote" => $libreText["licenseNote"]
                 ],
                 "level" => "info"
             ]);

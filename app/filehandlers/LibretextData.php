@@ -33,6 +33,27 @@ class LibretextData
     private const ENDPOINT_TEMPLATE = "https://studio.libretexts.org/api/h5p/accessibility?type=%s";
 
     /**
+     * The content URL.
+     *
+     * @var string
+     */
+    private const CONTENT_URL = "https://studio.libretexts.org/help/h5p-accessibility-guide";
+
+    /**
+     * The license URL.
+     *
+     * @var string
+     */
+    private const LICENSE_URL = "https://creativecommons.org/licenses/by/4.0/";
+
+    /**
+     * The author URL.
+     *
+     * @var string
+     */
+    private const AUTHOR_URL = "https://libretexts.org";
+
+    /**
      * The endpoint ID.
      *
      * @var string
@@ -95,7 +116,20 @@ class LibretextData
             }
         }
 
-        return LibretextData::parseEndpointResult($response);
+        $result = LibretextData::parseEndpointResult($response);
+
+        // Add license note that LibreText does not share in the API
+        $licenseNoteTemplate = _("The H5P Accessibility Guide (%s) is shared under a CC BY 4.0 (%s) license and was authored, remixed, and/or curated by LibreTexts (%s)");
+        $licenseNote = sprintf(
+            $licenseNoteTemplate,
+            self::CONTENT_URL,
+            self::LICENSE_URL,
+            self::AUTHOR_URL
+        );
+
+        $result[0]["licenseNote"] = $licenseNote;
+
+        return $result;
     }
 
     /**
