@@ -126,7 +126,7 @@ class H5PCaretaker
             "messages" => [],
             "client" => [
                 "translations" => LocaleUtils::getKeywordTranslations(
-                    $this->config["locale"] === "en"
+                    str_starts_with($this->config["locale"], "en")
                 ),
                 "categories" => [
                     AccessibilityReport::$categoryName => AccessibilityReport::$typeNames,
