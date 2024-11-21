@@ -43,9 +43,8 @@ class ContentTree
         $this->contents[] = new Content([
             "attributes" => [
                 "id" => "root",
-                "versionedMachineName" => self::getversionedMachineName(
-                    $h5pJson
-                ),
+                "versionedMachineName" => self::getversionedMachineName($h5pJson),
+                "metadataSettings" => self::getMetadataSettings($h5pJson),
                 "metadata" => JSONUtils::h5pJsonToMetadata($h5pJson),
                 "semanticsPath" => "",
                 "params" => $rawdata["contentJson"],
@@ -64,6 +63,7 @@ class ContentTree
                 "attributes" => [
                     "id" => $libraryParams["subContentId"] ?? "",
                     "versionedMachineName" => $libraryParams["library"],
+                    // TODO: allow to retrieve library.json data for content
                     "metadata" => $libraryParams["metadata"] ?? [],
                     "semanticsPath" => $parameterPath,
                     "params" => $libraryParams["params"],
@@ -329,5 +329,21 @@ class ContentTree
         }
 
         return null;
+    }
+
+    /**
+     * Get metadata settings.
+     *
+     * @param array $h5pJson The H5P JSON object.
+     *
+     * @return array|null The metadata settings.
+     */
+    private static function getMetadataSettings($h5pJson)
+    {
+        if (!isset($h5pJson["metadataSettings"])) {
+            return null;
+        }
+
+        return $h5pJson["metadataSettings"];
     }
 }

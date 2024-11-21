@@ -68,6 +68,8 @@ class Content
             $value = "";
         } elseif ($name === "versionedMachineName" && !isset($value)) {
             $value = "";
+        } elseif ($name === "metadataSettings" && !isset($value)) {
+            $value = [];
         } elseif ($name === "metadata" && !isset($value)) {
             $value = [];
         } elseif ($name === "semanticsPath" && !isset($value)) {

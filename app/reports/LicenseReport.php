@@ -51,6 +51,20 @@ class LicenseReport
         $contents = $contentTree->getContents();
 
         foreach ($contents as $content) {
+            // TODO: This information should be fetched from library.json of the content type!
+            $contentTypesWithoutMetadata = [
+                "H5P.GoToQuestion",
+                "H5P.IVHotspot",
+                "H5P.Link",
+                "H5P.Shape",
+                "H5P.Text",
+                "H5P.TextInputField"
+            ];
+            $machineName = explode(" ", $content->getAttribute("versionedMachineName"))[0];
+            if (in_array($machineName, $contentTypesWithoutMetadata)) {
+                continue; // No metadata for content
+            }
+
             self::checkLicense($content);
             self::checkLicenseAdaptation($content);
             self::checkLicenseRemixing($content);
