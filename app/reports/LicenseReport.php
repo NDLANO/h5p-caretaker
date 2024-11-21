@@ -826,14 +826,11 @@ class LicenseReport
             return; // License should be set first anyway.
         }
 
-        $authors =
-            $content->getAttribute("metadata")["authors"] ?? [];
-        if (
-            (count($authors) !== 0 && ($authors[0]["name"] ?? "") !== "") ||
-            $license === "CC PDM" ||
-            $license === "PD"
-        ) {
-            return;
+        $authors = $content->getAttribute("metadata")["authors"] ?? [];
+        $hasValidAuthor = !empty($authors) && (!empty($authors[0]["name"]) || !empty($authors["author"]));
+
+        if ($hasValidAuthor || $license === "CC PDM" || $license === "PD") {
+            return; // No author needed for public domain licenses
         }
 
         $reference = null;
