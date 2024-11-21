@@ -182,6 +182,7 @@ class AccessibilityReport
 
         $semanticsPath = $contentFile->getAttribute("semanticsPath");
 
+        // TODO: Add missing content types and outsource to a separate function
         if ($parentMachineName === "H5P.AdventCalendar") {
             if (
                 str_ends_with(
@@ -198,6 +199,11 @@ class AccessibilityReport
                 )
             ) {
                 $decorative = true;
+                $hasCustomHandling = true;
+            }
+        } elseif ($parentMachineName === "H5P.Animator") {
+            if (str_ends_with($semanticsPath, "backgroundImage")) {
+                $decorative = true; // Is background image
                 $hasCustomHandling = true;
             }
         } elseif ($parentMachineName === "H5P.ARScavenger") {
