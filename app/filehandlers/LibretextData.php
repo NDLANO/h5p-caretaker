@@ -118,6 +118,10 @@ class LibretextData
 
         $result = LibretextData::parseEndpointResult($response);
 
+        if ($result === false) {
+            return false;
+        }
+
         // Add license note that LibreText does not share in the API
         $licenseNoteTemplate = _("The H5P Accessibility Guide (%s) is shared under a CC BY 4.0 license (%s) and was authored, remixed, and/or curated by LibreTexts (%s)");
         $licenseNote = sprintf(
