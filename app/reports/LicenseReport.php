@@ -1053,8 +1053,7 @@ class LicenseReport
                     "reference" => $reference
                 ],
                 "recommendation" => _(
-                    "If this is not your work and you made changes to a degree " .
-                    "that you created a derivative, you must indicate your changes and " .
+                    "If this is not your work and you made changes, you must indicate your changes and " .
                     "all previous modifications in the metadata."
                 ),
                 "level" => "warning"
