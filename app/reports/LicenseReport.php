@@ -764,7 +764,7 @@ class LicenseReport
                 $content->getParent()->getDescription()
             );
 
-            $message = ReportUtils::buildMessage([
+            $arguments = [
                 "category" => "license",
                 "type" => "missingLicense",
                 "summary" => $summary,
@@ -774,7 +774,14 @@ class LicenseReport
                     "subContentId" => $content->getAttribute("id"),
                 ],
                 "recommendation" => _("Check the license information of the content and add it to the metadata.")
-            ]);
+            ];
+
+            $path = $content->getAttribute("path");
+            if (isset($path)) {
+                $arguments["details"]["path"] = $path;
+            }
+
+            $message = ReportUtils::buildMessage($arguments);
             $content->addReportMessage($message);
     }
 
@@ -797,7 +804,7 @@ class LicenseReport
             return;
         }
 
-        $message = ReportUtils::buildMessage([
+        $arguments = [
             "category" => "license",
             "type" => "missingLicenseVersion",
             "summary" => sprintf(
@@ -807,9 +814,17 @@ class LicenseReport
             "details" => [
                 "semanticsPath" => $content->getAttribute("semanticsPath"),
                 "title" => $content->getDescription("{title}"),
+                "subContentId" => $content->getAttribute("id"),
             ],
             "recommendation" => _("Set the license version in the metadata.")
-        ]);
+        ];
+
+        $path = $content->getAttribute("path");
+        if (isset($path)) {
+            $arguments["details"]["path"] = $path;
+        }
+
+        $message = ReportUtils::buildMessage($arguments);
         $content->addReportMessage($message);
     }
 
@@ -845,7 +860,7 @@ class LicenseReport
             $reference = "https://www.gnu.org/licenses/gpl-3.0.txt";
         }
 
-        $message = ReportUtils::buildMessage([
+        $arguments = [
             "category" => "license",
             "type" => "missingAuthor",
             "summary" => sprintf(
@@ -855,10 +870,18 @@ class LicenseReport
             "details" => [
                 "semanticsPath" => $content->getAttribute("semanticsPath"),
                 "title" => $content->getDescription("{title}"),
+                "subContentId" => $content->getAttribute("id"),
                 "reference" => $reference
             ],
             "recommendation" => _("Add the author name or creator name in the metadata.")
-        ]);
+        ];
+
+        $path = $content->getAttribute("path");
+        if (isset($path)) {
+            $arguments["details"]["path"] = $path;
+        }
+
+        $message = ReportUtils::buildMessage($arguments);
         $content->addReportMessage($message);
     }
 
@@ -898,7 +921,7 @@ class LicenseReport
             );
         }
 
-        $message = ReportUtils::buildMessage([
+        $arguments = [
             "category" => "license",
             "type" => "missingTitle",
             "summary" => sprintf(
@@ -910,10 +933,18 @@ class LicenseReport
                     "semanticsPath"
                 ),
                 "title" => $content->getDescription("{title}"),
+                "subContentId" => $content->getAttribute("id"),
                 "reference" => $reference
             ],
             "recommendation" => _("Add the title of the content (if supplied) in the metadata.")
-        ]);
+        ];
+
+        $path = $content->getAttribute("path");
+        if (isset($path)) {
+            $arguments["details"]["path"] = $path;
+        }
+
+        $message = ReportUtils::buildMessage($arguments);
         $content->addReportMessage($message);
     }
 
@@ -956,7 +987,7 @@ class LicenseReport
         }
 
         if ($licenseVersion === "4.0") {
-            $message = ReportUtils::buildMessage([
+            $arguments = [
                 "category" => "license",
                 "type" => "missingSource",
                 "summary" => sprintf(
@@ -968,13 +999,21 @@ class LicenseReport
                         "semanticsPath"
                     ),
                     "title" => $content->getDescription("{title}"),
+                    "subContentId" => $content->getAttribute("id"),
                     "reference" => $reference
                 ],
                 "recommendation" => _("Add the link to the content in the metadata.")
-            ]);
+            ];
+
+            $path = $content->getAttribute("path");
+            if (isset($path)) {
+                $arguments["details"]["path"] = $path;
+            }
+
+            $message = ReportUtils::buildMessage($arguments);
             $content->addReportMessage($message);
         } else {
-            $message = ReportUtils::buildMessage([
+            $arguments = [
                 "category" => "license",
                 "type" => "missingSource",
                 "summary" => sprintf(
@@ -986,6 +1025,7 @@ class LicenseReport
                         "semanticsPath"
                     ),
                     "title" => $content->getDescription("{title}"),
+                    "subContentId" => $content->getAttribute("id"),
                     "reference" => $reference
                 ],
                 "recommendation" => _(
@@ -993,7 +1033,14 @@ class LicenseReport
                     "if the link target contains a copyright notice or licensing information."
                 ),
                 "level" => "warning"
-            ]);
+            ];
+
+            $path = $content->getAttribute('path');
+            if (isset($path)) {
+                $arguments['details']['path'] = $path;
+            }
+
+            $message = ReportUtils::buildMessage($arguments);
             $content->addReportMessage($message);
         }
     }
@@ -1038,7 +1085,7 @@ class LicenseReport
         }
 
         if (strpos($license, "CC BY") === 0 && $licenseVersion === "4.0") {
-            $message = ReportUtils::buildMessage([
+            $arguments = [
                 "category" => "license",
                 "type" => "missingChanges",
                 "summary" => sprintf(
@@ -1050,6 +1097,7 @@ class LicenseReport
                         "semanticsPath"
                     ),
                     "title" => $content->getDescription("{title}"),
+                    "subContentId" => $content->getAttribute("id"),
                     "reference" => $reference
                 ],
                 "recommendation" => _(
@@ -1057,12 +1105,19 @@ class LicenseReport
                     "all previous modifications in the metadata."
                 ),
                 "level" => "warning"
-            ]);
+            ];
+
+            $path = $content->getAttribute('path');
+            if (isset($path)) {
+                $arguments['details']['path'] = $path;
+            }
+
+            $message = ReportUtils::buildMessage($arguments);
             $content->addReportMessage($message);
         }
 
         if (strpos($license, "CC BY") === 0 && $licenseVersion !== "4.0") {
-            $message = ReportUtils::buildMessage([
+            $arguments = [
                 "category" => "license",
                 "type" => "missingChanges",
                 "summary" => sprintf(
@@ -1074,6 +1129,7 @@ class LicenseReport
                         "semanticsPath"
                     ),
                     "title" => $content->getDescription("{title}"),
+                    "subContentId" => $content->getAttribute("id"),
                     "reference" => $reference
                 ],
                 "recommendation" => _(
@@ -1082,12 +1138,19 @@ class LicenseReport
                     "all previous modifications in the metadata."
                 ),
                 "level" => "warning"
-            ]);
+
+            ];
+
+            $path = $content->getAttribute('path');
+            if (isset($path)) {
+                $arguments['details']['path'] = $path;
+            }
+            $message = ReportUtils::buildMessage($arguments);
             $content->addReportMessage($message);
         }
 
         if ($license === "GNU GPL") {
-            $message = ReportUtils::buildMessage([
+            $arguments = [
                 "category" => "license",
                 "type" => "missingChanges",
                 "summary" => sprintf(
@@ -1099,11 +1162,19 @@ class LicenseReport
                         "semanticsPath"
                     ),
                     "title" => $content->getDescription("{title}"),
+                    "subContentId" => $content->getAttribute("id"),
                     "reference" => $reference
                 ],
                 "recommendation" => _("List any changes you made in the metadata."),
                 "level" => "warning"
-            ]);
+            ];
+
+            $path = $content->getAttribute('path');
+            if (isset($path)) {
+                $arguments['details']['path'] = $path;
+            }
+
+            $message = ReportUtils::buildMessage($arguments);
             $content->addReportMessage($message);
         }
     }
@@ -1141,6 +1212,7 @@ class LicenseReport
                     "semanticsPath"
                 ),
                 "title" => $content->getDescription("{title}"),
+                "subContentId" => $content->getAttribute("id"),
                 "reference" => "https://www.gnu.org/licenses/gpl-3.0.txt"
             ],
             "recommendation" => _("Add the original GPL license text in the \"license extras\" field.")
