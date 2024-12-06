@@ -47,6 +47,7 @@ class ReportUtils
         $details = $params["details"] ?? null;
         $recommendation = $params["recommendation"] ?? null;
         $level = $params["level"] ?? "error";
+        $subContentId = $params["subContentId"] ?? null;
 
         if (is_array($summary)) {
             $summary = implode(" ", $summary);
@@ -76,6 +77,9 @@ class ReportUtils
 
         if ($level !== null) {
             $message["level"] = $level;
+        }
+        if ($subContentId !== null) {
+            $message["subContentId"] = $subContentId;
         }
 
         if ($details !== null && is_array($details)) {

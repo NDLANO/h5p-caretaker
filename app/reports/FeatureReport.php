@@ -52,41 +52,43 @@ class FeatureReport
 
           // Resume
             $message = ReportUtils::buildMessage([
-            "category" => "features",
-            "type" => "resume",
-            "summary" => sprintf(
-                ($features["getCurrentState"] ?? false) ?
-                _("Content %s seems to support resuming.") :
-                _("Content %s does not seem to support resuming."),
-                $content->getDescription()
-            ),
-            "details" => [
-              "semanticsPath" => $content->getAttribute("semanticsPath"),
-              "title" => $content->getDescription("{title}"),
-              "subContentId" => $content->getAttribute("id"),
-              "reference" => "https://h5p.org/documentation/developers/contracts#guides-header-7"
-            ],
-            "level" => "info"
+                "category" => "features",
+                "type" => "resume",
+                "summary" => sprintf(
+                    ($features["getCurrentState"] ?? false) ?
+                    _("Content %s seems to support resuming.") :
+                    _("Content %s does not seem to support resuming."),
+                    $content->getDescription()
+                ),
+                "details" => [
+                "semanticsPath" => $content->getAttribute("semanticsPath"),
+                "title" => $content->getDescription("{title}"),
+                "subContentId" => $content->getAttribute("id"),
+                "reference" => "https://h5p.org/documentation/developers/contracts#guides-header-7"
+                ],
+                "level" => "info",
+                "subContentId" => $content->getParent()->getAttribute("id"),
             ]);
             $content->addReportMessage($message);
 
           // xAPI
             $message = ReportUtils::buildMessage([
-            "category" => "features",
-            "type" => "xAPI",
-            "summary" => sprintf(
-                ($features["getXAPIData"] ?? false) ?
-                _("Content %s seems to support xAPI.") :
-                _("Content %s does not seem to support xAPI."),
-                $content->getDescription()
-            ),
-            "details" => [
-              "semanticsPath" => $content->getAttribute("semanticsPath"),
-              "title" => $content->getDescription("{title}"),
-              "subContentId" => $content->getAttribute("id"),
-              "reference" => "https://h5p.org/documentation/for-authors/analyzing-results-and-answers"
-            ],
-            "level" => "info"
+                "category" => "features",
+                "type" => "xAPI",
+                "summary" => sprintf(
+                    ($features["getXAPIData"] ?? false) ?
+                    _("Content %s seems to support xAPI.") :
+                    _("Content %s does not seem to support xAPI."),
+                    $content->getDescription()
+                ),
+                "details" => [
+                "semanticsPath" => $content->getAttribute("semanticsPath"),
+                "title" => $content->getDescription("{title}"),
+                "subContentId" => $content->getAttribute("id"),
+                "reference" => "https://h5p.org/documentation/for-authors/analyzing-results-and-answers"
+                ],
+                "level" => "info",
+                "subContentId" => $content->getAttribute("id"),
             ]);
             $content->addReportMessage($message);
 
@@ -140,20 +142,21 @@ class FeatureReport
             }
 
             $message = ReportUtils::buildMessage([
-            "category" => "features",
-            "type" => "questionTypeContract",
-            "summary" => sprintf(
-                $summary,
-                $content->getDescription()
-            ),
-            "description" => $description,
-            "details" => [
-              "semanticsPath" => $content->getAttribute("semanticsPath"),
-              "title" => $content->getDescription("{title}"),
-              "subContentId" => $content->getAttribute("id"),
-              "reference" => "https://h5p.org/documentation/developers/contracts"
-            ],
-            "level" => "info"
+                "category" => "features",
+                "type" => "questionTypeContract",
+                "summary" => sprintf(
+                    $summary,
+                    $content->getDescription()
+                ),
+                "description" => $description,
+                "details" => [
+                "semanticsPath" => $content->getAttribute("semanticsPath"),
+                "title" => $content->getDescription("{title}"),
+                "subContentId" => $content->getAttribute("id"),
+                "reference" => "https://h5p.org/documentation/developers/contracts"
+                ],
+                "level" => "info",
+                "subContentId" => $content->getAttribute("id"),
             ]);
             $content->addReportMessage($message);
         }

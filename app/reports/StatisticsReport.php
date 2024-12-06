@@ -60,7 +60,8 @@ class StatisticsReport
             "type" => "contentTypeCount",
             "summary" => _("Numbers of content type uses"),
             "details" => $counts,
-            "level" => "info"
+            "level" => "info",
+            "subContentId" => $content->getAttribute("id"),
         ]);
 
         return $messages;

@@ -186,7 +186,8 @@ class LicenseReport
                         "Ensure that your work is legally a collection or ensure " .
                         "that the license of the subcontent is compatible with " .
                         "the license of the parent content."
-                    )
+                    ),
+                    "subContentId" => $sa["content"]->getAttribute("id"),
                 ]);
 
                 $sa["content"]->getParent()->addReportMessage($message);
@@ -240,7 +241,8 @@ class LicenseReport
                         "Ensure that your work is legally a collection or ensure " .
                         "that the license of the subcontent is compatible with " .
                         "the license of the parent content."
-                    )
+                    ),
+                    "subContentId" => $content->getAttribute("id"),
                 ]);
                 $content->addReportMessage($message);
             }
@@ -330,7 +332,8 @@ class LicenseReport
                 "recommendation" => _(
                     "Ensure that the license of the subcontent is compatible " .
                     "with the license of the parent content."
-                )
+                ),
+                "subContentId" => $content->getAttribute("id"),
             ]);
             $content->addReportMessage($message);
         }
@@ -387,7 +390,8 @@ class LicenseReport
                     "Ensure that your work is legally a collection or ensure " .
                     "that the license of the subcontent is compatible with " .
                     "the license of the parent content."
-                )
+                ),
+                "subContentId" => $content->getAttribute("id"),
             ]);
             $content->addReportMessage($message);
         }
@@ -432,7 +436,8 @@ class LicenseReport
                 "recommendation" => _(
                     "Ensure that the license of the subcontent is compatible " .
                     "with the license of the parent content."
-                )
+                ),
+                "subContentId" => $content->getAttribute("id"),
             ]);
             $content->addReportMessage($message);
         }
@@ -505,7 +510,8 @@ class LicenseReport
                         "Ensure that your work is legally a collection or " .
                         "ensure that the license of the subcontent is compatible " .
                         "with the license of the parent content."
-                    )
+                    ),
+                    "subContentId" => $content->getAttribute("id"),
                 ]);
                 $content->addReportMessage($message);
             } elseif ($license !== "CC BY-SA") {
@@ -538,7 +544,8 @@ class LicenseReport
                         "Ensure that your work is legally a collection or " .
                         "ensure that the license of the subcontent is compatible " .
                         "with the license of the parent content."
-                    )
+                    ),
+                    "subContentId" => $content->getAttribute("id"),
                 ]);
                 $content->addReportMessage($message);
             } elseif (
@@ -570,7 +577,8 @@ class LicenseReport
                         "Ensure that your work is legally a collection or " .
                         "ensure that the license of the subcontent is compatible " .
                         "with the license of the parent content."
-                    )
+                    ),
+                    "subContentId" => $content->getAttribute("id"),
                 ]);
                 $content->addReportMessage($message);
             } elseif (
@@ -609,7 +617,8 @@ class LicenseReport
                         "Ensure that your work is legally a collection or " .
                         "ensure that the license of the subcontent is compatible " .
                         "with the license of the parent content."
-                    )
+                    ),
+                    "subContentId" => $content->getAttribute("id"),
                 ]);
                 $content->addReportMessage($message);
             }
@@ -644,7 +653,8 @@ class LicenseReport
                         "Ensure that your work is legally a collection or " .
                         "ensure that the license of the subcontent is compatible " .
                         "with the license of the parent content."
-                    )
+                    ),
+                    "subContentId" => $content->getAttribute("id"),
                 ]);
                 $content->addReportMessage($message);
             } elseif (
@@ -679,7 +689,8 @@ class LicenseReport
                         "Ensure that your work is legally a collection or " .
                         "ensure that the license of the subcontent is compatible " .
                         "with the license of the parent content."
-                    )
+                    ),
+                    "subContentId" => $content->getAttribute("id"),
                 ]);
                 $content->addReportMessage($message);
             } elseif (
@@ -717,7 +728,8 @@ class LicenseReport
                         "Ensure that your work is legally a collection or " .
                         "ensure that the license of the subcontent is compatible " .
                         "with the license of the parent content."
-                    )
+                    ),
+                    "subContentId" => $content->getAttribute("id"),
                 ]);
                 $content->addReportMessage($message);
             }
@@ -773,7 +785,8 @@ class LicenseReport
                     "title" => $content->getDescription("{title}"),
                     "subContentId" => $content->getAttribute("id"),
                 ],
-                "recommendation" => _("Check the license information of the content and add it to the metadata.")
+                "recommendation" => _("Check the license information of the content and add it to the metadata."),
+                "subContentId" => $content->getAttribute("id"),
             ];
 
             $path = $content->getAttribute("path");
@@ -816,7 +829,8 @@ class LicenseReport
                 "title" => $content->getDescription("{title}"),
                 "subContentId" => $content->getAttribute("id"),
             ],
-            "recommendation" => _("Set the license version in the metadata.")
+            "recommendation" => _("Set the license version in the metadata."),
+            "subContentId" => $content->getAttribute("id"),
         ];
 
         $path = $content->getAttribute("path");
@@ -873,7 +887,8 @@ class LicenseReport
                 "subContentId" => $content->getAttribute("id"),
                 "reference" => $reference
             ],
-            "recommendation" => _("Add the author name or creator name in the metadata.")
+            "recommendation" => _("Add the author name or creator name in the metadata."),
+            "subContentId" => $content->getAttribute("id"),
         ];
 
         $path = $content->getAttribute("path");
@@ -936,7 +951,8 @@ class LicenseReport
                 "subContentId" => $content->getAttribute("id"),
                 "reference" => $reference
             ],
-            "recommendation" => _("Add the title of the content (if supplied) in the metadata.")
+            "recommendation" => _("Add the title of the content (if supplied) in the metadata."),
+            "subContentId" => $content->getAttribute("id"),
         ];
 
         $path = $content->getAttribute("path");
@@ -1002,7 +1018,8 @@ class LicenseReport
                     "subContentId" => $content->getAttribute("id"),
                     "reference" => $reference
                 ],
-                "recommendation" => _("Add the link to the content in the metadata.")
+                "recommendation" => _("Add the link to the content in the metadata."),
+                "subContentId" => $content->getAttribute("id"),
             ];
 
             $path = $content->getAttribute("path");
@@ -1032,7 +1049,8 @@ class LicenseReport
                     "Add the link to the content in the metadata " .
                     "if the link target contains a copyright notice or licensing information."
                 ),
-                "level" => "warning"
+                "level" => "warning",
+                "subContentId" => $content->getAttribute("id"),
             ];
 
             $path = $content->getAttribute('path');
@@ -1104,7 +1122,8 @@ class LicenseReport
                     "If this is not your work and you made changes, you must indicate your changes and " .
                     "all previous modifications in the metadata."
                 ),
-                "level" => "warning"
+                "level" => "warning",
+                "subContentId" => $content->getAttribute("id"),
             ];
 
             $path = $content->getAttribute('path');
@@ -1137,7 +1156,8 @@ class LicenseReport
                     "that you created a derivative, you must indicate your changes and " .
                     "all previous modifications in the metadata."
                 ),
-                "level" => "warning"
+                "level" => "warning",
+                "subContentId" => $content->getAttribute("id"),
 
             ];
 
@@ -1166,7 +1186,8 @@ class LicenseReport
                     "reference" => $reference
                 ],
                 "recommendation" => _("List any changes you made in the metadata."),
-                "level" => "warning"
+                "level" => "warning",
+                "subContentId" => $content->getAttribute("id"),
             ];
 
             $path = $content->getAttribute('path');
@@ -1215,7 +1236,8 @@ class LicenseReport
                 "subContentId" => $content->getAttribute("id"),
                 "reference" => "https://www.gnu.org/licenses/gpl-3.0.txt"
             ],
-            "recommendation" => _("Add the original GPL license text in the \"license extras\" field.")
+            "recommendation" => _("Add the original GPL license text in the \"license extras\" field."),
+            "subContentId" => $content->getAttribute("id"),
         ]);
         $content->addReportMessage($message);
     }

@@ -301,8 +301,7 @@ class EfficiencyReport
             );
         }
 
-        $message = ReportUtils::buildMessage(
-            [
+        $message = ReportUtils::buildMessage([
             "category" => "efficiency",
             "type" => "imageResolution",
             "summary" => sprintf(
@@ -321,9 +320,9 @@ class EfficiencyReport
               ),
               "subContentId" => $contentFile->getParent()->getAttribute("id")
             ],
-            "level" => "warning"
-            ]
-        );
+            "level" => "warning",
+            "subContentId" => $contentFile->getParent()->getAttribute("id")
+        ]);
         $contentFile->getParent()->addReportMessage($message);
     }
 
@@ -379,8 +378,7 @@ class EfficiencyReport
                   _("You might consider reducing the quality level of the JPEG image.");
             }
 
-            $message = ReportUtils::buildMessage(
-                [
+            $message = ReportUtils::buildMessage([
                 "category" => "efficiency",
                 "type" => "imageSize",
                 "summary" => sprintf(
@@ -399,9 +397,9 @@ class EfficiencyReport
                   ),
                   "subContentId" => $contentFile->getParent()->getAttribute("id")
                 ],
-                "level" => "warning"
-                ]
-            );
+                "level" => "warning",
+                "subContentid" => $contentFile->getParent()->getAttribute("id"),
+            ]);
             $contentFile->getParent()->addReportMessage($message);
         }
     }

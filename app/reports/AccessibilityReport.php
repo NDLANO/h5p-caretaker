@@ -74,7 +74,8 @@ class AccessibilityReport
                     "reference" => $libreText["url"],
                     "licenseNote" => $libreText["licenseNote"]
                 ],
-                "level" => "info"
+                "level" => "info",
+                "subContentId" => $content->getAttribute("id"),
             ]);
 
             $content->addReportMessage($message);
@@ -119,7 +120,8 @@ class AccessibilityReport
                                     "subContentId" => $content->getAttribute("id"),
                                     "reference" => "https://www.w3.org/WAI/alt/"
                                 ],
-                                "recommendation" => $recommendation
+                                "recommendation" => $recommendation,
+                                "subContentId" => $content->getAttribute("id"),
                             ]);
 
                             $content->addReportMessage($message);
@@ -147,7 +149,8 @@ class AccessibilityReport
                                 "Check whether the content type that uses the image " .
                                 "offers a custom alternative text field or " .
                                 "whether it is not required to have one here."
-                            )
+                            ),
+                            "subContentId" => $content->getAttribute("id"),
                         ]);
 
                         $content->addReportMessage($message);
