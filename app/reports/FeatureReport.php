@@ -67,7 +67,7 @@ class FeatureReport
                 "reference" => "https://h5p.org/documentation/developers/contracts#guides-header-7"
                 ],
                 "level" => "info",
-                "subContentId" => $content->getParent()->getAttribute("id"),
+                "subContentId" => $content->getAttribute("id"),
             ]);
             $content->addReportMessage($message);
 
