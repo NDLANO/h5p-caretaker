@@ -178,6 +178,31 @@ class ContentTree
         return $reports;
     }
 
+    public function getTreeRepresentation()
+    {
+        $root = $this->getRoot();
+        if ($root === null) {
+            return null;
+        }
+
+        return $this->getTreeRepresentationRecursive($root);
+    }
+
+    private function getTreeRepresentationRecursive($root) {
+        $representation = [
+            "subContentId" => $root->getAttribute("id"),
+            "versionedMachineName" => $root->getAttribute("versionedMachineName"),
+            "title" => $root->getAttribute("metadata")["title"] ?? _("Untitled"),
+            "label" => $root->getDescription()
+        ];
+
+        foreach ($root->getChildren() as $child) {
+            $representation["children"][] = $this->getTreeRepresentationRecursive($child);
+        }
+
+        return $representation;
+    }
+
     /**
      * Get node by semantics path.
      *

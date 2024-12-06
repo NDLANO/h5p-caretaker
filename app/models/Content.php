@@ -104,7 +104,7 @@ class Content
      */
     public function getDescription($template = "{title} ({machineName})")
     {
-        $title = $this->attributes["metadata"]["title"] ?? "Untitled";
+        $title = $this->attributes["metadata"]["title"] ?? _("Untitled");
         $machineName = explode(
             " ",
             $this->attributes["versionedMachineName"]

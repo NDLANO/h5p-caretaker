@@ -140,6 +140,7 @@ class H5PCaretaker
 
         $reports = $contentTree->getReports();
         $report["messages"] = array_merge(...array_values($reports));
+        $report["contentTree"] = $contentTree->getTreeRepresentation();
 
         $stats = StatisticsReport::generateReport($contentTree, $reportRaw);
         foreach ($stats as $key => $message) {

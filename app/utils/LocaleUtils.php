@@ -178,6 +178,7 @@ class LocaleUtils
             "audio" => _("audio"),
             "video" => _("video"),
             "file" => _("file"),
+            "untitled" => _("Untitled"),
         ];
 
         if ($isEnglish) {
