@@ -187,7 +187,7 @@ class LicenseReport
                         "that the license of the subcontent is compatible with " .
                         "the license of the parent content."
                     ),
-                    "subContentId" => $sa["content"]->getAttribute("id"),
+                    "subContentId" => $sa["content"]->getParent()->getAttribute("id"),
                 ]);
 
                 $sa["content"]->getParent()->addReportMessage($message);
