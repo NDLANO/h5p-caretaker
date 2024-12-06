@@ -65,7 +65,7 @@ class Content
         }
 
         if ($name === "id" && !isset($value)) {
-            $value = "";
+            $value = 'fake-' . GeneralUtils::createUUID();
         } elseif ($name === "versionedMachineName" && !isset($value)) {
             $value = "";
         } elseif ($name === "metadataSettings" && !isset($value)) {

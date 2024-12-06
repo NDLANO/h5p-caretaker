@@ -200,6 +200,25 @@ class ContentTree
             $representation["children"][] = $this->getTreeRepresentationRecursive($child);
         }
 
+        $contentFiles = $root->getAttribute("contentFiles");
+        foreach ($contentFiles as $contentFile) {
+            $versionedMachineName = $contentFile->getParent()->getAttribute("versionedMachineName");
+
+            if (in_array(
+                explode(' ', $versionedMachineName)[0],
+                ["H5P.Image", "H5P.Audio", "H5P.Video"])
+            ) {
+                continue;
+            }
+
+            $representation["children"][] = [
+                "subContentId" => $contentFile->getAttribute("id"),
+                "versionedMachineName" => $contentFile->getAttribute("versionedMachineName"),
+                "title" => $contentFile->getAttribute("metadata")["title"] ?? _("Untitled"),
+                "label" => $contentFile->getDescription()
+            ];
+        }
+
         return $representation;
     }
 

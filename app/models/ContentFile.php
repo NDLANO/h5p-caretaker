@@ -35,6 +35,9 @@ class ContentFile
      */
     public function __construct($data)
     {
+        // files do not have a subcontentid, but an id may be needed for filtering
+        $this->setAttribute('id', 'fake-' . GeneralUtils::createUUID());
+
         foreach ($data["attributes"] as $name => $value) {
             $this->setAttribute($name, $value);
         }
@@ -52,7 +55,9 @@ class ContentFile
             return;
         }
 
-        if ($name === "type" && !isset($value)) {
+        if ($name === "id" && !isset($value)) {
+            $value = 'fake-' . GeneralUtils::createUUID();
+        } elseif ($name === "type" && !isset($value)) {
             $value = "";
         } elseif ($name === "path" && !isset($value)) {
             $value = "";

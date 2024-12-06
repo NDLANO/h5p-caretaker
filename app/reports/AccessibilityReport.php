@@ -75,7 +75,7 @@ class AccessibilityReport
                     "licenseNote" => $libreText["licenseNote"]
                 ],
                 "level" => "info",
-                "subContentId" => $content->getAttribute("id"),
+                "subContentId" => $content->getAttribute("id") ?? 'fake-' . GeneralUtils::createUUID(),
             ]);
 
             $content->addReportMessage($message);
@@ -121,7 +121,7 @@ class AccessibilityReport
                                     "reference" => "https://www.w3.org/WAI/alt/"
                                 ],
                                 "recommendation" => $recommendation,
-                                "subContentId" => $content->getAttribute("id"),
+                                "subContentId" => $content->getAttribute("id") ?? 'fake-' . GeneralUtils::createUUID(),
                             ]);
 
                             $content->addReportMessage($message);

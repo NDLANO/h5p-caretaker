@@ -61,13 +61,13 @@ class FeatureReport
                     $content->getDescription()
                 ),
                 "details" => [
-                "semanticsPath" => $content->getAttribute("semanticsPath"),
-                "title" => $content->getDescription("{title}"),
-                "subContentId" => $content->getAttribute("id"),
-                "reference" => "https://h5p.org/documentation/developers/contracts#guides-header-7"
+                    "semanticsPath" => $content->getAttribute("semanticsPath"),
+                    "title" => $content->getDescription("{title}"),
+                    "subContentId" => $content->getAttribute("id"),
+                    "reference" => "https://h5p.org/documentation/developers/contracts#guides-header-7"
                 ],
                 "level" => "info",
-                "subContentId" => $content->getAttribute("id"),
+                "subContentId" => $content->getAttribute("id") ?? 'fake-' . GeneralUtils::createUUID(),
             ]);
             $content->addReportMessage($message);
 
@@ -88,7 +88,7 @@ class FeatureReport
                 "reference" => "https://h5p.org/documentation/for-authors/analyzing-results-and-answers"
                 ],
                 "level" => "info",
-                "subContentId" => $content->getAttribute("id"),
+                "subContentId" => $content->getAttribute("id") ?? 'fake-' . GeneralUtils::createUUID(),
             ]);
             $content->addReportMessage($message);
 
