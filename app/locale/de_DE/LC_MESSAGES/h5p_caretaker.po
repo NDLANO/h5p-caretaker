@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: H5P-Caretaker\n"
-"POT-Creation-Date: 2024-12-08 14:34+0100\n"
-"PO-Revision-Date: 2024-12-08 14:34+0100\n"
+"POT-Creation-Date: 2024-12-09 12:15+0100\n"
+"PO-Revision-Date: 2024-12-09 12:17+0100\n"
 "Last-Translator: H5P-Careraker\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -21,32 +21,32 @@ msgid "Something went wrong, but I dunno what, sorry!"
 msgstr ""
 "Etwas ist schief gelaufen, aber ich weiß nicht was, bitte entschuldige!"
 
-#: H5PCaretaker.php:167
+#: H5PCaretaker.php:183
 msgid "It seems that no file was provided."
 msgstr "Es sieht so aus als sei keine Datei angegeben worden."
 
-#: H5PCaretaker.php:175
+#: H5PCaretaker.php:191
 msgid "The file is empty."
 msgstr "Die Datei ist leer."
 
-#: H5PCaretaker.php:181
+#: H5PCaretaker.php:197
 #, php-format
 msgid "The file is larger than the limit of %s bytes."
 msgstr "Die Datei ist größer als das Limit von %s Bytes."
 
-#: H5PCaretaker.php:187
+#: H5PCaretaker.php:203
 msgid "The file is not a valid H5P file / ZIP archive."
 msgstr "Die Datei ist keine gültige H5P-Datei/kein gültiges ZIP-Archiv."
 
-#: H5PCaretaker.php:201
+#: H5PCaretaker.php:217
 msgid "The file does not seem to follow the H5P specification."
 msgstr "Die Detai scheint der H5P-Spezifikation nicht zu folgen."
 
-#: H5PCaretaker.php:217
+#: H5PCaretaker.php:233
 msgid "No values were provided for writing."
 msgstr "Es wurden keine Daten zum Schreiben angegeben."
 
-#: H5PCaretaker.php:266
+#: H5PCaretaker.php:282
 msgid "Writing is not yet implemented."
 msgstr "Schreiben is noch nicht implementiert."
 
@@ -86,23 +86,23 @@ msgstr ""
 "(%s) und wurde erstellt, remixed und/oder kuratiert von LibreTexts (%s)"
 
 #: models/Content.php:107 models/ContentTree.php:195 models/ContentTree.php:217
-#: utils/LocaleUtils.php:181
+#: utils/LocaleUtils.php:184
 msgid "Untitled"
 msgstr "Unbenannt"
 
-#: models/ContentFile.php:156 utils/LocaleUtils.php:177
+#: models/ContentFile.php:156 utils/LocaleUtils.php:180
 msgid "image"
 msgstr "Bild"
 
-#: models/ContentFile.php:157 utils/LocaleUtils.php:179
+#: models/ContentFile.php:157 utils/LocaleUtils.php:182
 msgid "video"
 msgstr "Video"
 
-#: models/ContentFile.php:158 utils/LocaleUtils.php:178
+#: models/ContentFile.php:158 utils/LocaleUtils.php:181
 msgid "audio"
 msgstr "Tondatei"
 
-#: models/ContentFile.php:161 utils/LocaleUtils.php:180
+#: models/ContentFile.php:161 utils/LocaleUtils.php:183
 msgid "file"
 msgstr "Datei"
 
@@ -596,6 +596,39 @@ msgstr "Fehlende zusätzliche Lizenzinformationen für %s"
 msgid "Add the original GPL license text in the \"license extras\" field."
 msgstr "Füge den ursprüngliche GPL-Lizenztext im Feld \"Lizenzextras\" ein."
 
+#: reports/ReuseReport.php:114
+#, php-format
+msgid "License of %s is not approved for free cultural works."
+msgstr "Lizenz von %s ist für freie kulturelle Werke nicht geeignet."
+
+#: reports/ReuseReport.php:123
+msgid ""
+"Think about using a license that is approved for free cultural works if this "
+"is your work, or think about reaching out to the original author and ask "
+"whether this work could be released under a license that is approved for "
+"free cultural works."
+msgstr ""
+"Denke darüber nach, eine für freie kulturelle Werke zugelassene Lizenz zu "
+"verwenden, wenn es sich um dein Werk handelt, oder wende dich an den/die "
+"ursprünglichen Autor*in und frage, ob dieses Werk unter einer für freie "
+"kulturelle Werke zugelassenen Lizenz veröffentlicht werden kann."
+
+#: reports/ReuseReport.php:154
+#, php-format
+msgid "Content %s does not provide author comments."
+msgstr "Inhalt %s hält keine zusätzlichen Kommentare für Autor*innen bereit."
+
+#: reports/ReuseReport.php:162
+msgid ""
+"Think about adding author comments to the metadata in order to describe the "
+"context and use case of your resource to give others a better understanding "
+"of how you use it."
+msgstr ""
+"Denke darüber nach, in den Metadaten Kommentare für Autor*innen "
+"hinzuzufügen, um den Kontext und den Anwendungsfall deiner Ressource zu "
+"beschreiben, damit andere ein besseres Verständnis dafür bekommen, wie du "
+"sie verwendest."
+
 #: reports/StatisticsReport.php:61
 msgid "Numbers of content type uses"
 msgstr "Häufigkeit der Inhaltstypverwendung"
@@ -765,6 +798,18 @@ msgid "contentTypeCount"
 msgstr "Inhaltstyphäufigkeit"
 
 #: utils/LocaleUtils.php:176
+msgid "reuse"
+msgstr "Nachnutzung"
+
+#: utils/LocaleUtils.php:177
+msgid "notCulturalWork"
+msgstr "kein kulturelles Werk"
+
+#: utils/LocaleUtils.php:178
+msgid "noAuthorComments"
+msgstr "keine Autor*innenkommentare"
+
+#: utils/LocaleUtils.php:179
 msgid "Learn more about this topic."
 msgstr "Lerne mehr über dieses Thema."
 

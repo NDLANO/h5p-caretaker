@@ -159,7 +159,7 @@ class ReuseReport
           "title" => $content->getDescription("{title}"),
           "subContentId" => $content->getAttribute("id"),
       ],
-      "recommendation" => _("Think about adding author comments to describe the context and use case of your resource to give others a better understanding of how you use it."),
+      "recommendation" => _("Think about adding author comments to the metadata in order to describe the context and use case of your resource to give others a better understanding of how you use it."),
       "level" => "info",
       "subContentId" => $content->getAttribute("id"),
     ];

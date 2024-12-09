@@ -201,6 +201,8 @@ class LocaleUtils
             $translations["imageResolution"] = "image resolution";
             $translations["infos"] = "info";
             $translations["licenseNote"] = "license note";
+            $translations["notCulturalWork"] = "not cultural work";
+            $translations["noAuthorComments"] = "no author comments";
         }
 
         return $translations;
