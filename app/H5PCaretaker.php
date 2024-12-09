@@ -121,6 +121,7 @@ class H5PCaretaker
         FeatureReport::generateReport($contentTree, $reportRaw);
         LicenseReport::generateReport($contentTree);
         EfficiencyReport::generateReport($contentTree, $reportRaw);
+        ReuseReport::generateReport($contentTree, $reportRaw);
 
         $report = [
             "messages" => [],
@@ -133,13 +134,28 @@ class H5PCaretaker
                     FeatureReport::$categoryName => FeatureReport::$typeNames,
                     LicenseReport::$categoryName => LicenseReport::$typeNames,
                     EfficiencyReport::$categoryName => EfficiencyReport::$typeNames,
-                    StatisticsReport::$categoryName => StatisticsReport::$typeNames
+                    StatisticsReport::$categoryName => StatisticsReport::$typeNames,
+                    ReuseReport::$categoryName => ReuseReport::$typeNames
                 ]
             ]
         ];
 
         $reports = $contentTree->getReports();
         $report["messages"] = array_merge(...array_values($reports));
+
+        // Sort messages by category and type
+        usort(
+            $report["messages"],
+            function ($a, $b) {
+                $categoryComparison = strcmp($a["category"], $b["category"]);
+                if ($categoryComparison !== 0) {
+                    return $categoryComparison;
+                }
+
+                return strcmp($a["type"], $b["type"]);
+            }
+        );
+
         $report["contentTree"] = $contentTree->getTreeRepresentation();
 
         $stats = StatisticsReport::generateReport($contentTree, $reportRaw);
@@ -147,7 +163,7 @@ class H5PCaretaker
             $report["messages"][] = $message;
         }
 
-        // TODO: Ultimately, $report only contain the raw data on request
+        // TODO: Ultimately, $report only contain the raw data on request?
         $report["raw"] = $reportRaw;
         $h5pFileHandler = null;
 

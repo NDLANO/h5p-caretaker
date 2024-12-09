@@ -22,6 +22,7 @@ spl_autoload_register(function ($class) {
             "Ndlano\H5PCaretaker\FeatureReport" => "reports/FeatureReport.php",
             "Ndlano\H5PCaretaker\LicenseReport" => "reports/LicenseReport.php",
             "Ndlano\H5PCaretaker\StatisticsReport" => "reports/StatisticsReport.php",
+            "Ndlano\H5PCaretaker\ReuseReport" => "reports/ReuseReport.php",
         ];
     }
 
