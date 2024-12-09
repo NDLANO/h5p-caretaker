@@ -118,6 +118,10 @@ class JSONUtils
             $metadata["licenseExtras"] = $h5pJson["licenseExtras"];
         }
 
+        if (isset($h5pJson["authorComments"])) {
+            $metadata["authorComments"] = $h5pJson["authorComments"];
+        }
+
         return $metadata;
     }
 
