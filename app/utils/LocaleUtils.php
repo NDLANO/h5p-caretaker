@@ -176,6 +176,7 @@ class LocaleUtils
             "reuse" => _("reuse"),
             "notCulturalWork" => _("notCulturalWork"),
             "noAuthorComments" => _("noAuthorComments"),
+            "hasLicenseExtras" => _("hasLicenseExtras"),
             "learnMore" => _("Learn more about this topic."),
             "image" => _("image"),
             "audio" => _("audio"),
@@ -203,6 +204,7 @@ class LocaleUtils
             $translations["licenseNote"] = "license note";
             $translations["notCulturalWork"] = "not cultural work";
             $translations["noAuthorComments"] = "no author comments";
+            $translations["hasLicenseExtras"] = "has license extras";
         }
 
         return $translations;

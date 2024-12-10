@@ -27,7 +27,7 @@ class ReuseReport
 {
   public static $categoryName = "reuse";
   public static $typeNames = [
-    "notCulturalWork"
+    "notCulturalWork", "noAuthorComments", "hasLicenseExtras"
   ];
 
   /**
@@ -132,6 +132,30 @@ class ReuseReport
 
     $message = ReportUtils::buildMessage($arguments);
     $content->addReportMessage($message);
+
+    $licenseExtras = $content->getAttribute("metadata")["licenseExtras"] ?? "";
+    if (!empty($licenseExtras)) {
+      $arguments = [
+        "category" => "reuse",
+        "type" => "hasLicenseExtras",
+        "summary" => sprintf(
+            _("License of %s contains additional information."),
+            $content->getDescription()
+        ),
+        "details" => [
+            "semanticsPath" => $content->getAttribute("semanticsPath"),
+            "title" => $content->getDescription("{title}"),
+            "subContentId" => $content->getAttribute("id"),
+            "licenseExtras" => $licenseExtras,
+        ],
+        "recommendation" => _("The license of this content contains additional information, potentially amending the reuse terms. Check if it makes it more suitable for reuse than what the original license states."),
+        "level" => "info",
+        "subContentId" => $content->getAttribute("id"),
+      ];
+
+      $message = ReportUtils::buildMessage($arguments);
+      $content->addReportMessage($message);
+    }
   }
 
   /**

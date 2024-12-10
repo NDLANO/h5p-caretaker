@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: H5P-Caretaker\n"
-"POT-Creation-Date: 2024-12-09 12:15+0100\n"
-"PO-Revision-Date: 2024-12-09 12:17+0100\n"
+"POT-Creation-Date: 2024-12-10 14:15+0100\n"
+"PO-Revision-Date: 2024-12-10 14:17+0100\n"
 "Last-Translator: H5P-Careraker\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -86,23 +86,23 @@ msgstr ""
 "(%s) und wurde erstellt, remixed und/oder kuratiert von LibreTexts (%s)"
 
 #: models/Content.php:107 models/ContentTree.php:195 models/ContentTree.php:217
-#: utils/LocaleUtils.php:184
+#: utils/LocaleUtils.php:185
 msgid "Untitled"
 msgstr "Unbenannt"
 
-#: models/ContentFile.php:156 utils/LocaleUtils.php:180
+#: models/ContentFile.php:156 utils/LocaleUtils.php:181
 msgid "image"
 msgstr "Bild"
 
-#: models/ContentFile.php:157 utils/LocaleUtils.php:182
+#: models/ContentFile.php:157 utils/LocaleUtils.php:183
 msgid "video"
 msgstr "Video"
 
-#: models/ContentFile.php:158 utils/LocaleUtils.php:181
+#: models/ContentFile.php:158 utils/LocaleUtils.php:182
 msgid "audio"
 msgstr "Tondatei"
 
-#: models/ContentFile.php:161 utils/LocaleUtils.php:183
+#: models/ContentFile.php:161 utils/LocaleUtils.php:184
 msgid "file"
 msgstr "Datei"
 
@@ -613,12 +613,28 @@ msgstr ""
 "ursprünglichen Autor*in und frage, ob dieses Werk unter einer für freie "
 "kulturelle Werke zugelassenen Lizenz veröffentlicht werden kann."
 
-#: reports/ReuseReport.php:154
+#: reports/ReuseReport.php:142
+#, php-format
+msgid "License of %s contains additional information."
+msgstr "Lizenz von %s enthält zusätzliche Informationen."
+
+#: reports/ReuseReport.php:151
+msgid ""
+"The license of this content contains additional information, potentially "
+"amending the reuse terms. Check if it makes it more suitable for reuse than "
+"what the original license states."
+msgstr ""
+"Die Lizenz für diesen Inhalt enthält zusätzliche Informationen, die "
+"möglicherweise die Bedingungen für die Wiederverwendung ändern. Prüfe, ob "
+"sich der Inhalt dadurch besser für die Wiederverwendung eignet als in der "
+"ursprünglichen Lizenz angegeben."
+
+#: reports/ReuseReport.php:178
 #, php-format
 msgid "Content %s does not provide author comments."
 msgstr "Inhalt %s hält keine zusätzlichen Kommentare für Autor*innen bereit."
 
-#: reports/ReuseReport.php:162
+#: reports/ReuseReport.php:186
 msgid ""
 "Think about adding author comments to the metadata in order to describe the "
 "context and use case of your resource to give others a better understanding "
@@ -810,6 +826,10 @@ msgid "noAuthorComments"
 msgstr "keine Autor*innenkommentare"
 
 #: utils/LocaleUtils.php:179
+msgid "hasLicenseExtras"
+msgstr "enthält Lizenzzusätze"
+
+#: utils/LocaleUtils.php:180
 msgid "Learn more about this topic."
 msgstr "Lerne mehr über dieses Thema."
 
