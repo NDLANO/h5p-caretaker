@@ -148,7 +148,7 @@ class ReuseReport
             "subContentId" => $content->getAttribute("id"),
             "licenseExtras" => $licenseExtras,
         ],
-        "recommendation" => _("The license of this content contains additional information, potentially amending the reuse terms. Check if it makes it more suitable for reuse than what the original license states."),
+        "recommendation" => _("The license of this content contains additional information, potentially amending the reuse terms. If it's your work, think about whether using a more open license without extra terms might be possible, too."),
         "level" => "info",
         "subContentId" => $content->getAttribute("id"),
       ];
