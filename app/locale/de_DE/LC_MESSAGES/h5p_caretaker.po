@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: H5P-Caretaker\n"
-"POT-Creation-Date: 2024-12-10 14:19+0100\n"
-"PO-Revision-Date: 2024-12-10 14:19+0100\n"
+"POT-Creation-Date: 2024-12-10 14:22+0100\n"
+"PO-Revision-Date: 2024-12-10 14:24+0100\n"
 "Last-Translator: H5P-Careraker\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -505,9 +505,11 @@ msgstr "Fehlende Lizenzinformationen für %s in %s"
 
 #: reports/LicenseReport.php:788
 msgid ""
-"Check the license information of the content and add it to the metadata."
+"Check the license of the material you are using and add the missing license "
+"information to the metadata."
 msgstr ""
-"Prüfe die Lizenzinformationen des Inhalts und füge sie den Metadaten hinzu."
+"Prüfe die Lizenz des von dir verwendeten Materials und ergänze die fehlenden "
+"Lizenzangaben in den Metadaten."
 
 #: reports/LicenseReport.php:824
 #, php-format
@@ -759,7 +761,7 @@ msgstr "Lizenz"
 
 #: utils/LocaleUtils.php:162
 msgid "missingLicense"
-msgstr "fehlende Lizenz"
+msgstr "fehlende Lizenzangaben"
 
 #: utils/LocaleUtils.php:163
 msgid "missingLicenseExtras"
