@@ -192,10 +192,14 @@ class ContentTree
     {
         $representation = [
             "subContentId" => $root->getAttribute("id"),
-            "versionedMachineName" => $root->getAttribute("versionedMachineName"),
             "title" => $root->getAttribute("metadata")["title"] ?? _("Untitled"),
             "label" => $root->getDescription()
         ];
+
+        $versionedMachineName = $root->getAttribute("versionedMachineName");
+        if (!empty($versionedMachineName)) {
+            $representation["versionedMachineName"] = $versionedMachineName;
+        }
 
         foreach ($root->getChildren() as $child) {
             $representation["children"][] = $this->getTreeRepresentationRecursive($child);
@@ -214,12 +218,18 @@ class ContentTree
                 continue;
             }
 
-            $representation["children"][] = [
+            $child = [
                 "subContentId" => $contentFile->getAttribute("id"),
-                "versionedMachineName" => $contentFile->getAttribute("versionedMachineName"),
                 "title" => $contentFile->getAttribute("metadata")["title"] ?? _("Untitled"),
                 "label" => $contentFile->getDescription()
             ];
+
+            $versionedMachineName = $contentFile->getAttribute("versionedMachineName");
+            if (!empty($versionedMachineName)) {
+                $child["versionedMachineName"] = $versionedMachineName;
+            }
+
+            $representation["children"][] = $child;
         }
 
         return $representation;
