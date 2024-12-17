@@ -123,6 +123,7 @@ class LibretextData
         }
 
         // Add license note that LibreText does not share in the API
+        // phpcs:ignore Generic.Files.LineLength.TooLong
         $licenseNoteTemplate = _("The H5P Accessibility Guide (%s) is shared under a CC BY 4.0 license (%s) and was authored, remixed, and/or curated by LibreTexts (%s)");
         $licenseNote = sprintf(
             $licenseNoteTemplate,

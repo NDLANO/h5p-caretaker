@@ -120,9 +120,10 @@ class ReuseReport
           "subContentId" => $content->getAttribute("id"),
           "reference" => "https://creativecommons.org/public-domain/freeworks/",
         ],
-        "recommendation" => _("Think about using a license that is approved for free cultural works if this is your work, or think about reaching out to the original author and ask whether this work could be released under a license that is approved for free cultural works."),
-        "level" => "info",
-        "subContentId" => $content->getAttribute("id"),
+          // phpcs:ignore Generic.Files.LineLength.TooLong
+          "recommendation" => _("Think about using a license that is approved for free cultural works if this is your work, or think about reaching out to the original author and ask whether this work could be released under a license that is approved for free cultural works."),
+          "level" => "info",
+          "subContentId" => $content->getAttribute("id"),
         ];
 
         $path = $content->getAttribute("path");
@@ -148,6 +149,7 @@ class ReuseReport
               "subContentId" => $content->getAttribute("id"),
               "licenseExtras" => $licenseExtras,
             ],
+            // phpcs:ignore Generic.Files.LineLength.TooLong
             "recommendation" => _("The license of this content contains additional information, potentially amending the reuse terms. If it's your work, think about whether using a more open license without extra terms might be possible, too."),
             "level" => "info",
             "subContentId" => $content->getAttribute("id"),
@@ -183,6 +185,7 @@ class ReuseReport
           "title" => $content->getDescription("{title}"),
           "subContentId" => $content->getAttribute("id"),
         ],
+        // phpcs:ignore Generic.Files.LineLength.TooLong
         "recommendation" => _("Think about adding author comments to the metadata in order to describe the context and use case of your resource to give others a better understanding of how you use it."),
         "level" => "info",
         "subContentId" => $content->getAttribute("id"),

@@ -785,6 +785,7 @@ class LicenseReport
                     "title" => $content->getDescription("{title}"),
                     "subContentId" => $content->getAttribute("id"),
                 ],
+                // phpcs:ignore Generic.Files.LineLength.TooLong
                 "recommendation" => _("Check the license of the material you are using and add the missing license information to the metadata."),
                 "subContentId" => $content->getAttribute("id"),
             ];
