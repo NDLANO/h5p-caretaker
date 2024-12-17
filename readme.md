@@ -16,7 +16,7 @@ e.g. not possible to detect contrast issues impeding accessibility, etc.
 If you want to contribute code, you are welcome. Please also raise an issue beforehand to talk
 about your ideas.
 
-_TODO: Translations_
+If you want to contribute translation, you will find common .po/.mo files inside `app/locale` that can be created and edited with [POEdit](https://poedit.net/), for instance.
 
 ## Using the library
 In your own project, you can use common `composer` practices to use this library. For now, it is not on packagist yet, so you will need to fetch the sources from github like so: Inside your `composer.json` file, ensure that the repository is set and that `require` is set to the library. Change "dev-master" to some particular commit if you need an older version explicitly.
@@ -72,7 +72,5 @@ More properties may become available in the future in order to tweak the analysi
 
 The return value is going to be a JSON object represented in an associative array. Please refer to the [report properties documentation](docs/report-properties.md) for details.
 
-## Improving the library
-TODO
-- Report classes
-- buildMessage function
+## Coding
+Please see the [coding information documentation](docs/coding-information.md) for details.
