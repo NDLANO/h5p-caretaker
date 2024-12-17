@@ -188,7 +188,8 @@ class ContentTree
         return $this->getTreeRepresentationRecursive($root);
     }
 
-    private function getTreeRepresentationRecursive($root) {
+    private function getTreeRepresentationRecursive($root)
+    {
         $representation = [
             "subContentId" => $root->getAttribute("id"),
             "versionedMachineName" => $root->getAttribute("versionedMachineName"),
@@ -204,9 +205,11 @@ class ContentTree
         foreach ($contentFiles as $contentFile) {
             $versionedMachineName = $contentFile->getParent()->getAttribute("versionedMachineName");
 
-            if (in_array(
-                explode(' ', $versionedMachineName)[0],
-                ["H5P.Image", "H5P.Audio", "H5P.Video"])
+            if (
+                in_array(
+                    explode(' ', $versionedMachineName)[0],
+                    ["H5P.Image", "H5P.Audio", "H5P.Video"]
+                )
             ) {
                 continue;
             }

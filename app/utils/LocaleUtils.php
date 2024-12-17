@@ -108,7 +108,7 @@ class LocaleUtils
         if (preg_match("/^[a-zA-Z]{2}_[a-zA-Z]{2}$/", $language)) {
             $split = explode("_", $language);
             $completeLocale = strtolower($split[0]) . "_" . strtoupper($split[1]);
-        } else if (preg_match("/^[a-zA-Z]{2}|fil|FIL$/", $language)) {
+        } elseif (preg_match("/^[a-zA-Z]{2}|fil|FIL$/", $language)) {
             $language = strtolower($language);
 
             if (isset($locales[$language])) {
