@@ -163,7 +163,6 @@ class H5PCaretaker
             $report["messages"][] = $message;
         }
 
-        // TODO: Ultimately, $report only contain the raw data on request?
         $report["raw"] = $reportRaw;
         $h5pFileHandler = null;
 

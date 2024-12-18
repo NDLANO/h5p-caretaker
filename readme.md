@@ -7,17 +7,6 @@ This library is not meant to be used standalone. The common use case is to use i
 In fact, there is a [reference H5P Caretaker client](https://github.com/ndlano/h5p-caretaker-client)
 which displays the results found by this library and a PHP based [reference H5P Caretaker server](https://github.com/ndlano/h5p-caretaker-server) that glues this library to the client.
 
-## Contribution
-If you think that some feature of the H5P content should be checked, please raise an issue
-in order to discuss it. Please note though that this library does not render the content, but
-merely assesses the parmeters, media and libraries that are found on the server. Therefore, it is
-e.g. not possible to detect contrast issues impeding accessibility, etc.
-
-If you want to contribute code, you are welcome. Please also raise an issue beforehand to talk
-about your ideas.
-
-If you want to contribute translation, you will find common .po/.mo files inside `app/locale` that can be created and edited with [POEdit](https://poedit.net/), for instance.
-
 ## Using the library
 In your own project, you can use common `composer` practices to use this library. For now, it is not on packagist yet, so you will need to fetch the sources from github like so: Inside your `composer.json` file, ensure that the repository is set and that `require` is set to the library. Change "dev-master" to some particular commit if you need an older version explicitly.
 
@@ -72,5 +61,14 @@ More properties may become available in the future in order to tweak the analysi
 
 The return value is going to be a JSON object represented in an associative array. Please refer to the [report properties documentation](docs/report-properties.md) for details.
 
-## Coding
-Please see the [coding information documentation](docs/coding-information.md) for details.
+## Contribution
+If you think that some feature of the H5P content should be checked, please raise an issue in order to discuss it. Please note though that this library does not render the content, but merely assesses the parmeters, media and libraries that are found on the server. Therefore, it is e.g. not possible to detect contrast issues impeding accessibility, etc.
+
+If you want to contribute code, you are welcome. Please also raise an issue beforehand to talk about your ideas. Please see the [coding information documentation](docs/coding-information.md) for technical details.
+
+If you want to contribute translation, you will find common .po/.mo files inside `app/locale` that can be created and edited with [POEdit](https://poedit.net/), for instance.
+
+## Future Development
+There are some ideas on what this library should be able to do in the future:
+- Allow to write to H5P content files, so issues such as missing license information can be rectified without having to start H5P.
+- Allow to use large language models to fill in missing data, e.g. set missing alternative texts for images.
