@@ -1,4 +1,6 @@
-<?php return array(
+<?php
+
+return array(
     'root' => array(
         'name' => 'ndlano/h5p-caretaker',
         'pretty_version' => 'dev-master',

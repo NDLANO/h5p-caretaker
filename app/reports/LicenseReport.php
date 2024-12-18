@@ -179,7 +179,7 @@ class LicenseReport
                         "semanticsPath" => $sa["content"]->getAttribute("semanticsPath"),
                         "title" => $sa["content"]->getDescription("{title}"),
                         "subContentId" => $sa["content"]->getAttribute("id"),
-                        // phpcs:ignore
+                        // phpcs:ignore Generic.Files.LineLength.TooLong
                         "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
                     ],
                     "recommendation" => _(
@@ -234,7 +234,7 @@ class LicenseReport
                         "semanticsPath" => $content->getAttribute("semanticsPath"),
                         "title" => $content->getDescription("{title}"),
                         "subContentId" => $content->getAttribute("id"),
-                        // phpcs:ignore
+                        /// phpcs:ignore Generic.Files.LineLength.TooLong
                         "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
                     ],
                     "recommendation" => _(
@@ -326,7 +326,7 @@ class LicenseReport
                     "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
                     "title" => $subcontent->getDescription("{title}"),
                     "subContentId" => $subcontent->getAttribute("id"),
-                    // phpcs:ignore
+                    // phpcs:ignore Generic.Files.LineLength.TooLong
                     "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
                 ],
                 "recommendation" => _(
@@ -383,7 +383,7 @@ class LicenseReport
                     "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
                     "title" => $subcontent->getDescription("{title}"),
                     "subContentId" => $subcontent->getAttribute("id"),
-                    // phpcs:ignore
+                    // phpcs:ignore Generic.Files.LineLength.TooLong
                     "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
                 ],
                 "recommendation" => _(
@@ -430,7 +430,7 @@ class LicenseReport
                     "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
                     "title" => $subcontent->getDescription("{title}"),
                     "subContentId" => $subcontent->getAttribute("id"),
-                    // phpcs:ignore
+                    // phpcs:ignore Generic.Files.LineLength.TooLong
                     "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
                 ],
                 "recommendation" => _(
@@ -503,7 +503,7 @@ class LicenseReport
                         "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
                         "title" => $subcontent->getDescription("{title}"),
                         "subContentId" => $subcontent->getAttribute("id"),
-                        // phpcs:ignore
+                        // phpcs:ignore Generic.Files.LineLength.TooLong
                         "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
                     ],
                     "recommendation" => _(
@@ -537,7 +537,7 @@ class LicenseReport
                         "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
                         "title" => $subcontent->getDescription("{title}"),
                         "subContentId" => $subcontent->getAttribute("id"),
-                        // phpcs:ignore
+                        // phpcs:ignore Generic.Files.LineLength.TooLong
                         "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
                     ],
                     "recommendation" => _(
@@ -570,7 +570,7 @@ class LicenseReport
                         "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
                         "title" => $subcontent->getDescription("{title}"),
                         "subContentId" => $subcontent->getAttribute("id"),
-                        // phpcs:ignore
+                        // phpcs:ignore Generic.Files.LineLength.TooLong
                         "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
                     ],
                     "recommendation" => _(
@@ -610,7 +610,7 @@ class LicenseReport
                         "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
                         "title" => $subcontent->getDescription("{title}"),
                         "subContentId" => $subcontent->getAttribute("id"),
-                        // phpcs:ignore
+                        // phpcs:ignore Generic.Files.LineLength.TooLong
                         "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
                     ],
                     "recommendation" => _(
@@ -646,7 +646,7 @@ class LicenseReport
                         "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
                         "title" => $subcontent->getDescription("{title}"),
                         "subContentId" => $subcontent->getAttribute("id"),
-                        // phpcs:ignore
+                        // phpcs:ignore Generic.Files.LineLength.TooLong
                         "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
                     ],
                     "recommendation" => _(
@@ -682,7 +682,7 @@ class LicenseReport
                         "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
                         "title" => $subcontent->getDescription("{title}"),
                         "subContentId" => $subcontent->getAttribute("id"),
-                        // phpcs:ignore
+                        // phpcs:ignore Generic.Files.LineLength.TooLong
                         "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
                     ],
                     "recommendation" => _(
@@ -721,7 +721,7 @@ class LicenseReport
                         "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
                         "title" => $subcontent->getDescription("{title}"),
                         "subContentId" => $subcontent->getAttribute("id"),
-                        // phpcs:ignore
+                        // phpcs:ignore Generic.Files.LineLength.TooLong
                         "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
                     ],
                     "recommendation" => _(

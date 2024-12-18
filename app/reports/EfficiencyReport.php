@@ -287,7 +287,7 @@ class EfficiencyReport
 
         if ($height > $maxHeightPx) {
             $recommendation[] = sprintf(
-                // phpcs:ignore
+                // phpcs:ignore Generic.Files.LineLength.TooLong
                 _("The image could be scaled down to a height of %d pixels, but people who zoom into the page may experience a visual quality loss."),
                 $maxHeightPx
             );
@@ -295,7 +295,7 @@ class EfficiencyReport
 
         if ($width > $maxWidthPx) {
             $recommendation[] = sprintf(
-                // phpcs:ignore
+                // phpcs:ignore Generic.Files.LineLength.TooLong
                 _("The image could be scaled down to a width of %d pixels, but people who zoom into the page may experience a visual quality loss."),
                 $maxWidthPx
             );
