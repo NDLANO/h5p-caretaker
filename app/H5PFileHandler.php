@@ -70,8 +70,6 @@ class H5PFileHandler
         $this->deleteDirectory($this->filesDirectory);
     }
 
-    // TODO: Put methods into a separate reader/writer class
-
     /**
      * Get the media information.
      *
