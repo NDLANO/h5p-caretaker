@@ -78,6 +78,8 @@ class Content
             $value = [];
         } elseif ($name === "contentFiles" && !isset($value)) {
             $value = [];
+        } elseif ($name === "libraryJson" && !isset($value)) {
+            $value = [];
         }
 
         $this->attributes[$name] = $value;

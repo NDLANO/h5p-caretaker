@@ -53,10 +53,11 @@ class LicenseReport
 
         foreach ($contents as $content) {
             $machineName = explode(" ", $content->getAttribute("versionedMachineName"))[0];
+            $libraryJson = $content->getAttribute("libraryJson");
 
             $contentTypeHasMetadata =
-                !isset($rawInfo['libraries'][$machineName]->libraryJson['metadataSettings']) ||
-                ($rawInfo['libraries'][$machineName]->libraryJson['metadataSettings']['disable'] ?? 0) !== 1;
+                !isset($libraryJson['metadataSettings']) ||
+                ($libraryJson['metadataSettings']['disable'] ?? 0) !== 1;
 
             if (!$contentTypeHasMetadata) {
                 continue; // No metadata for content

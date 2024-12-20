@@ -59,11 +59,13 @@ class ContentTree
                 preg_replace('/\.params$/', "", $parameterPath)
             );
 
+            $machineName = explode(" ", $libraryParams["library"])[0];
+
             $this->contents[] = new Content([
                 "attributes" => [
                     "id" => $libraryParams["subContentId"] ?? "",
                     "versionedMachineName" => $libraryParams["library"],
-                    // TODO: allow to retrieve library.json data for content
+                    "libraryJson" => $rawdata['libraries'][$machineName]->libraryJson,
                     "metadata" => $libraryParams["metadata"] ?? [],
                     "semanticsPath" => $parameterPath,
                     "params" => $libraryParams["params"],
