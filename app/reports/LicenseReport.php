@@ -45,23 +45,20 @@ class LicenseReport
      * Get the license report.
      *
      * @param ContentTree $contentTree The content tree.
+     * @param array $rawInfo The raw info.
      */
-    public static function generateReport($contentTree)
+    public static function generateReport($contentTree, $rawInfo)
     {
         $contents = $contentTree->getContents();
 
         foreach ($contents as $content) {
-            // TODO: This information should be fetched from library.json of the content type!
-            $contentTypesWithoutMetadata = [
-                "H5P.GoToQuestion",
-                "H5P.IVHotspot",
-                "H5P.Link",
-                "H5P.Shape",
-                "H5P.Text",
-                "H5P.TextInputField"
-            ];
             $machineName = explode(" ", $content->getAttribute("versionedMachineName"))[0];
-            if (in_array($machineName, $contentTypesWithoutMetadata)) {
+
+            $contentTypeHasMetadata =
+                !isset($rawInfo['libraries'][$machineName]->libraryJson['metadataSettings']) ||
+                ($rawInfo['libraries'][$machineName]->libraryJson['metadataSettings']['disable'] ?? 0) !== 1;
+
+            if (!$contentTypeHasMetadata) {
                 continue; // No metadata for content
             }
 

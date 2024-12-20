@@ -119,7 +119,7 @@ class H5PCaretaker
 
         AccessibilityReport::generateReport($contentTree);
         FeatureReport::generateReport($contentTree, $reportRaw);
-        LicenseReport::generateReport($contentTree);
+        LicenseReport::generateReport($contentTree, $reportRaw);
         EfficiencyReport::generateReport($contentTree, $reportRaw);
         ReuseReport::generateReport($contentTree, $reportRaw);
 
