@@ -65,7 +65,7 @@ class LibretextData
      *
      * @var int
      */
-    private const MAX_CACHE_AGE_S = 60 * 60; // 1 hour
+    private const MAX_CACHE_AGE_S = 60 * 60 * 24; // 1 day
 
     /**
      * Fetch the data for a given library title. Will try to fetch from/store to
