@@ -126,6 +126,8 @@ class LocaleUtils
     /**
      * Get translations for keywords.
      *
+     * @param boolean $isEnglish Whether the translations should be in English.
+     *
      * @return array The translations.
      */
     public static function getKeywordTranslations($isEnglish)

@@ -50,7 +50,7 @@ class FeatureReport
                 continue;
             }
 
-          // Resume
+            // Resume
             $message = ReportUtils::buildMessage([
                 "category" => "features",
                 "type" => "resume",
@@ -71,7 +71,7 @@ class FeatureReport
             ]);
             $content->addReportMessage($message);
 
-          // xAPI
+            // xAPI
             $message = ReportUtils::buildMessage([
                 "category" => "features",
                 "type" => "xAPI",
@@ -82,23 +82,23 @@ class FeatureReport
                     $content->getDescription()
                 ),
                 "details" => [
-                "semanticsPath" => $content->getAttribute("semanticsPath"),
-                "title" => $content->getDescription("{title}"),
-                "subContentId" => $content->getAttribute("id"),
-                "reference" => "https://h5p.org/documentation/for-authors/analyzing-results-and-answers"
+                    "semanticsPath" => $content->getAttribute("semanticsPath"),
+                    "title" => $content->getDescription("{title}"),
+                    "subContentId" => $content->getAttribute("id"),
+                    "reference" => "https://h5p.org/documentation/for-authors/analyzing-results-and-answers"
                 ],
                 "level" => "info",
                 "subContentId" => $content->getAttribute("id") ?? 'fake-' . GeneralUtils::createUUID(),
             ]);
             $content->addReportMessage($message);
 
-          // Question type contract
+            // Question type contract
             $supported = [];
             $notSupported = [];
 
             $questionTypeContractNames = [
-            "enableRetry", "enableSolutionsButton", "getAnswerGiven", "getCurrentState",
-            "getMaxScore", "getScore", "getXAPIData", "resetTask", "showSolutions"
+                "enableRetry", "enableSolutionsButton", "getAnswerGiven", "getCurrentState",
+                "getMaxScore", "getScore", "getXAPIData", "resetTask", "showSolutions"
             ];
 
             foreach ($features as $key => $value) {
@@ -112,32 +112,30 @@ class FeatureReport
             if (count($supported) === count($questionTypeContractNames)) {
                 $summary = _("Content %s seems to support the full H5P question type contract.");
                 $description = [
-                sprintf(
-                    _("Supported functions/variables: %s."),
-                    implode(", ", $supported)
-                )
+                    sprintf(
+                        _("Supported functions/variables: %s."),
+                        implode(", ", $supported)
+                    )
                 ];
             } elseif (count($supported) !== 0) {
-                /// phpcs:ignore Generic.Files.LineLength.TooLong
                 $summary = _("Content %s seems to partially support the full H5P question type contract.");
                 $description = [
-                sprintf(
-                    _("Supported functions/variables: %s."),
-                    implode(", ", $supported)
-                ),
-                sprintf(
-                    _("Unsupported functions/variables: %s."),
-                    implode(", ", $notSupported)
-                )
+                    sprintf(
+                        _("Supported functions/variables: %s."),
+                        implode(", ", $supported)
+                    ),
+                    sprintf(
+                        _("Unsupported functions/variables: %s."),
+                        implode(", ", $notSupported)
+                    )
                 ];
             } else {
-                // phpcs:ignore Generic.Files.LineLength.TooLong
                 $summary = _("Content %s does not seem to support the H5P question type contract.");
                 $description = [
-                sprintf(
-                    _("Unsupported functions/variables: %s."),
-                    implode(", ", $notSupported)
-                )
+                    sprintf(
+                        _("Unsupported functions/variables: %s."),
+                        implode(", ", $notSupported)
+                    )
                 ];
             }
 
@@ -150,10 +148,10 @@ class FeatureReport
                 ),
                 "description" => $description,
                 "details" => [
-                "semanticsPath" => $content->getAttribute("semanticsPath"),
-                "title" => $content->getDescription("{title}"),
-                "subContentId" => $content->getAttribute("id"),
-                "reference" => "https://h5p.org/documentation/developers/contracts"
+                    "semanticsPath" => $content->getAttribute("semanticsPath"),
+                    "title" => $content->getDescription("{title}"),
+                    "subContentId" => $content->getAttribute("id"),
+                    "reference" => "https://h5p.org/documentation/developers/contracts"
                 ],
                 "level" => "info",
                 "subContentId" => $content->getAttribute("id"),

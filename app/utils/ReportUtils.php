@@ -29,12 +29,6 @@ class ReportUtils
      * Build a message for a report.
      *
      * @param array $params The parameters for the message.
-     * @param string $category The category of the message.
-     * @param string $type The type of the message.
-     * @param string|array $summary The summary of the message.
-     * @param array|null $details The details of the message for further processing.
-     * @param string|null $recommendation The optional recommendation for the user.
-     * @param string $level The level of the message.
      *
      * @return array The message.
      */

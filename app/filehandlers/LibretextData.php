@@ -160,7 +160,7 @@ class LibretextData
     /**
      * Parse the result from the Libretext endpoint.
      *
-     * @param string|boolean $result The result to parse.
+     * @param string|boolean $endpointResult The result to parse.
      *
      * @return array|boolean The parsed result or false if the result is empty.
      */

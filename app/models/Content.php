@@ -194,7 +194,6 @@ class Content
 
     /**
      * Add message to report.
-     * @param string $category
      * @param array $message
      */
     public function addReportMessage($message)

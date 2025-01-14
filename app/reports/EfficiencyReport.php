@@ -96,8 +96,6 @@ class EfficiencyReport
      * Handle resolution. There are some content types that will limit the rendering size of images.
      * @param integer $width Image width in pixels.
      * @param integer $height Image height in pixels.
-     * @param integer $fileSize Image file size in bytes.
-     * @param string $imageType Image file type.
      * @param ContentFile $contentFile Content file instance.
      */
     private static function handleResolution($width, $height, $contentFile)
@@ -333,7 +331,6 @@ class EfficiencyReport
      * @param integer $fileSize Image file size in bytes.
      * @param string $imageType Image file type.
      * @param ContentFile $contentFile Content file instance.
-     * @param Content $content Content instance.
      */
     private static function handleFileSize($width, $height, $fileSize, $imageType, $contentFile)
     {

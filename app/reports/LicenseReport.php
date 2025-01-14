@@ -230,7 +230,7 @@ class LicenseReport
                         "semanticsPath" => $content->getAttribute("semanticsPath"),
                         "title" => $content->getDescription("{title}"),
                         "subContentId" => $content->getAttribute("id"),
-                        /// phpcs:ignore Generic.Files.LineLength.TooLong
+                        // phpcs:ignore Generic.Files.LineLength.TooLong
                         "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
                     ],
                     "recommendation" => _(

@@ -233,7 +233,7 @@ class H5PFileHandler
      *
      * @param string $machineName The machine name of the content type to get icon for.
      *
-     * @return
+     * @return string Icon file path or false if not found.
      */
     public function getIconPath($machineName = null)
     {
