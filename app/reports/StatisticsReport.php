@@ -58,7 +58,7 @@ class StatisticsReport
         $messages[] = ReportUtils::buildMessage([
             "category" => "statistics",
             "type" => "contentTypeCount",
-            "summary" => _("Numbers of content type uses"),
+            "summary" => LocaleUtils::getString("statistics:contentTypeCount"),
             "details" => $counts,
             "level" => "info",
             "subContentId" => $content->getAttribute("id"),

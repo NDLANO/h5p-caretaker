@@ -157,16 +157,12 @@ class LicenseReport
                     "category" => "license",
                     "type" => "invalidLicenseRemix",
                     "summary" => sprintf(
-                        _("Probably invalid license remix regarding %s inside %s"),
+                        LocaleUtils::getString("license:invalidRemix"),
                         $sa["content"]->getDescription(),
                         $sa["content"]->getParent()->getDescription()
                     ),
                     "description" => sprintf(
-                        _(
-                            "Content %s is licensed under a CC BY-SA license. " .
-                            "Content %s is licensed under a %s license. " .
-                            "These cannot be combined in a remix."
-                        ),
+                        LocaleUtils::getString("license:remixCollectionOnly"),
                         $sa["content"]->getDescription(),
                         $nc["content"]->getDescription(),
                         $nc["license"]
@@ -178,11 +174,7 @@ class LicenseReport
                         // phpcs:ignore Generic.Files.LineLength.TooLong
                         "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
                     ],
-                    "recommendation" => _(
-                        "Ensure that your work is legally a collection or ensure " .
-                        "that the license of the subcontent is compatible with " .
-                        "the license of the parent content."
-                    ),
+                    "recommendation" => LocaleUtils::getString("license:checkMaterial"),
                     "subContentId" => $sa["content"]->getParent()->getAttribute("id"),
                 ]);
 
@@ -214,15 +206,12 @@ class LicenseReport
                     "category" => "license",
                     "type" => "invalidLicenseRemix",
                     "summary" => sprintf(
-                        _("Probably invalid license remix regarding %s inside %s"),
+                        LocaleUtils::getString("license:invalidRemix"),
                         $content->getDescription(),
                         $content->getParent()->getDescription()
                     ),
                     "description" => sprintf(
-                        _(
-                            "The license of content %s does not allow derivates, " .
-                            "but is probably combined with other contents in %s as a remix."
-                        ),
+                        LocaleUtils::getString("license:noDerivates"),
                         $content->getDescription(),
                         $content->getParent()->getDescription()
                     ),
@@ -233,11 +222,7 @@ class LicenseReport
                         // phpcs:ignore Generic.Files.LineLength.TooLong
                         "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
                     ],
-                    "recommendation" => _(
-                        "Ensure that your work is legally a collection or ensure " .
-                        "that the license of the subcontent is compatible with " .
-                        "the license of the parent content."
-                    ),
+                    "recommendation" => LocaleUtils::getString("license:checkMaterial"),
                     "subContentId" => $content->getAttribute("id"),
                 ]);
                 $content->addReportMessage($message);
@@ -310,11 +295,11 @@ class LicenseReport
                 "category" => "license",
                 "type" => "invalidLicenseAdaptation",
                 "summary" => sprintf(
-                    _("Invalid license adaptation for %s"),
+                    LocaleUtils::getString("license:invalidAdaptation"),
                     $content->getDescription()
                 ),
                 "description" => sprintf(
-                    _("Subcontent %s does not allow commercial use, but parent content %s does."),
+                    LocaleUtils::getString("license:noCommercialUse"),
                     $subcontent->getDescription(),
                     $content->getDescription()
                 ),
@@ -325,10 +310,7 @@ class LicenseReport
                     // phpcs:ignore Generic.Files.LineLength.TooLong
                     "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
                 ],
-                "recommendation" => _(
-                    "Ensure that the license of the subcontent is compatible " .
-                    "with the license of the parent content."
-                ),
+                "recommendation" => LocaleUtils::getString("license:checkMaterial"),
                 "subContentId" => $content->getAttribute("id"),
             ]);
             $content->addReportMessage($message);
@@ -364,16 +346,15 @@ class LicenseReport
                 "category" => "license",
                 "type" => "invalidLicenseAdaptation",
                 "summary" => sprintf(
-                    _("Probably invalid license adaptation for %s"),
+                    LocaleUtils::getString("license:invalidAdaptation"),
                     $content->getDescription()
                 ),
                 "description" => [
                     sprintf(
-                        _("Subcontent %s does not allow derivates, but parent %s uses it."),
-                        $subcontent->getDescription(),
-                        $content->getDescription()
+                        LocaleUtils::getString("license:noDerivates"),
+                        $subcontent->getDescription()
                     ),
-                    _("This is not allowed for remixes, but only for collections.")
+                    LocaleUtils::getString("license:remixCollectionOnly")
                 ],
                 "details" => [
                     "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
@@ -382,11 +363,7 @@ class LicenseReport
                     // phpcs:ignore Generic.Files.LineLength.TooLong
                     "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
                 ],
-                "recommendation" => _(
-                    "Ensure that your work is legally a collection or ensure " .
-                    "that the license of the subcontent is compatible with " .
-                    "the license of the parent content."
-                ),
+                "recommendation" => LocaleUtils::getString("license:checkMaterial"),
                 "subContentId" => $content->getAttribute("id"),
             ]);
             $content->addReportMessage($message);
@@ -415,11 +392,11 @@ class LicenseReport
                 "category" => "license",
                 "type" => "discouragedLicenseAdaptation",
                 "summary" => sprintf(
-                    _("Discouraged license adaptation for %s"),
+                    LocaleUtils::getString("license:discouragedAdaptation"),
                     $content->getDescription()
                 ),
                 "description" => sprintf(
-                    _("Subcontent %s is licensed under a CC BY license, but content is more openly licensed."),
+                    LocaleUtils::getString("license:moreLicensed"),
                     $subcontent->getDescription()
                 ),
                 "details" => [
@@ -429,10 +406,7 @@ class LicenseReport
                     // phpcs:ignore Generic.Files.LineLength.TooLong
                     "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
                 ],
-                "recommendation" => _(
-                    "Ensure that the license of the subcontent is compatible " .
-                    "with the license of the parent content."
-                ),
+                "recommendation" => LocaleUtils::getString("license:checkMaterial"),
                 "subContentId" => $content->getAttribute("id"),
             ]);
             $content->addReportMessage($message);
@@ -481,19 +455,15 @@ class LicenseReport
                     "category" => "license",
                     "type" => "invalidLicenseAdaptation",
                     "summary" => sprintf(
-                        _("Probably invalid license adaptation for %s"),
+                        LocaleUtils::getString("license:invalidAdaptation"),
                         $content->getDescription()
                     ),
                     "description" => [
                         sprintf(
-                            _(
-                                "Subcontent %s is licensed under a CC BY-SA %s license, " .
-                                "but content is licensed under a GNU GPL license."
-                            ),
-                            $subcontent->getDescription(),
-                            $subcontentLicenseVersion
+                            LocaleUtils::getString("license:invalidVersion"),
+                            $subcontent->getDescription()
                         ),
-                        _("This is not allowed for remixes, but only for collections.")
+                        LocaleUtils::getString("license:remixCollectionOnly")
                     ],
                     "details" => [
                         "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
@@ -502,11 +472,7 @@ class LicenseReport
                         // phpcs:ignore Generic.Files.LineLength.TooLong
                         "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
                     ],
-                    "recommendation" => _(
-                        "Ensure that your work is legally a collection or " .
-                        "ensure that the license of the subcontent is compatible " .
-                        "with the license of the parent content."
-                    ),
+                    "recommendation" => LocaleUtils::getString("license:checkMaterial"),
                     "subContentId" => $content->getAttribute("id"),
                 ]);
                 $content->addReportMessage($message);
@@ -515,19 +481,15 @@ class LicenseReport
                     "category" => "license",
                     "type" => "invalidLicenseAdaptation",
                     "summary" => sprintf(
-                        _("Probably invalid license adaptation for %s"),
+                        LocaleUtils::getString("license:invalidAdaptation"),
                         $content->getDescription()
                     ),
                     "description" => [
                         sprintf(
-                            _(
-                                "Subcontent %s is licensed under a CC BY-SA license, " .
-                                "but content %s is not licensed under a CC BY-SA license."
-                            ),
-                            $subcontent->getDescription(),
-                            $content->getDescription()
+                            LocaleUtils::getString("license:invalidVersion"),
+                            $subcontent->getDescription()
                         ),
-                        _("This is not allowed for remixes, but only for collections.")
+                        LocaleUtils::getString("license:remixCollectionOnly")
                     ],
                     "details" => [
                         "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
@@ -536,11 +498,7 @@ class LicenseReport
                         // phpcs:ignore Generic.Files.LineLength.TooLong
                         "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
                     ],
-                    "recommendation" => _(
-                        "Ensure that your work is legally a collection or " .
-                        "ensure that the license of the subcontent is compatible " .
-                        "with the license of the parent content."
-                    ),
+                    "recommendation" => LocaleUtils::getString("license:checkMaterial"),
                     "subContentId" => $content->getAttribute("id"),
                 ]);
                 $content->addReportMessage($message);
@@ -552,15 +510,15 @@ class LicenseReport
                     "category" => "license",
                     "type" => "invalidLicenseAdaptation",
                     "summary" => sprintf(
-                        _("Probably invalid license adaptation for %s"),
+                        LocaleUtils::getString("license:invalidAdaptation"),
                         $content->getDescription()
                     ),
                     "description" => [
                         sprintf(
-                            _("Subcontent %s is licensed under a CC BY-SA 1.0 license, but parent content is not."),
+                            LocaleUtils::getString("license:invalidVersion"),
                             $subcontent->getDescription()
                         ),
-                        _("This is not allowed for remixes, but only for collections.")
+                        LocaleUtils::getString("license:remixCollectionOnly")
                     ],
                     "details" => [
                         "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
@@ -569,11 +527,7 @@ class LicenseReport
                         // phpcs:ignore Generic.Files.LineLength.TooLong
                         "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
                     ],
-                    "recommendation" => _(
-                        "Ensure that your work is legally a collection or " .
-                        "ensure that the license of the subcontent is compatible " .
-                        "with the license of the parent content."
-                    ),
+                    "recommendation" => LocaleUtils::getString("license:checkMaterial"),
                     "subContentId" => $content->getAttribute("id"),
                 ]);
                 $content->addReportMessage($message);
@@ -585,22 +539,15 @@ class LicenseReport
                     "category" => "license",
                     "type" => "invalidLicenseAdaptation",
                     "summary" => sprintf(
-                        _("Probably invalid license adaptation for %s"),
+                        LocaleUtils::getString("license:invalidAdaptation"),
                         $content->getDescription()
                     ),
                     "description" => [
                         sprintf(
-                            _(
-                                "Subcontent %s is licensed under a CC BY-SA %s license, " .
-                                "but content %s uses version %s instead of " .
-                                "the same license version or later version."
-                            ),
-                            $subcontent->getDescription(),
-                            $subcontentLicenseVersion,
-                            $content->getDescription(),
-                            $licenseVersion
+                            LocaleUtils::getString("license:invalidVersion"),
+                            $subcontent->getDescription()
                         ),
-                        _("This is not allowed for remixes, but only for collections.")
+                        LocaleUtils::getString("license:remixCollectionOnly")
                     ],
                     "details" => [
                         "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
@@ -609,11 +556,7 @@ class LicenseReport
                         // phpcs:ignore Generic.Files.LineLength.TooLong
                         "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
                     ],
-                    "recommendation" => _(
-                        "Ensure that your work is legally a collection or " .
-                        "ensure that the license of the subcontent is compatible " .
-                        "with the license of the parent content."
-                    ),
+                    "recommendation" => LocaleUtils::getString("license:checkMaterial"),
                     "subContentId" => $content->getAttribute("id"),
                 ]);
                 $content->addReportMessage($message);
@@ -624,19 +567,15 @@ class LicenseReport
                     "category" => "license",
                     "type" => "invalidLicenseAdaptation",
                     "summary" => sprintf(
-                        _("Probably invalid license adaptation for %s"),
+                        LocaleUtils::getString("license:invalidAdaptation"),
                         $content->getDescription()
                     ),
                     "description" => [
                         sprintf(
-                            _(
-                                "Subcontent %s is licensed under a CC BY-NC-SA license, " .
-                                "but content %s is not licensed under a CC BY-NC-SA license."
-                            ),
-                            $subcontent->getDescription(),
-                            $content->getDescription()
+                            LocaleUtils::getString("license:invalidVersion"),
+                            $subcontent->getDescription()
                         ),
-                        _("This is not allowed for remixes, but only for collections.")
+                        LocaleUtils::getString("license:remixCollectionOnly")
                     ],
                     "details" => [
                         "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
@@ -645,11 +584,7 @@ class LicenseReport
                         // phpcs:ignore Generic.Files.LineLength.TooLong
                         "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
                     ],
-                    "recommendation" => _(
-                        "Ensure that your work is legally a collection or " .
-                        "ensure that the license of the subcontent is compatible " .
-                        "with the license of the parent content."
-                    ),
+                    "recommendation" => LocaleUtils::getString("license:checkMaterial"),
                     "subContentId" => $content->getAttribute("id"),
                 ]);
                 $content->addReportMessage($message);
@@ -661,18 +596,15 @@ class LicenseReport
                     "category" => "license",
                     "type" => "invalidLicenseAdaptation",
                     "summary" => sprintf(
-                        _("Probably invalid license adaptation for %s"),
+                        LocaleUtils::getString("license:invalidAdaptation"),
                         $content->getDescription()
                     ),
                     "description" => [
                         sprintf(
-                            _(
-                                "Subcontent %s is licensed under a CC BY-NC-SA 1.0 license, " .
-                                "but parent content is not."
-                            ),
+                            LocaleUtils::getString("license:invalidVersion"),
                             $subcontent->getDescription()
                         ),
-                        _("This is not allowed for remixes, but only for collections.")
+                        LocaleUtils::getString("license:remixCollectionOnly")
                     ],
                     "details" => [
                         "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
@@ -681,11 +613,7 @@ class LicenseReport
                         // phpcs:ignore Generic.Files.LineLength.TooLong
                         "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
                     ],
-                    "recommendation" => _(
-                        "Ensure that your work is legally a collection or " .
-                        "ensure that the license of the subcontent is compatible " .
-                        "with the license of the parent content."
-                    ),
+                    "recommendation" => LocaleUtils::getString("license:checkMaterial"),
                     "subContentId" => $content->getAttribute("id"),
                 ]);
                 $content->addReportMessage($message);
@@ -697,21 +625,15 @@ class LicenseReport
                     "category" => "license",
                     "type" => "invalidLicenseAdaptation",
                     "summary" => sprintf(
-                        _("Probably invalid license adaptation for %s"),
+                        LocaleUtils::getString("license:invalidAdaptation"),
                         $content->getDescription()
                     ),
                     "description" => [
                         sprintf(
-                            _(
-                                "Subcontent %s is licensed under a CC BY-NC-SA %s license, " .
-                                "but content %s uses version %s instead of the same license version or later version."
-                            ),
-                            $subcontent->getDescription(),
-                            $subcontentLicenseVersion,
-                            $content->getDescription(),
-                            $licenseVersion
+                            LocaleUtils::getString("license:invalidVersion"),
+                            $subcontent->getDescription()
                         ),
-                        _("This is not allowed for remixes, but only for collections.")
+                        LocaleUtils::getString("license:remixCollectionOnly")
                     ],
                     "details" => [
                         "semanticsPath" => $subcontent->getAttribute("semanticsPath"),
@@ -720,11 +642,7 @@ class LicenseReport
                         // phpcs:ignore Generic.Files.LineLength.TooLong
                         "reference" => "https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses/"
                     ],
-                    "recommendation" => _(
-                        "Ensure that your work is legally a collection or " .
-                        "ensure that the license of the subcontent is compatible " .
-                        "with the license of the parent content."
-                    ),
+                    "recommendation" => LocaleUtils::getString("license:checkMaterial"),
                     "subContentId" => $content->getAttribute("id"),
                 ]);
                 $content->addReportMessage($message);
@@ -763,11 +681,11 @@ class LicenseReport
 
         $summary = ($content->getAttribute("semanticsPath") === "") ?
             sprintf(
-                _("Missing license information for %s as H5P main content"),
+                LocaleUtils::getString("license:missingMain"),
                 $content->getDescription()
             ) :
             sprintf(
-                _("Missing license information for %s inside %s"),
+                LocaleUtils::getString("license:missingInside"),
                 $content->getDescription(),
                 $content->getParent()->getDescription()
             );
@@ -781,8 +699,7 @@ class LicenseReport
                     "title" => $content->getDescription("{title}"),
                     "subContentId" => $content->getAttribute("id"),
                 ],
-                // phpcs:ignore Generic.Files.LineLength.TooLong
-                "recommendation" => _("Check the license of the material you are using and add the missing license information to the metadata."),
+                "recommendation" => LocaleUtils::getString("license:checkMaterial"),
                 "subContentId" => $content->getAttribute("id"),
             ];
 
@@ -818,7 +735,7 @@ class LicenseReport
             "category" => "license",
             "type" => "missingLicenseVersion",
             "summary" => sprintf(
-                _("Missing license version information for %s"),
+                LocaleUtils::getString("license:missingVersion"),
                 $content->getDescription()
             ),
             "details" => [
@@ -826,7 +743,7 @@ class LicenseReport
                 "title" => $content->getDescription("{title}"),
                 "subContentId" => $content->getAttribute("id"),
             ],
-            "recommendation" => _("Set the license version in the metadata."),
+            "recommendation" => LocaleUtils::getString("license:setVersion"),
             "subContentId" => $content->getAttribute("id"),
         ];
 
@@ -875,7 +792,7 @@ class LicenseReport
             "category" => "license",
             "type" => "missingAuthor",
             "summary" => sprintf(
-                _("Missing author information for %s"),
+                LocaleUtils::getString("license:missingAuthor"),
                 $content->getDescription()
             ),
             "details" => [
@@ -884,7 +801,7 @@ class LicenseReport
                 "subContentId" => $content->getAttribute("id"),
                 "reference" => $reference
             ],
-            "recommendation" => _("Add the author name or creator name in the metadata."),
+            "recommendation" => LocaleUtils::getString("license:addAuthor"),
             "subContentId" => $content->getAttribute("id"),
         ];
 
@@ -937,7 +854,7 @@ class LicenseReport
             "category" => "license",
             "type" => "missingTitle",
             "summary" => sprintf(
-                _("Missing title information for %s"),
+                LocaleUtils::getString("license:missingTitle"),
                 $content->getDescription()
             ),
             "details" => [
@@ -948,7 +865,7 @@ class LicenseReport
                 "subContentId" => $content->getAttribute("id"),
                 "reference" => $reference
             ],
-            "recommendation" => _("Add the title of the content (if supplied) in the metadata."),
+            "recommendation" => LocaleUtils::getString("license:addTitle"),
             "subContentId" => $content->getAttribute("id"),
         ];
 
@@ -1004,7 +921,7 @@ class LicenseReport
                 "category" => "license",
                 "type" => "missingSource",
                 "summary" => sprintf(
-                    _("Missing source information for %s"),
+                    LocaleUtils::getString("license:missingSource"),
                     $content->getDescription()
                 ),
                 "details" => [
@@ -1015,7 +932,7 @@ class LicenseReport
                     "subContentId" => $content->getAttribute("id"),
                     "reference" => $reference
                 ],
-                "recommendation" => _("Add the link to the content in the metadata."),
+                "recommendation" => LocaleUtils::getString("license:addSource"),
                 "subContentId" => $content->getAttribute("id"),
             ];
 
@@ -1031,7 +948,7 @@ class LicenseReport
                 "category" => "license",
                 "type" => "missingSource",
                 "summary" => sprintf(
-                    _("Potentially missing source information for %s"),
+                    LocaleUtils::getString("license:potentiallyMissingSource"),
                     $content->getDescription()
                 ),
                 "details" => [
@@ -1042,10 +959,7 @@ class LicenseReport
                     "subContentId" => $content->getAttribute("id"),
                     "reference" => $reference
                 ],
-                "recommendation" => _(
-                    "Add the link to the content in the metadata " .
-                    "if the link target contains a copyright notice or licensing information."
-                ),
+                "recommendation" => LocaleUtils::getString("license:addSource"),
                 "level" => "warning",
                 "subContentId" => $content->getAttribute("id"),
             ];
@@ -1104,7 +1018,7 @@ class LicenseReport
                 "category" => "license",
                 "type" => "missingChanges",
                 "summary" => sprintf(
-                    _("Potentially missing changes information for %s"),
+                    LocaleUtils::getString("license:missingChanges"),
                     $content->getDescription()
                 ),
                 "details" => [
@@ -1115,10 +1029,7 @@ class LicenseReport
                     "subContentId" => $content->getAttribute("id"),
                     "reference" => $reference
                 ],
-                "recommendation" => _(
-                    "If this is not your work and you made changes, you must indicate your changes and " .
-                    "all previous modifications in the metadata."
-                ),
+                "recommendation" => LocaleUtils::getString("license:addChanges"),
                 "level" => "warning",
                 "subContentId" => $content->getAttribute("id"),
             ];
@@ -1137,7 +1048,7 @@ class LicenseReport
                 "category" => "license",
                 "type" => "missingChanges",
                 "summary" => sprintf(
-                    _("Potentially missing changes information for %s"),
+                    LocaleUtils::getString("license:missingChanges"),
                     $content->getDescription()
                 ),
                 "details" => [
@@ -1148,11 +1059,7 @@ class LicenseReport
                     "subContentId" => $content->getAttribute("id"),
                     "reference" => $reference
                 ],
-                "recommendation" => _(
-                    "If this is not your work and you made changes to a degree " .
-                    "that you created a derivative, you must indicate your changes and " .
-                    "all previous modifications in the metadata."
-                ),
+                "recommendation" => LocaleUtils::getString("license:addChanges"),
                 "level" => "warning",
                 "subContentId" => $content->getAttribute("id"),
 
@@ -1171,7 +1078,7 @@ class LicenseReport
                 "category" => "license",
                 "type" => "missingChanges",
                 "summary" => sprintf(
-                    _("Potentially missing changes information for %s"),
+                    LocaleUtils::getString("license:missingChanges"),
                     $content->getDescription()
                 ),
                 "details" => [
@@ -1182,7 +1089,7 @@ class LicenseReport
                     "subContentId" => $content->getAttribute("id"),
                     "reference" => $reference
                 ],
-                "recommendation" => _("List any changes you made in the metadata."),
+                "recommendation" => LocaleUtils::getString("license:addChanges"),
                 "level" => "warning",
                 "subContentId" => $content->getAttribute("id"),
             ];
@@ -1222,7 +1129,7 @@ class LicenseReport
             "category" => "license",
             "type" => "missingLicenseExtras",
             "summary" => sprintf(
-                _("Missing license extras information for %s"),
+                LocaleUtils::getString("license:missingExtras"),
                 $content->getDescription()
             ),
             "details" => [
@@ -1233,7 +1140,7 @@ class LicenseReport
                 "subContentId" => $content->getAttribute("id"),
                 "reference" => "https://www.gnu.org/licenses/gpl-3.0.txt"
             ],
-            "recommendation" => _("Add the original GPL license text in the \"license extras\" field."),
+            "recommendation" => LocaleUtils::getString("license:addGPLText"),
             "subContentId" => $content->getAttribute("id"),
         ]);
         $content->addReportMessage($message);

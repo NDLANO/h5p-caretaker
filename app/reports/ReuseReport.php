@@ -26,9 +26,7 @@ namespace Ndlano\H5PCaretaker;
 class ReuseReport
 {
     public static $categoryName = "reuse";
-    public static $typeNames = [
-    "notCulturalWork", "noAuthorComments", "hasLicenseExtras"
-    ];
+    public static $typeNames = ["notCulturalWork", "noAuthorComments", "hasLicenseExtras"];
 
   /**
    * Get the reuse report.
@@ -108,7 +106,7 @@ class ReuseReport
         "category" => "reuse",
         "type" => "notCulturalWork",
         "summary" => sprintf(
-            _("License of %s is not approved for free cultural works."),
+            LocaleUtils::getString("reuse:licenseNotApproved"),
             $content->getDescription()
         ),
         "details" => [
@@ -117,10 +115,9 @@ class ReuseReport
           "subContentId" => $content->getAttribute("id"),
           "reference" => "https://creativecommons.org/public-domain/freeworks/",
         ],
-          // phpcs:ignore Generic.Files.LineLength.TooLong
-          "recommendation" => _("Think about using a license that is approved for free cultural works if this is your work, or think about reaching out to the original author and ask whether this work could be released under a license that is approved for free cultural works."),
-          "level" => "info",
-          "subContentId" => $content->getAttribute("id"),
+        "recommendation" => LocaleUtils::getString("reuse:licenseNotApprovedRecommendation"),
+        "level" => "info",
+        "subContentId" => $content->getAttribute("id"),
         ];
 
         $path = $content->getAttribute("path");
@@ -137,7 +134,7 @@ class ReuseReport
             "category" => "reuse",
             "type" => "hasLicenseExtras",
             "summary" => sprintf(
-                _("License of %s contains additional information."),
+                LocaleUtils::getString("reuse:licenseHasAdditionalInfo"),
                 $content->getDescription()
             ),
             "details" => [
@@ -146,8 +143,7 @@ class ReuseReport
               "subContentId" => $content->getAttribute("id"),
               "licenseExtras" => $licenseExtras,
             ],
-            // phpcs:ignore Generic.Files.LineLength.TooLong
-            "recommendation" => _("The license of this content contains additional information, potentially amending the reuse terms. If it's your work, think about whether using a more open license without extra terms might be possible, too."),
+            "recommendation" => LocaleUtils::getString("reuse:licenseHasAdditionalInfoRecommendation"),
             "level" => "info",
             "subContentId" => $content->getAttribute("id"),
             ];
@@ -174,7 +170,7 @@ class ReuseReport
         "category" => "reuse",
         "type" => "noAuthorComments",
         "summary" => sprintf(
-            _("Content %s does not provide author comments."),
+            LocaleUtils::getString("reuse:noAuthorComments"),
             $content->getDescription()
         ),
         "details" => [
@@ -182,8 +178,7 @@ class ReuseReport
           "title" => $content->getDescription("{title}"),
           "subContentId" => $content->getAttribute("id"),
         ],
-        // phpcs:ignore Generic.Files.LineLength.TooLong
-        "recommendation" => _("Think about adding author comments to the metadata in order to describe the context and use case of your resource to give others a better understanding of how you use it."),
+        "recommendation" => LocaleUtils::getString("reuse:noAuthorCommentsRecommendation"),
         "level" => "info",
         "subContentId" => $content->getAttribute("id"),
         ];

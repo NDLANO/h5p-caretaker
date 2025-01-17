@@ -56,8 +56,8 @@ class FeatureReport
                 "type" => "resume",
                 "summary" => sprintf(
                     ($features["getCurrentState"] ?? false) ?
-                    _("Content %s seems to support resuming.") :
-                    _("Content %s does not seem to support resuming."),
+                    LocaleUtils::getString("features:supportsResume") :
+                    LocaleUtils::getString("features:noResume"),
                     $content->getDescription()
                 ),
                 "details" => [
@@ -77,8 +77,8 @@ class FeatureReport
                 "type" => "xAPI",
                 "summary" => sprintf(
                     ($features["getXAPIData"] ?? false) ?
-                    _("Content %s seems to support xAPI.") :
-                    _("Content %s does not seem to support xAPI."),
+                    LocaleUtils::getString("features:supportsXAPI") :
+                    LocaleUtils::getString("features:noXAPI"),
                     $content->getDescription()
                 ),
                 "details" => [
@@ -110,30 +110,30 @@ class FeatureReport
             }
 
             if (count($supported) === count($questionTypeContractNames)) {
-                $summary = _("Content %s seems to support the full H5P question type contract.");
+                $summary = LocaleUtils::getString("features:supportsQuestionType");
                 $description = [
                     sprintf(
-                        _("Supported functions/variables: %s."),
+                        LocaleUtils::getString("features:supportedFunctions"),
                         implode(", ", $supported)
                     )
                 ];
             } elseif (count($supported) !== 0) {
-                $summary = _("Content %s seems to partially support the full H5P question type contract.");
+                $summary = LocaleUtils::getString("features:partialQuestionType");
                 $description = [
                     sprintf(
-                        _("Supported functions/variables: %s."),
+                        LocaleUtils::getString("features:supportedFunctions"),
                         implode(", ", $supported)
                     ),
                     sprintf(
-                        _("Unsupported functions/variables: %s."),
+                        LocaleUtils::getString("features:unsupportedFunctions"),
                         implode(", ", $notSupported)
                     )
                 ];
             } else {
-                $summary = _("Content %s does not seem to support the H5P question type contract.");
+                $summary = LocaleUtils::getString("features:noQuestionType");
                 $description = [
                     sprintf(
-                        _("Unsupported functions/variables: %s."),
+                        LocaleUtils::getString("features:unsupportedFunctions"),
                         implode(", ", $notSupported)
                     )
                 ];

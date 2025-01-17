@@ -25,6 +25,10 @@ namespace Ndlano\H5PCaretaker;
  */
 class LocaleUtils
 {
+    private static $strings = [];
+    private static $currentLocale = 'en';
+    private static $defaultLocale = 'en';
+
     public static function getCompleteLocale($language)
     {
       // Define the mapping of short language codes to full locales
@@ -124,90 +128,112 @@ class LocaleUtils
     }
 
     /**
-     * Get translations for keywords.
+     * Set the locale.
      *
-     * @param boolean $isEnglish Whether the translations should be in English.
+     * @param string $locale The locale to set.
+     *
+     * @return string The current locale.
+     */
+    public static function setLocale($locale)
+    {
+        $langFile = join(DIRECTORY_SEPARATOR, [__DIR__, '..', 'lang', $locale, 'strings.php']);
+
+        if (!file_exists($langFile)) {
+            $locale = explode("_", $locale)[0];
+            $langFile = join(DIRECTORY_SEPARATOR, [__DIR__, '..', 'lang', $locale, 'strings.php']);
+        }
+
+        if (file_exists($langFile)) {
+            self::$currentLocale = $locale;
+            include $langFile;
+            self::$strings[self::$currentLocale] = $string;
+        } else {
+            self::$currentLocale = self::$defaultLocale;
+        }
+
+        return self::$currentLocale;
+    }
+
+    /**
+     * Get a string by its identifier.
+     *
+     * @param string $identifier The identifier of the string.
+     * @param string $specificLocale The locale to use. Optional.
+     *
+     * @return string The string.
+     */
+    public static function getString($identifier, $specificLocale = null)
+    {
+        if (!isset(self::$strings[self::$currentLocale])) {
+            self::setLocale(self::$defaultLocale);
+        }
+
+        return self::$strings[$specificLocale ?? self::$currentLocale][$identifier] ??
+            self::$strings[self::$defaultLocale][$identifier] ??
+            $identifier;
+    }
+
+    /**
+     * Get translations for keywords.
      *
      * @return array The translations.
      */
-    public static function getKeywordTranslations($isEnglish)
+    public static function getKeywordTranslations()
     {
         $translations = [
-            "category" => _("category"),
-            "type" => _("type"),
-            "summary" => _("summary"),
-            "recommendation" => _("recommendation"),
-            "details" => _("details"),
-            "title" => _("title"),
-            "semanticsPath" => _("semanticsPath"),
-            "path" => _("path"),
-            "subContentId" => _("subContentId"),
-            "description" => _("description"),
-            "status" => _("status"),
-            "licenseNote" => _("license note"),
-            "level" => _("level"),
-            "info" => _("info"),
-            "warning" => _("warning"),
-            "error" => _("error"),
-            "infos" => _("infos"),
-            "warnings" => _("warnings"),
-            "errors" => _("errors"),
-            "reference" => _("reference"),
-            "accessibility" => _("accessibility"),
-            "missingAltText" => _("missingAltText"),
+            "category" => self::getString("category"),
+            "type" => self::getString("type"),
+            "summary" => self::getString("summary"),
+            "recommendation" => self::getString("recommendation"),
+            "details" => self::getString("details"),
+            "title" => self::getString("title"),
+            "semanticsPath" => self::getString("semanticsPath"),
+            "path" => self::getString("path"),
+            "subContentId" => self::getString("subContentId"),
+            "description" => self::getString("description"),
+            "status" => self::getString("status"),
+            "licenseNote" => self::getString("licenseNote"),
+            "level" => self::getString("level"),
+            "info" => self::getString("info"),
+            "warning" => self::getString("warning"),
+            "error" => self::getString("error"),
+            "infos" => self::getString("infos"),
+            "warnings" => self::getString("warnings"),
+            "errors" => self::getString("errors"),
+            "reference" => self::getString("reference"),
+            "accessibility" => self::getString("accessibility"),
+            "missingAltText" => self::getString("missingAltText"),
             "libreText" => "libreText",
-            "features" => _("features"),
-            "resume" => _("resume"),
-            "xAPI" => _("xAPI"),
-            "questionTypeContract" => _("questionTypeContract"),
-            "license" => _("license"),
-            "missingLicense" => _("missingLicense"),
-            "missingLicenseExtras" => _("missingLicenseExtras"),
-            "missingAuthor" => _("missingAuthor"),
-            "missingTitle" => _("missingTitle"),
-            "missingSource" => _("missingSource"),
-            "missingChanges" => _("missingChanges"),
-            "discouragedLicenseAdaptation" => _("discouragedLicenseAdaptation"),
-            "invalidLicenseAdaptation" => _("invalidLicenseAdaptation"),
-            "invalidLicenseRemix" => _("invalidLicenseRemix"),
-            "efficiency" => _("efficiency"),
-            "imageSize" => _("imageSize"),
-            "imageResolution" => _("imageResolution"),
-            "statistics" => _("statistics"),
-            "contentTypeCount" => _("contentTypeCount"),
-            "reuse" => _("reuse"),
-            "notCulturalWork" => _("notCulturalWork"),
-            "noAuthorComments" => _("noAuthorComments"),
-            "hasLicenseExtras" => _("hasLicenseExtras"),
-            "learnMore" => _("Learn more about this topic."),
-            "image" => _("image"),
-            "audio" => _("audio"),
-            "video" => _("video"),
-            "file" => _("file"),
-            "untitled" => _("Untitled"),
+            "features" => self::getString("features"),
+            "resume" => self::getString("resume"),
+            "xAPI" => self::getString("xAPI"),
+            "questionTypeContract" => self::getString("questionTypeContract"),
+            "license" => self::getString("license"),
+            "missingLicense" => self::getString("missingLicense"),
+            "missingLicenseExtras" => self::getString("missingLicenseExtras"),
+            "missingAuthor" => self::getString("missingAuthor"),
+            "missingTitle" => self::getString("missingTitle"),
+            "missingSource" => self::getString("missingSource"),
+            "missingChanges" => self::getString("missingChanges"),
+            "discouragedLicenseAdaptation" => self::getString("discouragedLicenseAdaptation"),
+            "invalidLicenseAdaptation" => self::getString("invalidLicenseAdaptation"),
+            "invalidLicenseRemix" => self::getString("invalidLicenseRemix"),
+            "efficiency" => self::getString("efficiency"),
+            "imageSize" => self::getString("imageSize"),
+            "imageResolution" => self::getString("imageResolution"),
+            "statistics" => self::getString("statistics"),
+            "contentTypeCount" => self::getString("contentTypeCount"),
+            "reuse" => self::getString("reuse"),
+            "notCulturalWork" => self::getString("notCulturalWork"),
+            "noAuthorComments" => self::getString("noAuthorComments"),
+            "hasLicenseExtras" => self::getString("hasLicenseExtras"),
+            "learnMore" => self::getString("Learn more about this topic."),
+            "image" => self::getString("image"),
+            "audio" => self::getString("audio"),
+            "video" => self::getString("video"),
+            "file" => self::getString("file"),
+            "untitled" => self::getString("untitled"),
         ];
-
-        if ($isEnglish) {
-            $translations["missingLicense"] = "missing license";
-            $translations["missingLicenseExtras"] = "missing license extras";
-            $translations["missingAuthor"] = "missing author";
-            $translations["missingTitle"] = "missing title";
-            $translations["missingSource"] = "missing source";
-            $translations["missingChanges"] = "missing changes";
-            $translations["missingAltText"] = "missing alternative text";
-            $translations["discouragedLicenseAdaptation"] = "discouraged license adaptation";
-            $translations["invalidLicenseAdaptation"] = "invalid license adaptation";
-            $translations["invalidLicenseRemix"] = "invalid license remix";
-            $translations["questionTypeContract"] = "question type contract";
-            $translations["contentTypeCount"] = "content type count";
-            $translations["imageSize"] = "image size";
-            $translations["imageResolution"] = "image resolution";
-            $translations["infos"] = "info";
-            $translations["licenseNote"] = "license note";
-            $translations["notCulturalWork"] = "not cultural work";
-            $translations["noAuthorComments"] = "no author comments";
-            $translations["hasLicenseExtras"] = "has license extras";
-        }
 
         return $translations;
     }

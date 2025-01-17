@@ -153,11 +153,11 @@ class ContentFile
     private static function mapTypeToText($type)
     {
         $types = [
-            "image" => _("image"),
-            "video" => _("video"),
-            "audio" => _("audio")
+            "image" => LocaleUtils::getString("image"),
+            "video" => LocaleUtils::getString("video"),
+            "audio" => LocaleUtils::getString("audio")
         ];
 
-        return $types[$type] ?? _("file");
+        return $types[$type] ?? LocaleUtils::getString("file");
     }
 }

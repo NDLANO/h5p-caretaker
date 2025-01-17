@@ -246,24 +246,24 @@ class EfficiencyReport
         $description = [];
         if (getType($width) === "integer" && getType($height) === "integer") {
             $description[] = sprintf(
-                _("The image has a resolution of %dx%d pixels."),
+                LocaleUtils::getString("efficiency:imageResolution"),
                 $width,
                 $height
             );
         } else {
-            $description[] = _("The image has an unknown resolution.");
+            $description[] = LocaleUtils::getString("efficiency:imageUnknownResolution");
         }
 
         if ($maxHeightPx < INF && $maxHeightPx > 0) {
             $description[] = sprintf(
-                _("The image will usually not be displayed larger than %d pixels in height."),
+                LocaleUtils::getString("efficiency:imageMaxHeight"),
                 $maxHeightPx
             );
         }
 
         if ($maxWidthPx < INF && $maxWidthPx > 0) {
             $description[] = sprintf(
-                _("The image will usually not be displayed larger than %d pixels in width."),
+                LocaleUtils::getString("efficiency:imageMaxWidth"),
                 $maxWidthPx
             );
         }
@@ -271,30 +271,28 @@ class EfficiencyReport
         $recommendation = [];
         if ($height > $maxHeightPx * self::WCAG_ZOOM_FACTOR) {
             $recommendation[] = sprintf(
-                _("The image could safely be scaled down to a height of %d pixels without any visual quality loss."),
+                LocaleUtils::getString("efficiency:imageScaleDownHeight"),
                 $maxHeightPx * self::WCAG_ZOOM_FACTOR
             );
         }
 
         if ($width > $maxWidthPx * self::WCAG_ZOOM_FACTOR) {
             $recommendation[] = sprintf(
-                _("The image could safely be scaled down to a width of %d pixels without any visual quality loss."),
+                LocaleUtils::getString("efficiency:imageScaleDownWidth"),
                 $maxWidthPx * self::WCAG_ZOOM_FACTOR
             );
         }
 
         if ($height > $maxHeightPx) {
             $recommendation[] = sprintf(
-                // phpcs:ignore Generic.Files.LineLength.TooLong
-                _("The image could be scaled down to a height of %d pixels, but people who zoom into the page may experience a visual quality loss."),
+                LocaleUtils::getString("efficiency:imageScaleDownHeightZoom"),
                 $maxHeightPx
             );
         }
 
         if ($width > $maxWidthPx) {
             $recommendation[] = sprintf(
-                // phpcs:ignore Generic.Files.LineLength.TooLong
-                _("The image could be scaled down to a width of %d pixels, but people who zoom into the page may experience a visual quality loss."),
+                LocaleUtils::getString("efficiency:imageScaleDownWidthZoom"),
                 $maxWidthPx
             );
         }
@@ -303,7 +301,7 @@ class EfficiencyReport
             "category" => "efficiency",
             "type" => "imageResolution",
             "summary" => sprintf(
-                _("Image file inside %s could be scaled down."),
+                LocaleUtils::getString("efficiency:imageCouldScaleDown"),
                 $contentFile->getParent()->getDescription()
             ),
             "recommendation" => $recommendation,
@@ -340,46 +338,43 @@ class EfficiencyReport
             $description = [];
             if (getType($width) === "integer" && getType($height) === "integer") {
                 $description[] = sprintf(
-                    _("The image has a resolution of %dx%d pixels."),
+                    LocaleUtils::getString("efficiency:imageResolution"),
                     $width,
                     $height
                 );
             } else {
-                $description[] = _("The image has an unknown resolution.");
+                $description[] = LocaleUtils::getString("efficiency:imageUnknownResolution");
             }
 
             $description[] = sprintf(
-                _("The image file size is %s bytes."),
+                LocaleUtils::getString("efficiency:imageFileSize"),
                 number_format($fileSize)
             );
 
             $description[] = sprintf(
-                _("The image type is %s."),
-                $imageType === '*' ? _("unknown") : strtoupper($imageType)
+                LocaleUtils::getString("efficiency:imageType"),
+                $imageType === '*' ? LocaleUtils::getString("efficiency:imageTypeUnknown") : strtoupper($imageType)
             );
 
             $recommendation = [];
             $recommendation[] = sprintf(
-                _("For this image type, we recommend a maximum file size of %s bytes in a web based context."),
+                LocaleUtils::getString("efficiency:imageRecommendedSize"),
                 number_format($recommendedMaxSize)
             );
 
-            $recommendation[] =
-              _("You might consider reducing the image's resolution if it does not need to be this high.");
+            $recommendation[] = LocaleUtils::getString("efficiency:imageReduceResolution");
 
             if ($imageType !== "jpeg") {
-                $recommendation[] =
-                  _("You might consider converting the image to a JPEG file which often take less space.");
+                $recommendation[] = LocaleUtils::getString("efficiency:imageConvertJPEG");
             } else {
-                $recommendation[] =
-                  _("You might consider reducing the quality level of the JPEG image.");
+                $recommendation[] = LocaleUtils::getString("efficiency:imageReduceQuality");
             }
 
             $message = ReportUtils::buildMessage([
                 "category" => "efficiency",
                 "type" => "imageSize",
                 "summary" => sprintf(
-                    _("Image file inside %s feels quite large."),
+                    LocaleUtils::getString("efficiency:imageTooLarge"),
                     $contentFile->getParent()->getDescription()
                 ),
                 "recommendation" => $recommendation,

@@ -54,7 +54,7 @@ class AccessibilityReport
         foreach ($contentsLibreOffice as $content) {
             $libreText = $content->getAttribute("libreText") ?? "";
             $summary = sprintf(
-                _("LibreText evaluation for %s"),
+                LocaleUtils::getString("accessibility:libreTextEvaluation"),
                 explode(
                     " ",
                     $content->getAttribute("versionedMachineName")
@@ -110,7 +110,7 @@ class AccessibilityReport
                                 "category" => "accessibility",
                                 "type" => "missingAltText",
                                 "summary" => sprintf(
-                                    _("Missing alt text for image inside %s"),
+                                    LocaleUtils::getString("accessibility:missingAltText"),
                                     $content->getDescription()
                                 ),
                                 "details" => [
@@ -131,7 +131,7 @@ class AccessibilityReport
                             "category" => "accessibility",
                             "type" => "missingAltText",
                             "summary" => sprintf(
-                                _("Missing alt text for image inside %s"),
+                                LocaleUtils::getString("accessibility:missingAltText"),
                                 $content->getDescription()
                             ),
                             "details" => [
@@ -145,11 +145,7 @@ class AccessibilityReport
                                 "subContentId" => $content->getAttribute("id"),
                                 "reference" => "https://www.w3.org/WAI/alt/"
                             ],
-                            "recommendation" => _(
-                                "Check whether the content type that uses the image " .
-                                "offers a custom alternative text field or " .
-                                "whether it is not required to have one here."
-                            ),
+                            "recommendation" => LocaleUtils::getString("accessibility:setAltTextImage"),
                             "subContentId" => $content->getAttribute("id"),
                         ]);
 
@@ -356,8 +352,7 @@ class AccessibilityReport
             $data["altTextPath"] = $semanticsPath . "." . "" . "startScreenAltText";
 
             $data["title"] = $contentFile->getDescription("{title}");
-            $data["recommendation"] =
-                _("Set an alternative text for the start screen image.");
+            $data["recommendation"] = LocaleUtils::getString("accessibility:setAltTextStartScreen");
 
             $data["hasCustomHandling"] = true;
         }
@@ -383,8 +378,7 @@ class AccessibilityReport
         $data["altTextPath"] = $semanticsPath . "." . "" . "alt";
 
         $data["title"] = $contentFile->getDescription("{title}");
-        $data["recommendation"] =
-            _("Set an alternative text for the image.");
+        $data["recommendation"] = LocaleUtils::getString("accessibility:setAltTextImage");
 
         $data["hasCustomHandling"] = true;
     }
@@ -434,8 +428,7 @@ class AccessibilityReport
         $data["altTextPath"] = $semanticsPath . "." . "" . "imageAltText";
 
         $data["title"] = $contentFile->getDescription("{title}");
-        $data["recommendation"] =
-            _("Set an alternative text for the image of the card.");
+        $data["recommendation"] = LocaleUtils::getString("accessibility:setAltTextCard");
 
         $data["hasCustomHandling"] = true;
     }
@@ -476,8 +469,7 @@ class AccessibilityReport
         $data["altTextPath"] = $semanticsPath . "." . "" . "imageAltText";
 
         $data["title"] = $contentFile->getDescription("{title}");
-        $data["recommendation"] =
-            _("Set an alternative text for the image of the card.");
+        $data["recommendation"] = LocaleUtils::getString("accessibility:setAltTextCard");
 
         $data["hasCustomHandling"] = true;
     }
@@ -517,10 +509,7 @@ class AccessibilityReport
             $content->getAttribute("params")["decorative"] ?? false;
 
         $data["title"] = $content->getDescription("{title}");
-        $data["recommendation"] = _(
-            "Check whether there is a reason for the image to not have an alternative text. " .
-            "If so, explicitly set the image as decorative in the editor."
-        );
+        $data["recommendation"] = LocaleUtils::getString("accessibility:setAltTextImage");
 
         $data["hasCustomHandling"] = true;
     }
@@ -546,8 +535,7 @@ class AccessibilityReport
             $data["altTextPath"] = $semanticsPath . "." . "" . "backgroundImageAltText";
 
             $data["title"] = $contentFile->getDescription("{title}");
-            $data["recommendation"] =
-                _("Set an alternative text for the background image.");
+            $data["recommendation"] = LocaleUtils::getString("accessibility:setAltTextBackground");
 
             $data["hasCustomHandling"] = true;
         }
@@ -611,8 +599,7 @@ class AccessibilityReport
             $data["altTextPath"] = $semanticsPath . "." . "imageAlt";
 
             $data["title"] = $contentFile->getDescription("{title}");
-            $data["recommendation"] =
-                _("Set an alternative text for the original image.");
+            $data["recommendation"] = LocaleUtils::getString("accessibility:setAltTextOriginal");
 
             $data["hasCustomHandling"] = true;
         } elseif (str_ends_with($semanticsPath, "match")) {
@@ -626,8 +613,7 @@ class AccessibilityReport
             $data["altTextPath"] = $semanticsPath . "." . "matchAlt";
 
             $data["title"] = $contentFile->getDescription("{title}");
-            $data["recommendation"] =
-                _("Set an alternative text for the matching image.");
+            $data["recommendation"] = LocaleUtils::getString("accessibility:setAltTextMatching");
 
             $data["hasCustomHandling"] = true;
         } elseif (str_ends_with($semanticsPath, "originalImage")) {
@@ -656,8 +642,7 @@ class AccessibilityReport
         $data["altTextPath"] = $semanticsPath . "." . "imageDescription";
 
         $data["title"] = $contentFile->getDescription("{title}");
-        $data["recommendation"] =
-            _("Set a description text for the image.");
+        $data["recommendation"] = LocaleUtils::getString("accessibility:setDescriptionText");
 
         $data["hasCustomHandling"] = true;
     }
@@ -696,8 +681,7 @@ class AccessibilityReport
         $data["altTextPath"] = $semanticsPath . "." . "imageAlt";
 
         $data["title"] = $contentFile->getDescription("{title}");
-        $data["recommendation"] =
-            _("Set an alternative text for the image of the card.");
+        $data["recommendation"] = LocaleUtils::getString("accessibility:setAltTextCard");
 
         $data["hasCustomHandling"] = true;
     }
@@ -736,8 +720,7 @@ class AccessibilityReport
         $data["altTextPath"] = $semanticsPath . "." . "" . "introductionImageAltText";
 
         $data["title"] = $contentFile->getDescription("{title}");
-        $data["recommendation"] =
-            _("Set an alternative text for the introduction image.");
+        $data["recommendation"] = LocaleUtils::getString("accessibility:setAltTextIntro");
 
         $data["hasCustomHandling"] = true;
     }
@@ -782,8 +765,7 @@ class AccessibilityReport
             $data["altTextPath"] = $semanticsPath . "." . "" . "caption";
 
             $data["title"] = $contentFile->getDescription("{title}");
-            $data["recommendation"] =
-                _("Set a caption text for the asset thumbnail image.");
+            $data["recommendation"] = LocaleUtils::getString("accessibility:setCaptionText");
 
             $data["hasCustomHandling"] = true;
         }

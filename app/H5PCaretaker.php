@@ -37,6 +37,7 @@ class H5PCaretaker
         require_once __DIR__ . DIRECTORY_SEPARATOR . "autoloader.php";
 
         $config["locale"] = $config["locale"] ?? 'en';
+        LocaleUtils::setLocale($config["locale"]);
 
         $language = LocaleUtils::getCompleteLocale($config["locale"]);
         if (isset($language)) {
@@ -84,7 +85,7 @@ class H5PCaretaker
         if (isset($error)) {
             $result = null;
         } elseif (!isset($result)) {
-            $error = _("Something went wrong, but I dunno what, sorry!");
+            $error = LocaleUtils::getString("error:unknownError");
         }
 
         return [
@@ -126,9 +127,7 @@ class H5PCaretaker
         $report = [
             "messages" => [],
             "client" => [
-                "translations" => LocaleUtils::getKeywordTranslations(
-                    str_starts_with($this->config["locale"], "en")
-                ),
+                "translations" => LocaleUtils::getKeywordTranslations(),
                 "categories" => [
                     AccessibilityReport::$categoryName => AccessibilityReport::$typeNames,
                     FeatureReport::$categoryName => FeatureReport::$typeNames,
@@ -179,7 +178,7 @@ class H5PCaretaker
     public function checkH5PFile($file)
     {
         if (!isset($file)) {
-            return _("It seems that no file was provided.");
+            return LocaleUtils::getString("error:noFile");
         }
 
         $fileSize = filesize($file);
@@ -187,19 +186,19 @@ class H5PCaretaker
         $fileType = finfo_file($fileInfo, $file);
 
         if ($fileSize === 0) {
-            return _("The file is empty.");
+            return LocaleUtils::getString("error:fileEmpty");
         }
 
         $fileSizeLimit = 1024 * 1024 * 20; // 20 MB
         if ($fileSize > $fileSizeLimit) {
             return sprintf(
-                _("The file is larger than the limit of %s bytes."),
+                LocaleUtils::getString("error:fileTooLarge"),
                 $fileSizeLimit
             );
         }
 
         if ($fileType !== "application/zip") {
-            return _("The file is not a valid H5P file / ZIP archive.");
+            return LocaleUtils::getString("error:notAnH5Pfile");
         }
 
         try {
@@ -213,7 +212,7 @@ class H5PCaretaker
         }
 
         if (!$h5pFileHandler->isFileOkay()) {
-            return _("The file does not seem to follow the H5P specification.");
+            return LocaleUtils::getString("error:notH5PSpecification");
         }
 
         return $h5pFileHandler;
@@ -229,7 +228,7 @@ class H5PCaretaker
     public function write($params)
     {
         if (!isset($params["values"])) {
-            return $this->done(null, _("No values were provided for writing."));
+            return $this->done(null, LocaleUtils::getString("error:noValues"));
         }
 
         $fileCheckResults = $this->checkH5PFile($params["file"]);
@@ -278,6 +277,6 @@ class H5PCaretaker
          * - add files to the content folder (?)
          */
 
-        return $this->done(null, _("Writing is not yet implemented."));
+        return $this->done(null, "Writing is not yet implemented.");
     }
 }

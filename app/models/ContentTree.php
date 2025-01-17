@@ -194,7 +194,7 @@ class ContentTree
     {
         $representation = [
             "subContentId" => $root->getAttribute("id"),
-            "title" => $root->getAttribute("metadata")["title"] ?? _("Untitled"),
+            "title" => $root->getAttribute("metadata")["title"] ?? LocaleUtils::getString("untitled"),
             "label" => $root->getDescription()
         ];
 
@@ -222,7 +222,7 @@ class ContentTree
 
             $child = [
                 "subContentId" => $contentFile->getAttribute("id"),
-                "title" => $contentFile->getAttribute("metadata")["title"] ?? _("Untitled"),
+                "title" => $contentFile->getAttribute("metadata")["title"] ?? LocaleUtils::getString("untitled"),
                 "label" => $contentFile->getDescription()
             ];
 

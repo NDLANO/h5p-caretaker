@@ -27,7 +27,8 @@ The common use case then is to fetch an H5P content file (.h5p), pass it to the 
 Your own project either uses the common `autoload` procedure itself, meaning that the library will be loaded as a depencency automatically. Alternatively, you'll have to run something like
 
 ```
-require __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
+use Ndlano\H5PCaretaker\H5PCaretaker;
 ```
 
 You many need to adjust the path, of course, depending on where your PHP code lives at.
