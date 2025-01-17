@@ -40,16 +40,6 @@ class H5PCaretaker
         LocaleUtils::setLocale($config["locale"]);
 
         $language = LocaleUtils::getCompleteLocale($config["locale"]);
-        if (isset($language)) {
-            putenv("LANG=" . $language);
-            putenv("LANGUAGE=" . $language);
-            setlocale(LC_ALL, $language);
-
-            $domain = "h5p_caretaker";
-            $bindPath = realpath(__DIR__ . DIRECTORY_SEPARATOR . "locale");
-            bindtextdomain($domain, $bindPath);
-            textdomain($domain);
-        }
 
         if (!isset($config["uploadsPath"])) {
             $config["uploadsPath"] =
