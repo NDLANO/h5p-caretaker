@@ -2,7 +2,7 @@
 
 // phpcs:disable Generic.Files.LineLength
 
-// Base strings (sorted alphabetically)
+// Base strings
 $string["accessibility"] = "Barrierefreiheit";
 $string["audio"] = "Tondatei";
 $string["category"] = "Kategorie";
@@ -31,6 +31,7 @@ $string["licenseNote"] = "Lizenzhinweis";
 $string["missingAltText"] = "fehlender Alternativtext";
 $string["missingAuthor"] = "fehlende*r Autor*in";
 $string["missingChanges"] = "fehlende Änderungen";
+$string["missingLibrary"] = "fehlende Bibliothek";
 $string["missingLicense"] = "fehlende Lizenzangaben";
 $string["missingLicenseExtras"] = "fehlende Lizenzextras";
 $string["missingSource"] = "fehlende Quelle";
@@ -55,7 +56,7 @@ $string["warning"] = "Warnung";
 $string["warnings"] = "Warnungen";
 $string["xAPI"] = "xAPI";
 
-// Error strings (sorted alphabetically)
+// Error strings
 $string["error:couldNotCreateUploadDirectory"] = "Konnte der Upload-Verzeichnis %s nicht anlegen.";
 $string["error:decodingH5PJSON"] = "Fehler beim Decodieren der Datei h5p.json.";
 $string["error:fileEmpty"] = "Die Datei ist leer.";
@@ -70,10 +71,10 @@ $string["error:unknownError"] = "Etwas ist schief gelaufen, aber ich weiß nicht
 $string["error:unzipFailed"] = "Fehler beim Entpacken der H5P-Datei.";
 $string["error:uploadDirectoryNotWritable"] = "Das Upload-Verzeichnis %s ist nicht schreibbar.";
 
-// Statistics Report strings (sorted alphabetically)
+// Statistics Report strings
 $string["statistics:contentTypeCount"] = "Häufigkeit der Inhaltstypverwendung";
 
-// Reuse Report strings (sorted alphabetically)
+// Reuse Report strings
 $string["reuse:licenseHasAdditionalInfo"] = "Lizenz von %s enthält zusätzliche Informationen.";
 $string["reuse:licenseHasAdditionalInfoRecommendation"] = "Die Lizenz für diesen Inhalt enthält zusätzliche Informationen, die möglicherweise die Bedingungen für die Wiederverwendung ändern. Wenn es sich um dein Werk handelt, denke darüber nach, ob nicht auch eine offenere Lizenz ohne zusätzliche Bedingungen möglich wäre.";
 $string["reuse:licenseNotApproved"] = "Lizenz von %s ist für freie kulturelle Werke nicht geeignet.";
@@ -81,7 +82,7 @@ $string["reuse:licenseNotApprovedRecommendation"] = "Denke darüber nach, eine f
 $string["reuse:noAuthorComments"] = "Inhalt %s hält keine zusätzlichen Kommentare für Autor*innen bereit.";
 $string["reuse:noAuthorCommentsRecommendation"] = "Denke darüber nach, in den Metadaten Kommentare für Autor*innen hinzuzufügen, um den Kontext und den Anwendungsfall deiner Ressource zu beschreiben, damit andere ein besseres Verständnis dafür bekommen, wie du sie verwendest.";
 
-// Accessibility Report strings (sorted alphabetically)
+// Accessibility Report strings
 $string["accessibility:libreTextEvaluation"] = "LibreText-Beurteilung für %s";
 $string["accessibility:missingAltText"] = "Fehlender Alternativtext für das Bild in %s";
 $string["accessibility:setAltTextBackground"] = "Lege einen Alternativtext für den Bildhintergrund fest.";
@@ -94,7 +95,7 @@ $string["accessibility:setAltTextStartScreen"] = "Lege einen Alternativtext für
 $string["accessibility:setCaptionText"] = "Lege einen Alternativtext für das Vorschaubild fest.";
 $string["accessibility:setDescriptionText"] = "Ergänze eine Beschreibung für das Bild.";
 
-// Efficiency Report strings (sorted alphabetically)
+// Efficiency Report strings
 $string["efficiency:imageCouldScaleDown"] = "Die Bilddatei in %s könnte herunterskaliert werden.";
 $string["efficiency:imageConvertJPEG"] = "Du könntest das Bild ins JPEG-Format konvertieren, welches oft weniger Speicherplatz beansprucht.";
 $string["efficiency:imageFileSize"] = "Die Dateigröße des Bildes beträgt %s Bytes.";
@@ -113,7 +114,8 @@ $string["efficiency:imageType"] = "Der Dateityp des Bildes ist %s.";
 $string["efficiency:imageTypeUnknown"] = "unbekannt";
 $string["efficiency:imageUnknownResolution"] = "Die Auflösung des Bildes ist unbekannt.";
 
-// Feature Report strings (sorted alphabetically)
+// Feature Report strings
+$string["features:missingLibrary"] = "Es scheint, dass die Bibliotheksdateien für Inhalt %s nicht in der H5P-Datei enthalten sind. Kann Funktionen nicht überprüfen.";
 $string["features:noQuestionType"] = "Inhalt %s scheint den H5P \"question type contract\" nicht zu unterstützen.";
 $string["features:noResume"] = "Inhalt %s scheint Fortfahren nicht zu unterstützen.";
 $string["features:noXAPI"] = "Inhalt %s scheint xAPI nicht zu unterstützen.";
@@ -124,10 +126,10 @@ $string["features:supportsResume"] = "Inhalt %s scheint Fortfahren zu unterstüt
 $string["features:supportsXAPI"] = "Inhalt %s scheint xAPI zu unterstützen.";
 $string["features:unsupportedFunctions"] = "Nicht unterstützte Funktionen/Variablen: %s.";
 
-// Libretext Report strings (sorted alphabetically)
+// Libretext Report strings
 $string["libretext:licenseNote"] = "Der \"H5P Accessibility Guide\" (%s) steht unter einer \"CC BY 4.0\"-Lizenz (%s) und wurde erstellt, remixed und/oder kuratiert von LibreTexts (%s)";
 
-// License Report strings (sorted alphabetically)
+// License Report strings
 $string["license:addAuthor"] = "Füge den Namen der Autor*innen oder Ersteller*innen in den Metadaten hinzu.";
 $string["license:addChanges"] = "Führe alle von dir gemachten Änderungen in den Metadaten auf.";
 $string["license:addGPLText"] = "Füge den ursprüngliche GPL-Lizenztext im Feld \"Lizenzextras\" ein.";

@@ -2,7 +2,7 @@
 
 // phpcs:disable Generic.Files.LineLength
 
-// Base strings (sorted alphabetically)
+// Base strings
 $string["accessibility"] = "accessibility";
 $string["audio"] = "audio";
 $string["category"] = "category";
@@ -31,6 +31,7 @@ $string["licenseNote"] = "license note";
 $string["missingAltText"] = "missing alternative text";
 $string["missingAuthor"] = "missing author";
 $string["missingChanges"] = "missing changes";
+$string["missingLibrary"] = "missing library";
 $string["missingLicense"] = "missing license";
 $string["missingLicenseExtras"] = "missing license extras";
 $string["missingSource"] = "missing source";
@@ -55,7 +56,7 @@ $string["warning"] = "warning";
 $string["warnings"] = "warnings";
 $string["xAPI"] = "xAPI";
 
-// Error strings (sorted alphabetically)
+// Error strings
 $string["error:couldNotCreateUploadDirectory"] = "Could not create upload directory %s.";
 $string["error:decodingH5PJSON"] = "Error decoding h5p.json file.";
 $string["error:fileEmpty"] = "The file is empty.";
@@ -69,10 +70,10 @@ $string["error:unknownError"] = "Something went wrong, but I dunno what, sorry!"
 $string["error:unzipFailed"] = "Error extracting H5P file ZIP archive.";
 $string["error:uploadDirectoryNotWritable"] = "Upload directory %s is not writable.";
 
-// Statistics Report strings (sorted alphabetically)
+// Statistics Report strings
 $string["statistics:contentTypeCount"] = "Numbers of content type uses";
 
-// Reuse Report strings (sorted alphabetically)
+// Reuse Report strings
 $string["reuse:licenseHasAdditionalInfo"] = "License of %s contains additional information.";
 $string["reuse:licenseHasAdditionalInfoRecommendation"] = "The license of this content contains additional information, potentially amending the reuse terms. If it's your work, think about whether using a more open license without extra terms might be possible, too.";
 $string["reuse:licenseNotApproved"] = "License of %s is not approved for free cultural works.";
@@ -80,7 +81,7 @@ $string["reuse:licenseNotApprovedRecommendation"] = "Think about using a license
 $string["reuse:noAuthorComments"] = "Content %s does not provide author comments.";
 $string["reuse:noAuthorCommentsRecommendation"] = "Think about adding author comments to the metadata in order to describe the context and use case of your resource to give others a better understanding of how you use it.";
 
-// Accessibility Report strings (sorted alphabetically)
+// Accessibility Report strings
 $string["accessibility:libreTextEvaluation"] = "LibreText evaluation for %s";
 $string["accessibility:missingAltText"] = "Missing alt text for image inside %s";
 $string["accessibility:setAltTextBackground"] = "Set an alternative text for the background image.";
@@ -93,7 +94,7 @@ $string["accessibility:setAltTextStartScreen"] = "Set an alternative text for th
 $string["accessibility:setCaptionText"] = "Set a caption text for the asset thumbnail image.";
 $string["accessibility:setDescriptionText"] = "Set a description text for the image.";
 
-// Efficiency Report strings (sorted alphabetically)
+// Efficiency Report strings
 $string["efficiency:imageCouldScaleDown"] = "Image file inside %s could be scaled down.";
 $string["efficiency:imageConvertJPEG"] = "You might consider converting the image to a JPEG file which often take less space";
 $string["efficiency:imageFileSize"] = "The image file size is %s bytes.";
@@ -112,7 +113,8 @@ $string["efficiency:imageType"] = "The image type is %s.";
 $string["efficiency:imageTypeUnknown"] = "unknown";
 $string["efficiency:imageUnknownResolution"] = "The image has an unknown resolution.";
 
-// Feature Report strings (sorted alphabetically)
+// Feature Report strings
+$string["features:missingLibrary"] = "It seems that the library files for content %s are not included in the H5P file. Can't check features.";
 $string["features:noQuestionType"] = "Content %s does not seem to support the H5P question type contract.";
 $string["features:noResume"] = "Content %s does not seem to support resuming.";
 $string["features:noXAPI"] = "Content %s does not seem to support xAPI.";
@@ -123,7 +125,7 @@ $string["features:supportsResume"] = "Content %s seems to support resuming.";
 $string["features:supportsXAPI"] = "Content %s seems to support xAPI.";
 $string["features:unsupportedFunctions"] = "Unsupported functions/variables: %s.";
 
-// License Report strings (sorted alphabetically)
+// License Report strings
 $string["license:addAuthor"] = "Add the author name or creator name in the metadata.";
 $string["license:addChanges"] = "List any changes you made in the metadata.";
 $string["license:addGPLText"] = "Add the original GPL license text in the \"license extras\" field.";

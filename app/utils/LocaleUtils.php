@@ -205,6 +205,7 @@ class LocaleUtils
             "missingAltText" => self::getString("missingAltText"),
             "libreText" => "libreText",
             "features" => self::getString("features"),
+            "missingLibrary" => self::getString("missingLibrary"),
             "resume" => self::getString("resume"),
             "xAPI" => self::getString("xAPI"),
             "questionTypeContract" => self::getString("questionTypeContract"),

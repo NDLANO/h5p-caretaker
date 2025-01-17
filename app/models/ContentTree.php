@@ -65,7 +65,9 @@ class ContentTree
                 "attributes" => [
                     "id" => $libraryParams["subContentId"] ?? "",
                     "versionedMachineName" => $libraryParams["library"],
-                    "libraryJson" => $rawdata['libraries'][$machineName]->libraryJson,
+                    "libraryJson" => isset($rawdata['libraries'][$machineName]) ?
+                        $rawdata['libraries'][$machineName]->libraryJson :
+                        [],
                     "metadata" => $libraryParams["metadata"] ?? [],
                     "semanticsPath" => $parameterPath,
                     "params" => $libraryParams["params"],

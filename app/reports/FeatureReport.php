@@ -45,6 +45,28 @@ class FeatureReport
                 continue;
             }
 
+            $libraryJson = $content->getAttribute("libraryJson");
+            if (empty($libraryJson)) {
+                // No libraryJson, so we can't check for features
+                $message = ReportUtils::buildMessage([
+                    "category" => "features",
+                    "type" => "missingLibrary",
+                    "summary" => sprintf(
+                        LocaleUtils::getString("features:missingLibrary"),
+                        $content->getDescription()
+                    ),
+                    "details" => [
+                        "semanticsPath" => $content->getAttribute("semanticsPath"),
+                        "title" => $content->getDescription("{title}"),
+                        "subContentId" => $content->getAttribute("id")
+                    ],
+                    "level" => "warning",
+                    "subContentId" => $content->getAttribute("id") ?? 'fake-' . GeneralUtils::createUUID(),
+                ]);
+                $content->addReportMessage($message);
+            }
+
+
             $features = ($rawInfo["libraries"][$machineName] ?? [])->questionTypeFeatures ?? null;
             if (empty($features)) {
                 continue;
