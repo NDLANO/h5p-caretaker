@@ -333,7 +333,7 @@ class AccessibilityReport
      * @param string $semanticsPath The semantics path.
      * @param array $data The data array.
      */
-    private static function handleBranchinScenario($contentTree, $content, $contentFile, $semanticsPath, &$data)
+    private static function handleBranchingScenario($contentTree, $content, $contentFile, $semanticsPath, &$data)
     {
         if (
             str_ends_with($semanticsPath, ".endScreenImage") ||
