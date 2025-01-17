@@ -63,7 +63,6 @@ $string["error:noFile"] = "It seems that no file was provided.";
 $string["error:noH5PJSON"] = "h5p.json file does not exist in the archive.";
 $string["error:notAnH5Pfile"] = "The file is not a valid H5P file / ZIP archive.";
 $string["error:notH5PSpecification"] = "The file does not seem to follow the H5P specification.";
-$string["error:noValues"] = "No values were provided for writing.";
 $string["error:unknownError"] = "Something went wrong, but I dunno what, sorry!";
 $string["error:unzipFailed"] = "Error extracting H5P file ZIP archive.";
 $string["error:uploadDirectoryNotWritable"] = "Upload directory %s is not writable.";
@@ -121,9 +120,6 @@ $string["features:supportsQuestionType"] = "Content %s seems to support the full
 $string["features:supportsResume"] = "Content %s seems to support resuming.";
 $string["features:supportsXAPI"] = "Content %s seems to support xAPI.";
 $string["features:unsupportedFunctions"] = "Unsupported functions/variables: %s.";
-
-// Libretext Report strings (sorted alphabetically)
-$string["libretext:licenseNote"] = "The H5P Accessibility Guide (%s) is shared under a CC BY 4.0 license (%s) and was authored, remixed, and/or curated by LibreTexts (%s)";
 
 // License Report strings (sorted alphabetically)
 $string["license:addAuthor"] = "Add the author name or creator name in the metadata.";
