@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:disable Generic.Files.LineLength
+
 // Base strings (sorted alphabetically)
 $string["accessibility"] = "Barrierefreiheit";
 $string["audio"] = "Tondatei";
