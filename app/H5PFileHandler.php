@@ -51,7 +51,7 @@ class H5PFileHandler
     {
         $this->uploadsDirectory = $uploadsPath;
         $this->cacheDirectory = $cachePath;
-        $this->cacheTimeout = self::MAX_CACHE_AGE_S;
+        $this->cacheTimeout = $cacheTimeout;
 
         try {
             $this->filesDirectory = $this->extractContent($file);
