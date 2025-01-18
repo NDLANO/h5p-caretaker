@@ -31,6 +31,13 @@ class H5PFileHandler
     protected $h5pInfo;
 
     /**
+     * The maximum age of cached file in seconds.
+     *
+     * @var int
+     */
+    private const MAX_CACHE_AGE_S = 60 * 60 * 24; // 1 day
+
+    /**
      * Constructor.
      *
      * @param string $file        The H5P file to handle.
@@ -38,11 +45,13 @@ class H5PFileHandler
      *                            Will default to "uploads" in current directory.
      * @param string $cachePath   The path to the cache directory.
      *                            Will default to "cache" in current directory.
+     * @param int    $cacheTimeout The maximum age of cached file in seconds.
      */
-    public function __construct($file, $uploadsPath, $cachePath)
+    public function __construct($file, $uploadsPath, $cachePath, $cacheTimeout = self::MAX_CACHE_AGE_S)
     {
         $this->uploadsDirectory = $uploadsPath;
         $this->cacheDirectory = $cachePath;
+        $this->cacheTimeout = self::MAX_CACHE_AGE_S;
 
         try {
             $this->filesDirectory = $this->extractContent($file);
@@ -465,7 +474,8 @@ class H5PFileHandler
         if (($results->libraryJson["runnable"] ?? 0) === 1) {
             $libretextData = LibretextData::fetch(
                 $results->libraryJson["title"],
-                $this->cacheDirectory
+                $this->cacheDirectory,
+                $this->cacheTimeout
             );
 
             if ($libretextData !== false) {

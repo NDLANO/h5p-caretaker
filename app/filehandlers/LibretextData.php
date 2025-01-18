@@ -73,10 +73,11 @@ class LibretextData
      *
      * @param string $libraryTitle The title of the library to fetch.
      * @param string $cachePath The path to the cache directory.
+     * @param int    $cacheTimeout The maximum age of cached file in seconds.
      *
      * @return array|boolean The fetched data or false if the fetch failed.
      */
-    public static function fetch($libraryTitle, $cachePath = false)
+    public static function fetch($libraryTitle, $cachePath = false, $cacheTimeout = self::MAX_CACHE_AGE_S)
     {
         if (empty($libraryTitle)) {
             return false;
@@ -100,7 +101,7 @@ class LibretextData
 
             if (file_exists($cacheFile)) {
                 $fileAge = time() - filemtime($cacheFile);
-                if ($fileAge > LibretextData::MAX_CACHE_AGE_S) {
+                if ($fileAge > $cacheTimeout) {
                     unlink($cacheFile);
                 }
             }
@@ -137,6 +138,7 @@ class LibretextData
 
     /**
      * Clear the cache.
+     * TODO: If we add more things that need caching, make this more generic.
      *
      * @param string $cachePath The path to the cache directory.
      */

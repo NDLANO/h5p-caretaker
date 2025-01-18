@@ -46,6 +46,7 @@ $h5pCaretaker = new H5PCaretaker($config);
 | locale       | String   | ISO 639 Set 1 language code, representing the requested language for the reporting data. _Default: en_                                                      | Optional     |
 | uploadsPath  | String   | Path to where the H5P content files may be unpacked to temporarily. _Default: `uploads` inside the h5p-caretaker folder (must be writable by server)_       | Optional     |
 | cachePath    | String   | Path to where external reports that are fetched from the web can be cached. _Default: `cache` inside the h5p-caretaker folder (must be writable by server)_ | Optional     |
+| cacheTimeout | Int      | Define how long (in seconds) external ressources (e.g. Libretext accessibility data) will be cached. _Default: `86400` (24 hours)                           | Optional     |
 
 After instantiating, you can use certain methods
 

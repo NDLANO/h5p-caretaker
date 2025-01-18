@@ -28,6 +28,13 @@ class H5PCaretaker
     protected $config;
 
     /**
+     * The maximum age of cached file in seconds.
+     *
+     * @var int
+     */
+    private const MAX_CACHE_AGE_S = 60 * 60 * 24; // 1 day
+
+    /**
      * Constructor.
      *
      * @param array $config The configuration.
@@ -57,6 +64,10 @@ class H5PCaretaker
                 ".." .
                 DIRECTORY_SEPARATOR .
                 "cache";
+        }
+
+        if (!isset($config["cacheTimeout"])) {
+            $config["cacheTimeout"] = self::MAX_CACHE_AGE_S;
         }
 
         $this->config = $config;
@@ -195,7 +206,8 @@ class H5PCaretaker
             $h5pFileHandler = new H5PFileHandler(
                 $file,
                 $this->config["uploadsPath"],
-                $this->config["cachePath"]
+                $this->config["cachePath"],
+                $this->config["cacheTimeout"]
             );
         } catch (\Exception $error) {
             return $error->getMessage();
