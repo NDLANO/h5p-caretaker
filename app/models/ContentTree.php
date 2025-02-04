@@ -39,11 +39,17 @@ class ContentTree
         $h5pJson = $rawdata["h5pJson"];
         $this->contents = [];
 
+        $versionedMachineName = self::getversionedMachineName($h5pJson);
+        $machineName = explode(" ", $versionedMachineName)[0];
+
         // Root node
         $this->contents[] = new Content([
             "attributes" => [
                 "id" => "root",
-                "versionedMachineName" => self::getversionedMachineName($h5pJson),
+                "versionedMachineName" => $versionedMachineName,
+                "libraryJson" => isset($rawdata['libraries'][$machineName]) ?
+                        $rawdata['libraries'][$machineName]->libraryJson :
+                        [],
                 "metadataSettings" => self::getMetadataSettings($h5pJson),
                 "metadata" => JSONUtils::h5pJsonToMetadata($h5pJson),
                 "semanticsPath" => "",
