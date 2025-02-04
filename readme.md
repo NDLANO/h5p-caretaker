@@ -68,7 +68,7 @@ If you think that some feature of the H5P content should be checked, please rais
 
 If you want to contribute code, you are welcome. Please also raise an issue beforehand to talk about your ideas. Please see the [coding information documentation](docs/coding-information.md) for technical details.
 
-If you want to contribute translation, you will find easily understandable translation files in `app/locale`.
+If you want to contribute translation, you will find easily understandable translation files in `app/lang`.
 
 ## Future Development
 There are some ideas on what this library should be able to do in the future:
