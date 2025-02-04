@@ -27,6 +27,7 @@ class H5PFileHandler
 {
     protected $uploadsDirectory;
     protected $cacheDirectory;
+    protected $cacheTimeout;
     protected $filesDirectory;
     protected $h5pInfo;
 
