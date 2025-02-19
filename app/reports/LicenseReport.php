@@ -932,7 +932,8 @@ class LicenseReport
                     "subContentId" => $content->getAttribute("id"),
                     "reference" => $reference
                 ],
-                "recommendation" => LocaleUtils::getString("license:addSource"),
+                "recommendation" => LocaleUtils::getString("license:addSource40"),
+                "level" => "warning",
                 "subContentId" => $content->getAttribute("id"),
             ];
 
@@ -943,7 +944,7 @@ class LicenseReport
 
             $message = ReportUtils::buildMessage($arguments);
             $content->addReportMessage($message);
-        } else {
+        } elseif ($licenseVersion !== "1.0") {
             $arguments = [
                 "category" => "license",
                 "type" => "missingSource",
@@ -959,7 +960,7 @@ class LicenseReport
                     "subContentId" => $content->getAttribute("id"),
                     "reference" => $reference
                 ],
-                "recommendation" => LocaleUtils::getString("license:addSource"),
+                "recommendation" => LocaleUtils::getString("license:addSource2030"),
                 "level" => "warning",
                 "subContentId" => $content->getAttribute("id"),
             ];
