@@ -667,6 +667,19 @@ class LicenseReport
     }
 
     /**
+     * Determine license message level based on content type.
+     * Text content types are technically required to have a license, but it is often impractical.
+     *
+     * @param Content|ContentFile $content The content or content file to check.
+     */
+    private static function getLicenseMessageLevelForContent($content)
+    {
+        $versionedMachineName = $content->getAttribute("versionedMachineName");
+        $machineName = explode(" ", $content->getAttribute("versionedMachineName"))[0];
+        return ($machineName === "H5P.AdvancedText" || $machineName === "H5P.Text") ? "warning" : "error";
+    }
+
+    /**
      * Check if the license is missing.
      *
      * @param Content|ContentFile $content The content or content file to check.
@@ -700,6 +713,7 @@ class LicenseReport
                     "subContentId" => $content->getAttribute("id"),
                 ],
                 "recommendation" => LocaleUtils::getString("license:checkMaterial"),
+                "level" => self::getLicenseMessageLevelForContent($content),
                 "subContentId" => $content->getAttribute("id"),
             ];
 
