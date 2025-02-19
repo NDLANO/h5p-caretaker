@@ -161,12 +161,17 @@ class LicenseReport
                         $sa["content"]->getDescription(),
                         $sa["content"]->getParent()->getDescription()
                     ),
-                    "description" => sprintf(
+                    "description" => [
+                        sprintf(
+                            LocaleUtils::getString("license:contentLicenseSiblingContentLicense"),
+                            $sa["content"]->getDescription(),
+                            $sa["content"]->getAttribute("metadata")["license"] ?? "",
+                            $nc["content"]->getDescription(),
+                            $nc["content"]->getAttribute("metadata")["license"] ?? ""
+                        ),
+
                         LocaleUtils::getString("license:remixCollectionOnly"),
-                        $sa["content"]->getDescription(),
-                        $nc["content"]->getDescription(),
-                        $nc["license"]
-                    ),
+                    ],
                     "details" => [
                         "semanticsPath" => $sa["content"]->getAttribute("semanticsPath"),
                         "title" => $sa["content"]->getDescription("{title}"),
@@ -174,7 +179,10 @@ class LicenseReport
                         // phpcs:ignore Generic.Files.LineLength.TooLong
                         "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
                     ],
-                    "recommendation" => LocaleUtils::getString("license:checkMaterial"),
+                    "recommendation" => [
+                        LocaleUtils::getString("license:checkMaterial"),
+                        LocaleUtils::getString("license:legalCouncil")
+                    ],
                     "subContentId" => $sa["content"]->getParent()->getAttribute("id"),
                 ]);
 
@@ -212,8 +220,8 @@ class LicenseReport
                     ),
                     "description" => sprintf(
                         LocaleUtils::getString("license:noDerivates"),
-                        $content->getDescription(),
-                        $content->getParent()->getDescription()
+                        $content->getParent()->getDescription(),
+                        $content->getDescription()
                     ),
                     "details" => [
                         "semanticsPath" => $content->getAttribute("semanticsPath"),
@@ -222,7 +230,10 @@ class LicenseReport
                         // phpcs:ignore Generic.Files.LineLength.TooLong
                         "reference" => "https://creativecommons.org/faq/#can-i-combine-material-under-different-creative-commons-licenses-in-my-work"
                     ],
-                    "recommendation" => LocaleUtils::getString("license:checkMaterial"),
+                    "recommendation" => [
+                        LocaleUtils::getString("license:checkMaterial"),
+                        LocaleUtils::getString("license:legalCouncil")
+                    ],
                     "subContentId" => $content->getAttribute("id"),
                 ]);
                 $content->addReportMessage($message);
@@ -313,6 +324,7 @@ class LicenseReport
                 "recommendation" => LocaleUtils::getString("license:checkMaterial"),
                 "subContentId" => $content->getAttribute("id"),
             ]);
+
             $content->addReportMessage($message);
         }
     }
@@ -938,7 +950,6 @@ class LicenseReport
                     LocaleUtils::getString("license:missingSource"),
                     $content->getDescription()
                 ),
-                "description" => LocaleUtils::getString("license:linkIn40"),
                 "details" => [
                     "semanticsPath" => $content->getAttribute(
                         "semanticsPath"
@@ -947,7 +958,7 @@ class LicenseReport
                     "subContentId" => $content->getAttribute("id"),
                     "reference" => $reference
                 ],
-                "recommendation" => LocaleUtils::getString("license:addSource"),
+                "recommendation" => LocaleUtils::getString("license:addSource40"),
                 "level" => "warning",
                 "subContentId" => $content->getAttribute("id"),
             ];
@@ -967,7 +978,6 @@ class LicenseReport
                     LocaleUtils::getString("license:potentiallyMissingSource"),
                     $content->getDescription()
                 ),
-                "description" => LocaleUtils::getString("license:linkIn2030"),
                 "details" => [
                     "semanticsPath" => $content->getAttribute(
                         "semanticsPath"
@@ -976,7 +986,7 @@ class LicenseReport
                     "subContentId" => $content->getAttribute("id"),
                     "reference" => $reference
                 ],
-                "recommendation" => LocaleUtils::getString("license:addSource"),
+                "recommendation" => LocaleUtils::getString("license:addSource2030"),
                 "level" => "warning",
                 "subContentId" => $content->getAttribute("id"),
             ];
@@ -1038,7 +1048,6 @@ class LicenseReport
                     LocaleUtils::getString("license:missingChanges"),
                     $content->getDescription()
                 ),
-                "description" => LocaleUtils::getString("license:changesIn40"),
                 "details" => [
                     "semanticsPath" => $content->getAttribute(
                         "semanticsPath"
@@ -1069,7 +1078,6 @@ class LicenseReport
                     LocaleUtils::getString("license:missingChanges"),
                     $content->getDescription()
                 ),
-                "description" => LocaleUtils::getString("license:changesIn1030"),
                 "details" => [
                     "semanticsPath" => $content->getAttribute(
                         "semanticsPath"
@@ -1081,6 +1089,7 @@ class LicenseReport
                 "recommendation" => LocaleUtils::getString("license:addChanges"),
                 "level" => "warning",
                 "subContentId" => $content->getAttribute("id"),
+
             ];
 
             $path = $content->getAttribute('path');

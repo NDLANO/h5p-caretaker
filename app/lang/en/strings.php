@@ -123,6 +123,9 @@ $string["features:supportsResume"] = "Content %s seems to support resuming.";
 $string["features:supportsXAPI"] = "Content %s seems to support xAPI.";
 $string["features:unsupportedFunctions"] = "Unsupported functions/variables: %s.";
 
+// Libretext Report strings
+$string["libretext:licenseNote"] = "The \"H5P Accessibility Guide\" (%s) is shared under a \"CC BY 4.0\" license (%s) and was authored, remixed, and/or curated by LibreTexts (%s)";
+
 // License Report strings
 $string["license:addAuthor"] = "Add the author name or creator name in the metadata.";
 $string["license:addChanges"] = "List any changes you made in the metadata.";
@@ -132,11 +135,13 @@ $string["license:addSource40"] = "Creative Commons licenses of version 4.0 requi
 $string["license:addTitle"] = "Add the title of the content (if supplied) in the metadata.";
 $string["license:changesIn1030"] = "Creative Commons licenses from version 1.0 to 3.0 require you to list any changes you made to the content if you create a derivative. This does not apply, of course, if you are releasing a new work.";
 $string["license:changesIn40"] = "Creative Commons licenses of version 4.0 require you to list any changes you made to the content. This does not apply, of course, if you are releasing a new work.";
-$string["license:checkMaterial"] = "Check the license of the material you are using and add the missing license information to the metadata.";
+$string["license:checkMaterial"] = "Check the license of the material you are using and consider alternatives.";
+$string["license:contentLicenseSiblingContentLicense"] = "Content %s is licensed under a %s license while sibling content %s is licensed under a %s license.";
 $string["license:discouragedAdaptation"] = "Discouraged license adaptation for %s";
 $string["license:invalidAdaptation"] = "Invalid license adaptation for %s";
 $string["license:invalidRemix"] = "Probably invalid license remix regarding %s inside %s";
 $string["license:invalidVersion"] = "Subcontent %s is licensed under a CC BY-SA 1.0 license, but parent content is not.";
+$string["license:legalCouncil"] = "It's a good idea to consult a legal council if you are unsure in this case.";
 $string["license:missingAuthor"] = "Missing author information for %s";
 $string["license:missingChanges"] = "Potentially missing changes information for %s";
 $string["license:missingExtras"] = "Missing license extras information for %s";
@@ -147,7 +152,7 @@ $string["license:missingTitle"] = "Missing title information for %s";
 $string["license:missingVersion"] = "Missing license version information for %s";
 $string["license:moreLicensed"] = "Subcontent %s is licensed under a CC BY license, but content is more openly licensed.";
 $string["license:noCommercialUse"] = "Subcontent %s does not allow commercial use, but parent content %s does.";
-$string["license:noDerivates"] = "Subcontent %s does not allow derivates, but parent %s uses it.";
+$string["license:noDerivates"] = "Content %s uses subcontent %s, which does not allow derivates to be created from it.";
 $string["license:potentiallyMissingSource"] = "Potentially missing source information for %s";
-$string["license:remixCollectionOnly"] = "This is not allowed for remixes, but only for collections.";
+$string["license:remixCollectionOnly"] = "This combination is not allowed for remixes, but only for collections, and most often mixed content is a collection.";
 $string["license:setVersion"] = "Set the license version in the metadata.";
