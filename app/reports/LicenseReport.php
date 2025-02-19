@@ -938,6 +938,7 @@ class LicenseReport
                     LocaleUtils::getString("license:missingSource"),
                     $content->getDescription()
                 ),
+                "description" => LocaleUtils::getString("license:linkIn40"),
                 "details" => [
                     "semanticsPath" => $content->getAttribute(
                         "semanticsPath"
@@ -946,7 +947,7 @@ class LicenseReport
                     "subContentId" => $content->getAttribute("id"),
                     "reference" => $reference
                 ],
-                "recommendation" => LocaleUtils::getString("license:addSource40"),
+                "recommendation" => LocaleUtils::getString("license:addSource"),
                 "level" => "warning",
                 "subContentId" => $content->getAttribute("id"),
             ];
@@ -966,6 +967,7 @@ class LicenseReport
                     LocaleUtils::getString("license:potentiallyMissingSource"),
                     $content->getDescription()
                 ),
+                "description" => LocaleUtils::getString("license:linkIn2030"),
                 "details" => [
                     "semanticsPath" => $content->getAttribute(
                         "semanticsPath"
@@ -974,7 +976,7 @@ class LicenseReport
                     "subContentId" => $content->getAttribute("id"),
                     "reference" => $reference
                 ],
-                "recommendation" => LocaleUtils::getString("license:addSource2030"),
+                "recommendation" => LocaleUtils::getString("license:addSource"),
                 "level" => "warning",
                 "subContentId" => $content->getAttribute("id"),
             ];
