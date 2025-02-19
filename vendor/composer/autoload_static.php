@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInit3268bbb304afcfce8c2486398d69f4d8
 {
     public static $prefixLengthsPsr4 = array (
-        'N' =>
+        'N' => 
         array (
             'Ndlano\\H5PCaretaker\\' => 20,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Ndlano\\H5PCaretaker\\' =>
+        'Ndlano\\H5PCaretaker\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
         ),
@@ -30,6 +30,7 @@ class ComposerStaticInit3268bbb304afcfce8c2486398d69f4d8
             $loader->prefixLengthsPsr4 = ComposerStaticInit3268bbb304afcfce8c2486398d69f4d8::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit3268bbb304afcfce8c2486398d69f4d8::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInit3268bbb304afcfce8c2486398d69f4d8::$classMap;
+
         }, null, ClassLoader::class);
     }
 }

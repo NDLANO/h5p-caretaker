@@ -1,12 +1,12 @@
 {
     "name": "ndlano/h5p-caretaker",
     "description": "Library that is supposed to help people take care of H5P content types",
-    "version": "1.0.4",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
             "name": "NDLA",
+            "email": "explore@ndla.no",
             "homepage": "https://ndla.no",
             "role": "Producer"
         },
