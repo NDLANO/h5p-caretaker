@@ -16,6 +16,8 @@ In your own project, you can use common `composer` practices to use this library
 }
 ```
 
+and then run `composer update` or run `composer require ndlano/h5p-caretaker` that should do the same.
+
 The common use case then is to fetch an H5P content file (.h5p), pass it to the library and then to further process the results.
 
 Your own project either uses the common `autoload` procedure itself, meaning that the library will be loaded as a depencency automatically. Alternatively, you'll have to run something like
