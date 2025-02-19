@@ -237,6 +237,9 @@ class AccessibilityReport
             case "H5P.MemoryGame":
                 self::handleMemoryGame($contentTree, $content, $contentFile, $semanticsPath, $data);
                 break;
+            case "H5P.NDLATimeline":
+                self::handleNDLATimeline($contentTree, $content, $contentFile, $semanticsPath, $data);
+                break;
             case "H5P.QuestionSet":
                 self::handleQuestionSet($contentTree, $content, $contentFile, $semanticsPath, $data);
                 break;
@@ -682,6 +685,23 @@ class AccessibilityReport
 
         $data["title"] = $contentFile->getDescription("{title}");
         $data["recommendation"] = LocaleUtils::getString("accessibility:setAltTextCard");
+
+        $data["hasCustomHandling"] = true;
+    }
+
+    private static function handleNDLATimeline($contentTree, $content, $contentFile, $semanticsPath, &$data)
+    {
+        $semanticsPath = preg_replace('/\.image$/', "", $semanticsPath);
+        $imageParams = JSONUtils::getElementAtPath(
+            $contentTree->getRoot()->getAttribute("params"),
+            $semanticsPath
+        );
+
+        $data["alt"] = $imageParams["imageAlt"] ?? "";
+        $data["altTextPath"] = $semanticsPath . "." . "" . "imageAlt";
+
+        $data["title"] = $contentFile->getDescription("{title}");
+        $data["recommendation"] = LocaleUtils::getString("accessibility:setAltTextImage");
 
         $data["hasCustomHandling"] = true;
     }
