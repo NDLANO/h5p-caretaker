@@ -283,20 +283,6 @@ class EfficiencyReport
             );
         }
 
-        if ($height > $maxHeightPx) {
-            $recommendation[] = sprintf(
-                LocaleUtils::getString("efficiency:imageScaleDownHeightZoom"),
-                $maxHeightPx
-            );
-        }
-
-        if ($width > $maxWidthPx) {
-            $recommendation[] = sprintf(
-                LocaleUtils::getString("efficiency:imageScaleDownWidthZoom"),
-                $maxWidthPx
-            );
-        }
-
         $message = ReportUtils::buildMessage([
             "category" => "efficiency",
             "type" => "imageResolution",
