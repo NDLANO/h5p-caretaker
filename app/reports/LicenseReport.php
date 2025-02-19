@@ -183,6 +183,7 @@ class LicenseReport
                         LocaleUtils::getString("license:checkMaterial"),
                         LocaleUtils::getString("license:legalCouncil")
                     ],
+                    "level" => "warning",
                     "subContentId" => $sa["content"]->getParent()->getAttribute("id"),
                 ]);
 
@@ -234,6 +235,7 @@ class LicenseReport
                         LocaleUtils::getString("license:checkMaterial"),
                         LocaleUtils::getString("license:legalCouncil")
                     ],
+                    "level" => "warning",
                     "subContentId" => $content->getAttribute("id"),
                 ]);
                 $content->addReportMessage($message);
@@ -684,8 +686,7 @@ class LicenseReport
      *
      * @param Content|ContentFile $content The content or content file to check.
      */
-    private static function getLicenseMessageLevelForContent($content)
-    {
+    private static function getLicenseMessageLevelForContent($content) {
         $versionedMachineName = $content->getAttribute("versionedMachineName");
         $machineName = explode(" ", $content->getAttribute("versionedMachineName"))[0];
         return ($machineName === "H5P.AdvancedText" || $machineName === "H5P.Text") ? "warning" : "error";
