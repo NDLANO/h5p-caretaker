@@ -8,17 +8,11 @@ In fact, there is a [reference H5P Caretaker client](https://github.com/ndlano/h
 which displays the results found by this library and a PHP based [reference H5P Caretaker server](https://github.com/ndlano/h5p-caretaker-server) that glues this library to the client.
 
 ## Using the library
-In your own project, you can use common `composer` practices to use this library. For now, it is not on packagist yet, so you will need to fetch the sources from github like so: Inside your `composer.json` file, ensure that the repository is set and that `require` is set to the library. Change "dev-master" to some particular commit if you need an older version explicitly.
+In your own project, you can use common `composer` practices to use this library. Inside your `composer.json` file, you should add an entry like this:
 
 ```
-"repositories": [
-  {
-    "type": "vcs",
-    "url": "https://github.com/ndlano/h5p-caretaker"
-  }
-],
 "require": {
-    "ndlano/h5p-caretaker": "dev-master"
+    "ndlano/h5p-caretaker": "^1.0.0"
 }
 ```
 
