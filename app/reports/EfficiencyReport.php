@@ -359,7 +359,8 @@ class EfficiencyReport
             $recommendation = [];
             $recommendation[] = sprintf(
                 LocaleUtils::getString("efficiency:imageRecommendedSize"),
-                number_format($recommendedMaxSize)
+                number_format($recommendedMaxSize),
+                number_format($fileSize)
             );
 
             $recommendation[] = LocaleUtils::getString("efficiency:imageReduceResolution");
