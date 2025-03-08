@@ -190,7 +190,10 @@ class H5PCaretaker
             return LocaleUtils::getString("error:fileEmpty");
         }
 
-        $fileSizeLimit = 1024 * 1024 * 20; // 20 MB
+        $fileSizeLimit = GeneralUtils::convertToBytes(
+            min(ini_get('post_max_size'), ini_get('upload_max_filesize'))
+        );
+
         if ($fileSize > $fileSizeLimit) {
             return sprintf(
                 LocaleUtils::getString("error:fileTooLarge"),

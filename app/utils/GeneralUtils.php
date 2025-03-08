@@ -42,4 +42,28 @@ class GeneralUtils
             "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
         );
     }
+
+    /**
+     * Convert a human-readable size to bytes.
+     *
+     * @param string $size The human-readable size (as in php.ini).
+     *
+     * @return int The size in bytes.
+     */
+    public static function convertToBytes($size)
+    {
+        $unit = substr($size, -1);
+        $value = (int)$size;
+
+        switch (strtoupper($unit)) {
+            case 'G':
+                return $value * 1024 * 1024 * 1024;
+            case 'M':
+                return $value * 1024 * 1024;
+            case 'K':
+                return $value * 1024;
+            default:
+                return $value;
+        }
+    }
 }
