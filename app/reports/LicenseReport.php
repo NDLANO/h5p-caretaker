@@ -686,9 +686,10 @@ class LicenseReport
      *
      * @param Content|ContentFile $content The content or content file to check.
      */
-    private static function getLicenseMessageLevelForContent($content) {
+    private static function getLicenseMessageLevelForContent($content)
+    {
         $versionedMachineName = $content->getAttribute("versionedMachineName");
-        $machineName = explode(" ", $content->getAttribute("versionedMachineName"))[0];
+        $machineName = explode(" ", $versionedMachineName ?? "")[0];
         return ($machineName === "H5P.AdvancedText" || $machineName === "H5P.Text") ? "warning" : "error";
     }
 
