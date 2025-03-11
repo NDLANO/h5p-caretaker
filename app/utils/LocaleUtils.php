@@ -200,6 +200,8 @@ class LocaleUtils
             "infos" => self::getString("infos"),
             "warnings" => self::getString("warnings"),
             "errors" => self::getString("errors"),
+            "caution" => self::getString("caution"),
+            "cautions" => self::getString("cautions"),
             "reference" => self::getString("reference"),
             "accessibility" => self::getString("accessibility"),
             "missingAltText" => self::getString("missingAltText"),

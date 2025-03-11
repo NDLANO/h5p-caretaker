@@ -60,7 +60,7 @@ class FeatureReport
                         "title" => $content->getDescription("{title}"),
                         "subContentId" => $content->getAttribute("id")
                     ],
-                    "level" => "warning",
+                    "level" => "caution",
                     "subContentId" => $content->getAttribute("id") ?? 'fake-' . GeneralUtils::createUUID(),
                 ]);
                 $content->addReportMessage($message);
