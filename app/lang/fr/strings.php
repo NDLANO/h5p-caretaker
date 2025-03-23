@@ -6,6 +6,8 @@
 $string["accessibility"] = "accessibilité";
 $string["audio"] = "audio";
 $string["category"] = "catégorie";
+$string["caution"] = "prudence";
+$string["cautions"] = "messages d'avertissement";
 $string["contentTypeCount"] = "nombre de types de contenu";
 $string["description"] = "description";
 $string["details"] = "détails";
