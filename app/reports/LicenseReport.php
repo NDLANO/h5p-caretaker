@@ -183,7 +183,7 @@ class LicenseReport
                         LocaleUtils::getString("license:checkMaterial"),
                         LocaleUtils::getString("license:legalCouncil")
                     ],
-                    "level" => "warning",
+                    "level" => "caution",
                     "subContentId" => $sa["content"]->getParent()->getAttribute("id"),
                 ]);
 
@@ -235,7 +235,7 @@ class LicenseReport
                         LocaleUtils::getString("license:checkMaterial"),
                         LocaleUtils::getString("license:legalCouncil")
                     ],
-                    "level" => "warning",
+                    "level" => "caution",
                     "subContentId" => $content->getAttribute("id"),
                 ]);
                 $content->addReportMessage($message);
@@ -686,10 +686,11 @@ class LicenseReport
      *
      * @param Content|ContentFile $content The content or content file to check.
      */
-    private static function getLicenseMessageLevelForContent($content) {
+    private static function getLicenseMessageLevelForContent($content)
+    {
         $versionedMachineName = $content->getAttribute("versionedMachineName");
-        $machineName = explode(" ", $content->getAttribute("versionedMachineName"))[0];
-        return ($machineName === "H5P.AdvancedText" || $machineName === "H5P.Text") ? "warning" : "error";
+        $machineName = explode(" ", $versionedMachineName ?? "")[0];
+        return ($machineName === "H5P.AdvancedText" || $machineName === "H5P.Text") ? "caution" : "error";
     }
 
     /**
@@ -960,7 +961,7 @@ class LicenseReport
                     "reference" => $reference
                 ],
                 "recommendation" => LocaleUtils::getString("license:addSource40"),
-                "level" => "warning",
+                "level" => "caution",
                 "subContentId" => $content->getAttribute("id"),
             ];
 
@@ -988,7 +989,7 @@ class LicenseReport
                     "reference" => $reference
                 ],
                 "recommendation" => LocaleUtils::getString("license:addSource2030"),
-                "level" => "warning",
+                "level" => "caution",
                 "subContentId" => $content->getAttribute("id"),
             ];
 
@@ -1058,7 +1059,7 @@ class LicenseReport
                     "reference" => $reference
                 ],
                 "recommendation" => LocaleUtils::getString("license:addChanges"),
-                "level" => "warning",
+                "level" => "caution",
                 "subContentId" => $content->getAttribute("id"),
             ];
 
@@ -1088,7 +1089,7 @@ class LicenseReport
                     "reference" => $reference
                 ],
                 "recommendation" => LocaleUtils::getString("license:addChanges"),
-                "level" => "warning",
+                "level" => "caution",
                 "subContentId" => $content->getAttribute("id"),
 
             ];
@@ -1118,7 +1119,7 @@ class LicenseReport
                     "reference" => $reference
                 ],
                 "recommendation" => LocaleUtils::getString("license:addChanges"),
-                "level" => "warning",
+                "level" => "caution",
                 "subContentId" => $content->getAttribute("id"),
             ];
 

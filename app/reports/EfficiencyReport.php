@@ -302,7 +302,7 @@ class EfficiencyReport
               ),
               "subContentId" => $contentFile->getParent()->getAttribute("id")
             ],
-            "level" => "warning",
+            "level" => "caution",
             "subContentId" => $contentFile->getParent()->getAttribute("id")
         ]);
         $contentFile->getParent()->addReportMessage($message);
@@ -376,7 +376,7 @@ class EfficiencyReport
                   ),
                   "subContentId" => $contentFile->getParent()->getAttribute("id")
                 ],
-                "level" => "warning",
+                "level" => "caution",
                 "subContentid" => $contentFile->getParent()->getAttribute("id"),
             ]);
             $contentFile->getParent()->addReportMessage($message);
