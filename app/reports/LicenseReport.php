@@ -1050,6 +1050,7 @@ class LicenseReport
                     LocaleUtils::getString("license:missingChanges"),
                     $content->getDescription()
                 ),
+                "description" => LocaleUtils::getString("license:changesIn40"),
                 "details" => [
                     "semanticsPath" => $content->getAttribute(
                         "semanticsPath"
@@ -1080,6 +1081,7 @@ class LicenseReport
                     LocaleUtils::getString("license:missingChanges"),
                     $content->getDescription()
                 ),
+                "description" => LocaleUtils::getString("license:changesIn1030"),
                 "details" => [
                     "semanticsPath" => $content->getAttribute(
                         "semanticsPath"
