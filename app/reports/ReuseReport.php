@@ -68,7 +68,7 @@ class ReuseReport
                     continue; // Already handled by content type specific reports
                 }
 
-                self::checkReuse($content);
+                self::checkReuse($contentFile);
             }
         }
     }
