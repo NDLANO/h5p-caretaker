@@ -21,7 +21,7 @@ The _categories_ object holds information about all categories that the library 
 
 | __Property__                  | __Type__         | __Description__                                                                                                                                                                                                                                             | __Required__ |
 | ----------------------------- | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| accessibility                 | Array of Strings | Accessibility types. Possible values are: `libreText`, `missingAltText`.                                                                                                                                                                                    | Required     |
+| accessibility                 | Array of Strings | Accessibility types. Possible values are: `libreText`, `missingA11yTitle`, `missingAltText`.                                                                                                                                                                                   | Required     |
 | efficiency                    | Array of Strings | Efficiency types. Possible values are: `imageSize`, `imageResolution`.                                                                                                                                                                                      | Required     |
 | features                      | Array of Strings | Feature types. Possible values are: `resume`, `xAPI`, `questionTypeContract`.                                                                                                                                                                               | Required     |
 | license                       | Array of Strings | License types. Possible values are: `missingLicense`, `missingLicenceVersion`, `missingAuthor`, `missingTitle`, `missingLink`, `missingChanges`, `missingLicenseExtras`, `missingLicenseRemix`, `invalidLicenseAdaptation`, `discouragedLicenseAdaptation`. | Required     |
@@ -64,6 +64,33 @@ The _details_ section that does not have a fixed list of properties. While there
 | licenseNote   | String    | E.g. used for Libretext accessibility report license note.     | Optional     |
 | status        | String    | E.g. used for Libretext accessibility report usability status. | Optional     |
 | type          | String    | E.g. used for Libretext accessibility report type field.       | Optional     |
+
+### EditDirectly
+The _editDirectly_ section can hold a structure similar to H5P's semantics.json to allow adding fields that the user can interact with in order to change property values.
+
+| __Property__  | __Type__  | __Description__                                                  | __Required__ |
+| ------------- | --------- | ---------------------------------------------------------------- | ------------ |
+| checkBoxLabel | String    | Label of checkboxes (required for type of `boolean`)             | Optional     |
+| fields        | Array     | Array of fields (required for type group)                        | Optional     |
+| filePath      | String    | File path that the field option is linked to (only relevant for file changes) | Optional     |
+| initialValue  | String    | Current value of the field within the H5P file                   | Recommended  |
+| label         | String    | Label of the section/field                                       | Required     |
+| options       | Array     | Array of objects `{value, label}` for `select` fields            | Optional     |
+| pattern       | String    | Regular expression pattern for field validation                  | Optional     |
+| placeholder   | String    | Placeholder for textual fields                                   | Optional     |
+| semanticsPath | String    | Path to the semantics field that this field belongs to           | Required     |
+| type          | String    | Field type (`boolean`\|`text`\|`group`\|`select`\|`date`\|`textarea`) | Required     |
+| uuid          | String    | Unique identifier for the requested change                       | Required     |
+| valueFalse    | String    | Value for unchecked checkbox (required for type of `boolean`)    | Optional     |
+| valueTrue     | String    | Value for checked checkbox (required for type of `boolean`)      | Optional     |
+
+Client may interpret those fields as they seem fit, but usually these `type` values will mean:
+- `boolean`: checkbox
+- `text`: text input field, also used for numbers in H5P parameters
+- `group`: a collection of other types
+- `select`: a dropdown menu
+- `date`: a date picker
+- `textarea`: a textarea for input
 
 ## ContentTree
 The _content tree_ object represents the tree structure that the H5P content has with its subcontents.
