@@ -26,7 +26,7 @@ namespace Ndlano\H5PCaretaker;
 class AccessibilityReport
 {
     public static $categoryName = "accessibility";
-    public static $typeNames = ["libreText", "missingAltText"];
+    public static $typeNames = ["libreText", "missingA11yTitle", "missingAltText"];
 
     /**
      * Get the license report.
@@ -84,6 +84,7 @@ class AccessibilityReport
         foreach ($contents as $content) {
             $contentFiles = $content->getAttribute("contentFiles") ?? [];
 
+            // TODO: Refactor this into separate function "checkMissingAltText"
             foreach ($contentFiles as $contentFile) {
                 if ($contentFile->getAttribute("type") === "image") {
                     $parentMachineName = $contentFile
@@ -122,6 +123,17 @@ class AccessibilityReport
                                 ],
                                 "recommendation" => $recommendation,
                                 "subContentId" => $content->getAttribute("id") ?? 'fake-' . GeneralUtils::createUUID(),
+                                "editDirectly" => [
+                                    "field" => [
+                                        "uuid" => GeneralUtils::createUUID(),
+                                        "type" => "text",
+                                        "label" => LocaleUtils::getString("editDirectly"),
+                                        "initialValue" => "",
+                                        "placeholder" => LocaleUtils::getString("sampleAltText"),
+                                        "semanticsPath" => $altTextPath
+                                    ]
+                                ],
+                                "reference" => "https://www.w3.org/WAI/alt/"
                             ]);
 
                             $content->addReportMessage($message);
@@ -143,6 +155,15 @@ class AccessibilityReport
                                     "{title}"
                                 ),
                                 "subContentId" => $content->getAttribute("id"),
+                                "editDirectly" => [
+                                    "field" => [
+                                        "uuid" => GeneralUtils::createUUID(),
+                                        "type" => "text",
+                                        "label" => LocaleUtils::getString("editDirectly"),
+                                        "initialValue" => "",
+                                        "semanticsPath" => $altTextPath
+                                    ]
+                                ],
                                 "reference" => "https://www.w3.org/WAI/alt/"
                             ],
                             "recommendation" => LocaleUtils::getString("accessibility:setAltTextImage"),
@@ -153,7 +174,65 @@ class AccessibilityReport
                     }
                 }
             }
+
+            self::checkMissingA11yTitle($content);
         }
+    }
+
+    /**
+     * Check if an a11y title is missing.
+     * @param Content|ContentFile $content The content or content file to check.
+     */
+    private static function checkMissingA11yTitle($content)
+    {
+        $title = $content->getAttribute("metadata")["title"] ?? "";
+        $a11yTitle = $content->getAttribute("metadata")["a11yTitle"] ?? "";
+
+        if ($content->getAttribute("id") !== "root" || trim($a11yTitle) !== "") {
+            return;
+        }
+
+        $arguments = [
+            "category" => "accessibility",
+            "type" => "missingA11yTitle",
+            "summary" => sprintf(
+                LocaleUtils::getString("accessibility:missingA11yTitle"),
+                $content->getDescription()
+            ),
+            "description" => LocaleUtils::getString("accessibility:missingA11yTitleDescription"),
+            "details" => [
+                "semanticsPath" => $content->getAttribute("semanticsPath"),
+                "title" => $content->getDescription("{title}"),
+                "subContentId" => $content->getAttribute("id")
+            ],
+            "recommendation" => LocaleUtils::getString("accessibility:addA11yTitle"),
+            "level" => "caution",
+            "subContentId" => $content->getAttribute("id"),
+            "editDirectly" => [
+                "field" => [
+                    "uuid" => GeneralUtils::createUUID(),
+                    "type" => "text",
+                    "label" => LocaleUtils::getString("editDirectly"),
+                    "initialValue" => "",
+                    "pattern" => ValidationUtils::getPattern('a11yTitle') ?? "",
+                    "placeholder" => LocaleUtils::getString("sampleA11yTitle"),
+                    "semanticsPath" => ReportUtils::buildMetadataPath(
+                        $content->getAttribute("semanticsPath"),
+                        "a11yTitle",
+                        $content->getAttribute("path")
+                    )
+                ]
+            ],
+            "reference" => "https://www.w3.org/TR/WCAG20-TECHS/H64.html"
+        ];
+
+        $path = $content->getContentFilePath();
+        if (isset($path)) {
+            $arguments["details"]["path"] = $path;
+        }
+
+        $message = ReportUtils::buildMessage($arguments);
+        $content->addReportMessage($message);
     }
 
     /**

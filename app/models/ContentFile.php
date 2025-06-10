@@ -160,4 +160,25 @@ class ContentFile
 
         return $types[$type] ?? LocaleUtils::getString("file");
     }
+
+    /**
+     * Get the machine name of the content.
+     *
+     * @return string The machine name.
+     */
+    public function getMachineName()
+    {
+        return "";
+    }
+
+    /**
+     * Get the content file path.
+     * Relevant for content types that like H5P.Image that essentially wrap a file instance.
+     *
+     * @return string The content file path.
+     */
+    public function getContentFilePath()
+    {
+        return $this->attributes["path"] ?? "";
+    }
 }

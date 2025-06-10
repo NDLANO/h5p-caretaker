@@ -42,6 +42,7 @@ class ReportUtils
         $recommendation = $params["recommendation"] ?? null;
         $level = $params["level"] ?? "error";
         $subContentId = $params["subContentId"] ?? null;
+        $editDirectly = $params["editDirectly"] ?? null;
 
         if (is_array($summary)) {
             $summary = implode(" ", $summary);
@@ -87,6 +88,52 @@ class ReportUtils
             $message["details"] = $details;
         }
 
+        if ($editDirectly !== null) {
+            $message["editDirectly"] = $editDirectly;
+        }
+
         return $message;
+    }
+
+    /**
+     * Build a path to the metadata object.
+     *
+     * @param string $semanticsPath The path to the semantics file.
+     * @param string $fieldName The name of the field.
+     *
+     * @return string The path to the metadata file or empty string if invalid.
+     */
+    public static function buildMetadataPath($semanticsPath, $fieldName, $path = "")
+    {
+        if (
+            !isset($semanticsPath) || !isset($fieldName)
+        ) {
+            return "";
+        }
+
+        $isMediaFile = ($path !== "" && $path !== null);
+
+        // TODO: This might be a little risky
+        // .params alone is not enough to ensure that we're dealing with library content
+        if (str_ends_with($semanticsPath, ".params")) {
+            if ($isMediaFile) {
+                return $semanticsPath . "." . $fieldName;
+            }
+
+            // Content library
+            return preg_replace("/\.params$/", ".metadata." . $fieldName, $semanticsPath);
+        } elseif ($semanticsPath === "") {
+            // Main content
+            return "root." . $fieldName;
+        } elseif ($isMediaFile) {
+            // Media file
+            if ($fieldName === "licenseVersion") {
+                $fieldName = "version";
+            }
+
+            return $semanticsPath . ".copyright." . $fieldName;
+        } else {
+            return "";
+        }
     }
 }

@@ -92,4 +92,19 @@ class FileUtils
         $fileContent = file_get_contents($path);
         return json_decode($fileContent, true);
     }
+
+    public static function getMimeType($path)
+    {
+        if (getType($path) !== "string") {
+            return null;
+        }
+
+        $path = explode("?", $path)[0];
+        if (!file_exists($path)) {
+            return null;
+        }
+
+        $fileInfo = finfo_open(FILEINFO_MIME_TYPE);
+        return finfo_file($fileInfo, $path);
+    }
 }

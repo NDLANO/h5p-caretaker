@@ -122,7 +122,7 @@ class H5PCaretaker
         AccessibilityReport::generateReport($contentTree);
         FeatureReport::generateReport($contentTree, $reportRaw);
         LicenseReport::generateReport($contentTree, $reportRaw);
-        EfficiencyReport::generateReport($contentTree, $reportRaw);
+        EfficiencyReport::generateReport($contentTree, $reportRaw, $h5pFileHandler);
         ReuseReport::generateReport($contentTree, $reportRaw);
 
         $report = [
@@ -232,8 +232,8 @@ class H5PCaretaker
      */
     public function write($params)
     {
-        if (!isset($params["values"])) {
-            return $this->done(null, LocaleUtils::getString("error:noValues"));
+        if (!isset($params["changes"])) {
+            return $this->done(null, LocaleUtils::getString("error:noChanges"));
         }
 
         $fileCheckResults = $this->checkH5PFile($params["file"]);
@@ -243,45 +243,220 @@ class H5PCaretaker
 
         $h5pFileHandler = $fileCheckResults;
 
-        /*
-         * TODO: some options
-         * - overwrite/add values to content.json
-         *
-         * Function that takes a semantics path, a value and the content.json and returns the new content.json or null.
-         *
-         * The frontend will (need to) know the semantics path. E.g.:
-         * - the key `foo.bar[8].baz[].yada` and the value `42` should sequentially
-         *   - check if foo exists, if not throw an error
-         *   - check if foo is an object, if not throw an error
-         *   - check if foo.bar exists, if not throw an error
-         *   - check if foo.bar is an array, if not throw an error
-         *   - check if foo.bar[8] exists, if not throw an error
-         *   - check if foo.bar[8].baz exists, if not throw an error
-         *   - check if foo.bar[8].baz is an array, if not throw an error
-         *   - add an element to foo.bar[8].baz[] and as of now ignore if a field does not exist
-         *   - add yada to the newly created element
-         *   - set the value of yada to 42
-         *
-         * - the key `foo.yada` and the value `42` should sequentially
-         *   - check if foo exists, if not throw an error
-         *   - check if yada exists, if not set it (as it's the final field), but if set,
-         *     check it's type to match the value's type
-         *   - set the value of yada to 42
-         *
-         * So, in short:
-         * - check each part of the path sequentially
-         * - check for existence if not the final field and no array item was added before,
-         * - check if type of current field matches (object/array) if not final field.
-         * - add array item if the field is an array and has []
-         * - add final field if not set yet.
-         * - check if type of current field matches the value's type if final field.
-         * - set the value of the final field.
-         *
-         * - overwrite/add values to h5p.json
-         *   relevant for metadata at least!
-         * - add files to the content folder (?)
-         */
+        $contentJson = $h5pFileHandler->getH5PContentParams();
+        $h5pJson = $h5pFileHandler->getH5PInformation();
 
-        return $this->done(null, "Writing is not yet implemented.");
+        $validChanges = $this->filterOutInvalidChanges($params["changes"]);
+
+        list($changesToParams, $changesToFiles) = $this->separateChangesForParamsAndFiles($validChanges);
+
+        $newChanges = [];
+        foreach ($changesToFiles as $change) {
+            $filePath = $h5pFileHandler->buildExtractPath(['content', $change['filePath']]);
+            if (!file_exists($filePath)) {
+                continue; // File must exist to be processed
+            }
+
+            $jobs = explode(";", $change['value']);
+            foreach ($jobs as $job) {
+                $job = trim($job);
+                $arguments = explode(" ", $job);
+                $command = array_shift($arguments);
+
+                if ($command === "scale-down") {
+                    list($width, $height) = ImageUtils::scaleDown($arguments, $filePath);
+                    if ($width === -1 || $height === -1) {
+                        continue;
+                    }
+
+                    $newChanges[] = [
+                        'semanticsPath' => $change['semanticsPath'] . ".width",
+                        'value' => $width,
+                    ];
+                    $newChanges[] = [
+                        'semanticsPath' => $change['semanticsPath'] . ".height",
+                        'value' => $height,
+                    ];
+                } elseif ($command === "convert") {
+                    $wasConverted = ImageUtils::convert($arguments, $filePath);
+                    if (!$wasConverted) {
+                        continue; // Conversion failed, skip this change
+                    }
+
+                    $filePathParts = explode('.', $filePath);
+                    array_pop($filePathParts);
+                    $newFilePath = implode('.', $filePathParts) . '.' . $arguments[0];
+                    // Rename file at $filePath to $newFilePath
+                    if (!rename($filePath, $newFilePath)) {
+                        continue; // Renaming failed, skip this change
+                    }
+
+                    $filePathParts = explode('.', $change['filePath']);
+                    array_pop($filePathParts);
+                    $newFilePath = implode('.', $filePathParts) . '.' . $arguments[0];
+                    $newChanges[] = [
+                        'semanticsPath' => $change['semanticsPath'] . "." . "path",
+                        'value' => $newFilePath
+                    ];
+
+                    $newChanges[] = [
+                        'semanticsPath' => $change['semanticsPath'] . "." . "mime",
+                        'value' => "image/" . $arguments[0]
+                    ];
+                }
+            }
+        }
+        $changesToParams = array_merge($changesToParams, $newChanges);
+
+        foreach ($changesToParams as $change) {
+            $needsToGoIntoContentJson = !str_starts_with($change['semanticsPath'], "root");
+            if ($needsToGoIntoContentJson) {
+                JSONUtils::setPropertyAtPath($contentJson, $change['semanticsPath'], $change['value']);
+            } else {
+                $fieldName = str_replace("root.", "", $change['semanticsPath']);
+                $this->setH5PJsonFieldValue($h5pJson, $fieldName, $change['value']);
+            }
+        }
+
+        $h5pFileHandler->setH5PInformation($h5pJson);
+        $h5pFileHandler->setH5PContentParams($contentJson);
+
+        try {
+            $exportResult = $h5pFileHandler->exportH5PArchive();
+        } catch (\Exception $error) {
+            return $this->done(null, $error->getMessage());
+        }
+
+        return $this->done($exportResult);
+    }
+
+    /**
+     * Filter out invalid changes.
+     *
+     * @param array $changes The changes.
+     *
+     * @return array Valid changes.
+     */
+    private function filterOutInvalidChanges($changes)
+    {
+        $changes = array_filter($changes, function ($change) {
+            return isset($change->semanticsPath) && isset($change->value);
+        });
+
+        // Grouping changes to be able to validate them in groups if required
+        $groupedByBasePath = array_reduce($changes, function ($grouped, $current) {
+            $semanticsParts = explode('.', $current->semanticsPath);
+
+            $mainFieldName = array_pop($semanticsParts);
+            $basePath = implode('.', $semanticsParts);
+
+            if (substr($basePath, -1) === ']') {
+                $current->childFieldName = $mainFieldName;
+                $current->mainFieldName = explode('[', end($semanticsParts))[0];
+            } else {
+                $current->mainFieldName = $mainFieldName;
+            }
+
+            if (!isset($grouped[$basePath])) {
+                $grouped[$basePath] = [];
+            }
+            $grouped[$basePath][] = $current;
+
+            return $grouped;
+        }, []);
+
+        // Validate single field or group fields using regex from ValidationUtils
+        foreach ($groupedByBasePath as $basePath => $changes) {
+            $isSingleField = count($changes) === 1 && !isset($changes[0]->childFieldName);
+
+            if ($isSingleField) {
+                $isValid = ValidationUtils::isValidH5PJsonValue($changes[0]->mainFieldName, $changes[0]->value);
+                if (!$isValid) {
+                    unset($changes[0]);
+                }
+            } else {
+                $isValid = true;
+                foreach ($changes as $change) {
+                    if (isset($change->childFieldName)) {
+                        $regex = ValidationUtils::getRegex($change->mainFieldName . '.' . $change->childFieldName);
+                    } else {
+                        $regex = ValidationUtils::getRegex($change->mainFieldName);
+                    }
+
+                    if (isset($regex)) {
+                        $isValid = $isValid && preg_match($regex, $change->value);
+                    }
+                }
+
+                if (!$isValid) {
+                    unset($groupedByBasePath[$basePath]);
+                }
+            }
+        }
+
+        // Flatten grouped changes back into a single array
+        $flattenedArray = array_merge(...array_values($groupedByBasePath));
+
+        return array_map(function ($change) {
+            $result = [
+                'semanticsPath' => $change->semanticsPath,
+                'value' => $change->value,
+            ];
+
+            if (isset($change->filePath)) {
+                $result['filePath'] = $change->filePath;
+            }
+
+            return $result;
+        }, $flattenedArray);
+    }
+
+    /**
+     * Set the value of a field in the H5P JSON.
+     *
+     * @param array  $h5pJson   The H5P JSON.
+     * @param string $fieldName The field name.
+     * @param mixed  $value     The value.
+     */
+    private function setH5PJsonFieldValue(&$h5pJson, $fieldName, $value)
+    {
+        $containsArray = preg_match('/\[[0-9]+\]/', $fieldName);
+        if ($containsArray) {
+            $arrayIndex = preg_replace('/[^\d]/', '', $fieldName);
+            $arrayFieldName = explode("[", $fieldName)[0];
+            $propertyName = explode("].", $fieldName)[1];
+
+            // Ensure the array field exists
+            if (!isset($h5pJson[$arrayFieldName])) {
+                $h5pJson[$arrayFieldName] = [];
+            }
+
+            // Ensure the array index is valid
+            $arrayIndex = min($arrayIndex, count($h5pJson[$arrayFieldName]));
+            $h5pJson[$arrayFieldName][$arrayIndex][$propertyName] = $value;
+        } else {
+            $h5pJson[$fieldName] = $value;
+        }
+    }
+
+    /**
+     * Split changes into changes for parameters and files.
+     *
+     * @param array $validChanges The valid changes.
+     *
+     * @return array An array containing two arrays: changes to parameters and changes to files.
+     */
+    private function separateChangesForParamsAndFiles($validChanges)
+    {
+        $changesToParams = [];
+        $changesToFiles = [];
+        foreach ($validChanges as $change) {
+            if (isset($change['filePath'])) {
+                $changesToFiles[] = $change;
+            } else {
+                $changesToParams[] = $change;
+            }
+        }
+        return [$changesToParams, $changesToFiles];
     }
 }

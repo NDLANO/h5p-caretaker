@@ -83,6 +83,7 @@ class EfficiencyReport
                     explode(".", $fileName)[1] ?? "*"
                 );
 
+                // TODO: Retrieve from actual file instead?
                 $width = $contentFile->getAttribute("width");
                 $height = $contentFile->getAttribute("height");
 
@@ -228,8 +229,8 @@ class EfficiencyReport
 
         $width = $params['width'] ?? 0;
         $height = $params['height'] ?? 0;
-        $maxHeightPx = $params['maxHeightPx'] ?? INF;
-        $maxWidthPx = $params['maxWidthPx'] ?? INF;
+        $maxDisplayHeightPx = $params['maxHeightPx'] ?? INF;
+        $maxDisplayWidthPx = $params['maxWidthPx'] ?? INF;
         $contentFile = $params['contentFile'];
         $targetSemanticsPath = $params['targetSemanticsPath'];
 
@@ -239,8 +240,11 @@ class EfficiencyReport
             return;
         }
 
-        if ($height <= $maxHeightPx && $width <= $maxWidthPx) {
-            return;
+        if (
+            $height <= $maxDisplayHeightPx * self::WCAG_ZOOM_FACTOR &&
+            $width <= $maxDisplayWidthPx * self::WCAG_ZOOM_FACTOR
+        ) {
+            return; // image is smaller than the maximum display size considering WCAG zoom factor
         }
 
         $description = [];
@@ -254,34 +258,55 @@ class EfficiencyReport
             $description[] = LocaleUtils::getString("efficiency:imageUnknownResolution");
         }
 
-        if ($maxHeightPx < INF && $maxHeightPx > 0) {
+        if ($maxDisplayHeightPx < INF && $maxDisplayHeightPx > 0) {
             $description[] = sprintf(
                 LocaleUtils::getString("efficiency:imageMaxHeight"),
-                $maxHeightPx
+                $maxDisplayHeightPx
             );
         }
 
-        if ($maxWidthPx < INF && $maxWidthPx > 0) {
+        if ($maxDisplayWidthPx < INF && $maxDisplayWidthPx > 0) {
             $description[] = sprintf(
                 LocaleUtils::getString("efficiency:imageMaxWidth"),
-                $maxWidthPx
+                $maxDisplayWidthPx
             );
         }
 
+        $gdActions = [];
         $recommendation = [];
-        if ($height > $maxHeightPx * self::WCAG_ZOOM_FACTOR) {
+        if ($height > $maxDisplayHeightPx * self::WCAG_ZOOM_FACTOR) {
+            $gdActions[] = "scale-down height " . $maxDisplayHeightPx * self::WCAG_ZOOM_FACTOR;
             $recommendation[] = sprintf(
                 LocaleUtils::getString("efficiency:imageScaleDownHeight"),
-                $maxHeightPx * self::WCAG_ZOOM_FACTOR
+                $maxDisplayHeightPx * self::WCAG_ZOOM_FACTOR
             );
         }
 
-        if ($width > $maxWidthPx * self::WCAG_ZOOM_FACTOR) {
+        if ($width > $maxDisplayWidthPx * self::WCAG_ZOOM_FACTOR) {
+            $gdActions[] = "scale-down width " . $maxDisplayWidthPx * self::WCAG_ZOOM_FACTOR;
             $recommendation[] = sprintf(
                 LocaleUtils::getString("efficiency:imageScaleDownWidth"),
-                $maxWidthPx * self::WCAG_ZOOM_FACTOR
+                $maxDisplayWidthPx * self::WCAG_ZOOM_FACTOR
             );
         }
+
+        $editDirectly = [
+            "field" => [
+                "uuid" => GeneralUtils::createUUID(),
+                "type" => "boolean",
+                "label" => LocaleUtils::getString("editDirectly"),
+                "checkboxLabel" => LocaleUtils::getString("efficiency:applySuggestedChanges"),
+                "valueTrue" => implode(";", $gdActions),
+                "valueFalse" => "",
+                "initialValue" => "",
+                "semanticsPath" => ReportUtils::buildMetadataPath(
+                    $contentFile->getParent()->getAttribute("semanticsPath"),
+                    "file",
+                    $contentFile->getAttribute("path")
+                ),
+                "filePath" => $contentFile->getAttribute("path")
+            ]
+        ];
 
         $message = ReportUtils::buildMessage([
             "category" => "efficiency",
@@ -303,7 +328,8 @@ class EfficiencyReport
               "subContentId" => $contentFile->getParent()->getAttribute("id")
             ],
             "level" => "caution",
-            "subContentId" => $contentFile->getParent()->getAttribute("id")
+            "subContentId" => $contentFile->getParent()->getAttribute("id"),
+            "editDirectly" => $editDirectly
         ]);
         $contentFile->getParent()->addReportMessage($message);
     }
@@ -342,6 +368,7 @@ class EfficiencyReport
                 $imageType === '*' ? LocaleUtils::getString("efficiency:imageTypeUnknown") : strtoupper($imageType)
             );
 
+            $gdActions = [];
             $recommendation = [];
             $recommendation[] = sprintf(
                 LocaleUtils::getString("efficiency:imageRecommendedSize"),
@@ -349,12 +376,34 @@ class EfficiencyReport
                 number_format($fileSize)
             );
 
+            // TODO: Add option to iteratively reduce file size until it is below the recommended size?
+            // Alternative: Require user to set a resolution/quality
+
             $recommendation[] = LocaleUtils::getString("efficiency:imageReduceResolution");
 
             if ($imageType !== "jpeg") {
                 $recommendation[] = LocaleUtils::getString("efficiency:imageConvertJPEG");
+                $gdActions[] = "convert jpeg";
             } else {
                 $recommendation[] = LocaleUtils::getString("efficiency:imageReduceQuality");
+            }
+
+            if (count($gdActions) > 0) {
+                $editDirectly = [
+                    "field" => [
+                        "uuid" => GeneralUtils::createUUID(),
+                        "type" => "boolean",
+                        "label" => LocaleUtils::getString("editDirectly"),
+                        "checkboxLabel" => LocaleUtils::getString("efficiency:applySuggestedChanges"),
+                        "valueTrue" => implode(";", $gdActions),
+                        "valueFalse" => "",
+                        "initialValue" => "",
+                        "semanticsPath" => $contentFile->getAttribute("semanticsPath"),
+                        "filePath" => $contentFile->getAttribute("path")
+                    ]
+                    ];
+            } else {
+                $editDirectly = [];
             }
 
             $message = ReportUtils::buildMessage([
@@ -378,6 +427,7 @@ class EfficiencyReport
                 ],
                 "level" => "caution",
                 "subContentid" => $contentFile->getParent()->getAttribute("id"),
+                "editDirectly" => $editDirectly
             ]);
             $contentFile->getParent()->addReportMessage($message);
         }

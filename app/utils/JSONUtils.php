@@ -91,6 +91,11 @@ class JSONUtils
         $metadata = [];
 
         $metadata["title"] = $h5pJson["title"] ?? "";
+
+        if (isset($h5pJson["a11yTitle"])) {
+            $metadata["a11yTitle"] = $h5pJson["a11yTitle"];
+        }
+
         $metadata["license"] = $h5pJson["license"] ?? "U";
         $metadata["authors"] = $h5pJson["authors"] ?? [];
 
@@ -224,6 +229,65 @@ class JSONUtils
         return $lastDotPosition === false
             ? $path
             : substr($path, 0, $lastDotPosition);
+    }
+
+    /**
+     * Get the last segment of a path.
+     *
+     * @param string $path The path.
+     *
+     * @return string The last segment of the path.
+     */
+    public static function getPathProperty($path)
+    {
+        $lastDotPosition = strrpos($path, ".");
+        return $lastDotPosition === false
+            ? $path
+            : substr($path, $lastDotPosition + 1);
+    }
+
+    /**
+     * Set a property at a specific path in a JSON object. Array items will be created.
+     *
+     * @param array &$contentJson The JSON object to modify (by reference).
+     * @param string $path The path to the property.
+     * @param mixed $value The value to set.
+     *
+     */
+    public static function setPropertyAtPath(&$contentJson, $path, $value)
+    {
+        $parentPath = self::getParentPath($path);
+        if ($parentPath === $path) {
+            return;
+        }
+
+        $property = self::getPathProperty($path);
+        $segments = explode('.', $parentPath);
+
+        $reference = &$contentJson;
+        foreach ($segments as $segment) {
+            $matches = [];
+            preg_match("/(\w+)(?:\[(\d+)\])?/", $segment, $matches);
+
+            $part = $matches[1];
+            $index = $matches[2] ?? null;
+
+            if (!isset($reference[$part])) {
+                $reference[$part] = [];
+            }
+
+            if ($index !== null) {
+                if (!isset($reference[$part][$index])) {
+                    $index = count($reference[$part]);
+                    $reference[$part][$index] = [];
+                }
+                $reference = &$reference[$part][$index];
+            } else {
+                $reference = &$reference[$part];
+            }
+        }
+
+        $reference[$property] = $value;
     }
 
     /**

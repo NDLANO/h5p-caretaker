@@ -366,6 +366,7 @@ class LicenseReport
                 "description" => [
                     sprintf(
                         LocaleUtils::getString("license:noDerivates"),
+                        $content->getDescription(),
                         $subcontent->getDescription()
                     ),
                     LocaleUtils::getString("license:remixCollectionOnly")
@@ -729,9 +730,120 @@ class LicenseReport
                 "recommendation" => LocaleUtils::getString("license:checkMaterial"),
                 "level" => self::getLicenseMessageLevelForContent($content),
                 "subContentId" => $content->getAttribute("id"),
+                "editDirectly" => [
+                    "field" => [
+                        "uuid" => GeneralUtils::createUUID(),
+                        "type" => "group",
+                        "label" => LocaleUtils::getString("editDirectly"),
+                        "fields" => [
+                            [
+                                "uuid" => GeneralUtils::createUUID(),
+                                "type" => "select",
+                                "label" => LocaleUtils::getString("license:license"),
+                                "initialValue" => "U",
+                                "semanticsPath" => ReportUtils::buildMetadataPath(
+                                    $content->getAttribute("semanticsPath"),
+                                    "license",
+                                    $content->getAttribute("path")
+                                ),
+                                "options" => [
+                                    [
+                                        "value" => "U",
+                                        "label" => LocaleUtils::getString("license:undisclosed")
+                                    ],
+                                    [
+                                        "value" => "CC BY",
+                                        "label" => LocaleUtils::getString("license:ccBy")
+                                    ],
+                                    [
+                                        "value" => "CC BY-SA",
+                                        "label" => LocaleUtils::getString("license:ccBySa")
+                                    ],
+                                    [
+                                        "value" => "CC BY-ND",
+                                        "label" => LocaleUtils::getString("license:ccByNd")
+                                    ],
+                                    [
+                                        "value" => "CC BY-NC",
+                                        "label" => LocaleUtils::getString("license:ccByNc")
+                                    ],
+                                    [
+                                        "value" => "CC BY-NC-SA",
+                                        "label" => LocaleUtils::getString("license:ccByNcSa")
+                                    ],
+                                    [
+                                        "value" => "CC BY-NC-ND",
+                                        "label" => LocaleUtils::getString("license:ccByNcNd")
+                                    ],
+                                    [
+                                        "value" => "CC0 1.0",
+                                        "label" => LocaleUtils::getString("license:CC0")
+                                    ],
+                                    [
+                                        "value" => "CC PDM",
+                                        "label" => LocaleUtils::getString("license:ccPdm")
+                                    ],
+                                    [
+                                        "value" => "GNU GPL",
+                                        "label" => LocaleUtils::getString("license:gnuGpl")
+                                    ],
+                                    [
+                                        "value" => "PD",
+                                        "label" => LocaleUtils::getString("license:pd")
+                                    ],
+                                    [
+                                        "value" => "ODC PDDL",
+                                        "label" => LocaleUtils::getString("license:odcPddl")
+                                    ],
+                                    [
+                                        "value" => "C",
+                                        "label" => LocaleUtils::getString("license:copyright")
+                                    ]
+                                ],
+                            ],
+                            [
+                                "uuid" => GeneralUtils::createUUID(),
+                                "type" => "select",
+                                "label" => LocaleUtils::getString("license:licenseVersion"),
+                                "initialValue" => "",
+                                "semanticsPath" => ReportUtils::buildMetadataPath(
+                                    $content->getAttribute("semanticsPath"),
+                                    "licenseVersion",
+                                    $content->getAttribute("path")
+                                ),
+                                "options" => [
+                                    [
+                                        "value" => "",
+                                        "label" => "---"
+                                    ],
+                                    [
+                                        "value" => "4.0",
+                                        "label" => LocaleUtils::getString("license:version4")
+                                    ],
+                                    [
+                                        "value" => "3.0",
+                                        "label" => LocaleUtils::getString("license:version3")
+                                    ],
+                                    [
+                                        "value" => "2.5",
+                                        "label" => LocaleUtils::getString("license:version2_5")
+                                    ],
+                                    [
+                                        "value" => "2.0",
+                                        "label" => LocaleUtils::getString("license:version2")
+                                    ],
+                                    [
+                                        "value" => "1.0",
+                                        "label" => LocaleUtils::getString("license:version1")
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
             ];
 
-            $path = $content->getAttribute("path");
+            $path = $content->getContentFilePath();
             if (isset($path)) {
                 $arguments["details"]["path"] = $path;
             }
@@ -766,6 +878,10 @@ class LicenseReport
                 LocaleUtils::getString("license:missingVersion"),
                 $content->getDescription()
             ),
+            "description" => sprintf(
+                LocaleUtils::getString("license:usingLicense"),
+                $license,
+            ),
             "details" => [
                 "semanticsPath" => $content->getAttribute("semanticsPath"),
                 "title" => $content->getDescription("{title}"),
@@ -773,9 +889,48 @@ class LicenseReport
             ],
             "recommendation" => LocaleUtils::getString("license:setVersion"),
             "subContentId" => $content->getAttribute("id"),
+            "editDirectly" => [
+                "field" => [
+                    "uuid" => GeneralUtils::createUUID(),
+                    "type" => "select",
+                    "label" => LocaleUtils::getString("license:licenseVersion"),
+                    "initialValue" => "",
+                    "semanticsPath" => ReportUtils::buildMetadataPath(
+                        $content->getAttribute("semanticsPath"),
+                        "licenseVersion",
+                        $content->getAttribute("path")
+                    ),
+                    "options" => [
+                        [
+                            "value" => "",
+                            "label" => "---"
+                        ],
+                        [
+                            "value" => "4.0",
+                            "label" => LocaleUtils::getString("license:version4")
+                        ],
+                        [
+                            "value" => "3.0",
+                            "label" => LocaleUtils::getString("license:version3")
+                        ],
+                        [
+                            "value" => "2.5",
+                            "label" => LocaleUtils::getString("license:version2_5")
+                        ],
+                        [
+                            "value" => "2.0",
+                            "label" => LocaleUtils::getString("license:version2")
+                        ],
+                        [
+                            "value" => "1.0",
+                            "label" => LocaleUtils::getString("license:version1")
+                        ]
+                    ]
+                ]
+            ]
         ];
 
-        $path = $content->getAttribute("path");
+        $path = $content->getContentFilePath();
         if (isset($path)) {
             $arguments["details"]["path"] = $path;
         }
@@ -816,6 +971,77 @@ class LicenseReport
             $reference = "https://www.gnu.org/licenses/gpl-3.0.txt";
         }
 
+        $isInternalWidget = ($content->getAttribute("path") ?? "") !== "";
+        if ($isInternalWidget) {
+            $editDirectly = [
+                "field" => [
+                    "uuid" => GeneralUtils::createUUID(),
+                    "type" => "text",
+                    "label" => LocaleUtils::getString("editDirectly"),
+                    "initialValue" => "",
+                    "pattern" => ValidationUtils::getPattern('author') ?? "",
+                    "placeholder" => LocaleUtils::getString("sampleAuthor"),
+                    "semanticsPath" => ReportUtils::buildMetadataPath(
+                        $content->getAttribute("semanticsPath"),
+                        "author",
+                        $content->getAttribute("path")
+                    )
+                ]
+            ];
+        } else {
+            $editDirectly = [
+                "field" => [
+                    "uuid" => GeneralUtils::createUUID(),
+                    "type" => "group",
+                    "label" => LocaleUtils::getString("editDirectly"),
+                    "fields" => [
+                        [
+                            "uuid" => GeneralUtils::createUUID(),
+                            "type" => "text",
+                            "label" => LocaleUtils::getString("authorsName"),
+                            "initialValue" => "",
+                            "pattern" => ValidationUtils::getPattern('author') ?? "",
+                            "placeholder" => LocaleUtils::getString("sampleAuthor"),
+                            "semanticsPath" => ReportUtils::buildMetadataPath(
+                                $content->getAttribute("semanticsPath"),
+                                "authors[0].name",
+                                $content->getAttribute("path")
+                            )
+                        ],
+                        [
+                            "uuid" => GeneralUtils::createUUID(),
+                            "type" => "select",
+                            "label" => LocaleUtils::getString("authorsRole"),
+                            "initialValue" => "U",
+                            "semanticsPath" => ReportUtils::buildMetadataPath(
+                                $content->getAttribute("semanticsPath"),
+                                "authors[0].role",
+                                $content->getAttribute("path")
+                            ),
+                            "options" => [
+                                [
+                                    "value" => "Author",
+                                    "label" => LocaleUtils::getString("author")
+                                ],
+                                [
+                                    "value" => "Editor",
+                                    "label" => LocaleUtils::getString("editor")
+                                ],
+                                [
+                                    "value" => "Licensee",
+                                    "label" => LocaleUtils::getString("licensee")
+                                ],
+                                [
+                                    "value" => "Originator",
+                                    "label" => LocaleUtils::getString("originator")
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ];
+        }
+
         $arguments = [
             "category" => "license",
             "type" => "missingAuthor",
@@ -831,9 +1057,10 @@ class LicenseReport
             ],
             "recommendation" => LocaleUtils::getString("license:addAuthor"),
             "subContentId" => $content->getAttribute("id"),
+            "editDirectly" => $editDirectly
         ];
 
-        $path = $content->getAttribute("path");
+        $path = $content->getContentFilePath();
         if (isset($path)) {
             $arguments["details"]["path"] = $path;
         }
@@ -886,18 +1113,31 @@ class LicenseReport
                 $content->getDescription()
             ),
             "details" => [
-                "semanticsPath" => $content->getAttribute(
-                    "semanticsPath"
-                ),
+                "semanticsPath" => $content->getAttribute("semanticsPath"),
                 "title" => $content->getDescription("{title}"),
                 "subContentId" => $content->getAttribute("id"),
                 "reference" => $reference
             ],
             "recommendation" => LocaleUtils::getString("license:addTitle"),
             "subContentId" => $content->getAttribute("id"),
+            "editDirectly" => [
+                "field" => [
+                    "uuid" => GeneralUtils::createUUID(),
+                    "type" => "text",
+                    "label" => LocaleUtils::getString("editDirectly"),
+                    "initialValue" => "",
+                    "pattern" => ValidationUtils::getPattern('title') ?? "",
+                    "placeholder" => LocaleUtils::getString("sampleTitle"),
+                    "semanticsPath" => ReportUtils::buildMetadataPath(
+                        $content->getAttribute("semanticsPath"),
+                        "title",
+                        $content->getAttribute("path")
+                    )
+                ]
+            ]
         ];
 
-        $path = $content->getAttribute("path");
+        $path = $content->getContentFilePath();
         if (isset($path)) {
             $arguments["details"]["path"] = $path;
         }
@@ -953,9 +1193,7 @@ class LicenseReport
                     $content->getDescription()
                 ),
                 "details" => [
-                    "semanticsPath" => $content->getAttribute(
-                        "semanticsPath"
-                    ),
+                    "semanticsPath" => $content->getAttribute("semanticsPath"),
                     "title" => $content->getDescription("{title}"),
                     "subContentId" => $content->getAttribute("id"),
                     "reference" => $reference
@@ -963,9 +1201,24 @@ class LicenseReport
                 "recommendation" => LocaleUtils::getString("license:addSource40"),
                 "level" => "caution",
                 "subContentId" => $content->getAttribute("id"),
+                "editDirectly" => [
+                    "field" => [
+                        "uuid" => GeneralUtils::createUUID(),
+                        "type" => "text",
+                        "label" => LocaleUtils::getString("editDirectly"),
+                        "initialValue" => "",
+                        "pattern" => ValidationUtils::getPattern('source') ?? "",
+                        "placeholder" => LocaleUtils::getString("sampleURL"),
+                        "semanticsPath" => ReportUtils::buildMetadataPath(
+                            $content->getAttribute("semanticsPath"),
+                            "source",
+                            $content->getAttribute("path")
+                        )
+                    ]
+                ]
             ];
 
-            $path = $content->getAttribute("path");
+            $path = $content->getContentFilePath();
             if (isset($path)) {
                 $arguments["details"]["path"] = $path;
             }
@@ -981,9 +1234,7 @@ class LicenseReport
                     $content->getDescription()
                 ),
                 "details" => [
-                    "semanticsPath" => $content->getAttribute(
-                        "semanticsPath"
-                    ),
+                    "semanticsPath" => $content->getAttribute("semanticsPath"),
                     "title" => $content->getDescription("{title}"),
                     "subContentId" => $content->getAttribute("id"),
                     "reference" => $reference
@@ -991,9 +1242,24 @@ class LicenseReport
                 "recommendation" => LocaleUtils::getString("license:addSource2030"),
                 "level" => "caution",
                 "subContentId" => $content->getAttribute("id"),
+                "editDirectly" => [
+                    "field" => [
+                        "uuid" => GeneralUtils::createUUID(),
+                        "type" => "text",
+                        "label" => LocaleUtils::getString("editDirectly"),
+                        "initialValue" => "",
+                        "pattern" => ValidationUtils::getPattern('source') ?? "",
+                        "placeholder" => LocaleUtils::getString("sampleURL"),
+                        "semanticsPath" => ReportUtils::buildMetadataPath(
+                            $content->getAttribute("semanticsPath"),
+                            "source",
+                            $content->getAttribute("path")
+                        )
+                    ]
+                ]
             ];
 
-            $path = $content->getAttribute('path');
+            $path = $content->getContentFilePath();
             if (isset($path)) {
                 $arguments['details']['path'] = $path;
             }
@@ -1026,7 +1292,10 @@ class LicenseReport
         $licenseVersion =
             $content->getAttribute("metadata")["licenseVersion"] ?? "";
 
-        if (count($changes) !== 0) {
+        if (
+            ($content->getAttribute('path') ?? "") !== "" ||
+            count($changes) !== 0
+        ) {
             return;
         }
 
@@ -1062,9 +1331,55 @@ class LicenseReport
                 "recommendation" => LocaleUtils::getString("license:addChanges"),
                 "level" => "caution",
                 "subContentId" => $content->getAttribute("id"),
+                "editDirectly" => [
+                    "field" => [
+                        "uuid" => GeneralUtils::createUUID(),
+                        "type" => "group",
+                        "label" => LocaleUtils::getString("editDirectly"),
+                        "fields" => [
+                            [
+                                "uuid" => GeneralUtils::createUUID(),
+                                "type" => "date",
+                                "label" => LocaleUtils::getString("date"),
+                                "initialValue" => "",
+                                "semanticsPath" => ReportUtils::buildMetadataPath(
+                                    $content->getAttribute("semanticsPath"),
+                                    "changes[0].date",
+                                    $content->getAttribute("path")
+                                )
+                            ],
+                            [
+                                "uuid" => GeneralUtils::createUUID(),
+                                "type" => "text",
+                                "label" => LocaleUtils::getString("changedBy"),
+                                "initialValue" => "",
+                                "pattern" => ValidationUtils::getPattern('changes.author') ?? "",
+                                "placeholder" => LocaleUtils::getString("sampleAuthor"),
+                                "semanticsPath" => ReportUtils::buildMetadataPath(
+                                    $content->getAttribute("semanticsPath"),
+                                    "changes[0].author",
+                                    $content->getAttribute("path")
+                                )
+                            ],
+                            [
+                                "uuid" => GeneralUtils::createUUID(),
+                                "type" => "textarea",
+                                "label" => LocaleUtils::getString("descriptionOfChange"),
+                                "initialValue" => "",
+                                "pattern" => ValidationUtils::getPattern('changes.log') ?? "",
+                                "placeholder" => LocaleUtils::getString("sampleChange"),
+                                "semanticsPath" => ReportUtils::buildMetadataPath(
+                                    $content->getAttribute("semanticsPath"),
+                                    "changes[0].log",
+                                    $content->getAttribute("path")
+                                )
+                            ]
+                        ]
+                    ]
+                ]
             ];
 
-            $path = $content->getAttribute('path');
+            $path = $content->getContentFilePath();
             if (isset($path)) {
                 $arguments['details']['path'] = $path;
             }
@@ -1083,9 +1398,7 @@ class LicenseReport
                 ),
                 "description" => LocaleUtils::getString("license:changesIn1030"),
                 "details" => [
-                    "semanticsPath" => $content->getAttribute(
-                        "semanticsPath"
-                    ),
+                    "semanticsPath" => $content->getAttribute("semanticsPath"),
                     "title" => $content->getDescription("{title}"),
                     "subContentId" => $content->getAttribute("id"),
                     "reference" => $reference
@@ -1093,10 +1406,55 @@ class LicenseReport
                 "recommendation" => LocaleUtils::getString("license:addChanges"),
                 "level" => "caution",
                 "subContentId" => $content->getAttribute("id"),
-
+                "editDirectly" => [
+                    "field" => [
+                        "uuid" => GeneralUtils::createUUID(),
+                        "type" => "group",
+                        "label" => LocaleUtils::getString("editDirectly"),
+                        "fields" => [
+                            [
+                                "uuid" => GeneralUtils::createUUID(),
+                                "type" => "date",
+                                "label" => LocaleUtils::getString("date"),
+                                "initialValue" => "",
+                                "semanticsPath" => ReportUtils::buildMetadataPath(
+                                    $content->getAttribute("semanticsPath"),
+                                    "changes[0].date",
+                                    $content->getAttribute("path")
+                                )
+                            ],
+                            [
+                                "uuid" => GeneralUtils::createUUID(),
+                                "type" => "text",
+                                "label" => LocaleUtils::getString("changedBy"),
+                                "initialValue" => "",
+                                "pattern" => ValidationUtils::getPattern('changes.author') ?? "",
+                                "placeholder" => LocaleUtils::getString("sampleAuthor"),
+                                "semanticsPath" => ReportUtils::buildMetadataPath(
+                                    $content->getAttribute("semanticsPath"),
+                                    "changes[0].author",
+                                    $content->getAttribute("path")
+                                )
+                            ],
+                            [
+                                "uuid" => GeneralUtils::createUUID(),
+                                "type" => "textarea",
+                                "label" => LocaleUtils::getString("descriptionOfChange"),
+                                "initialValue" => "",
+                                "pattern" => ValidationUtils::getPattern('changes.log') ?? "",
+                                "placeholder" => LocaleUtils::getString("sampleChange"),
+                                "semanticsPath" => ReportUtils::buildMetadataPath(
+                                    $content->getAttribute("semanticsPath"),
+                                    "changes[0].log",
+                                    $content->getAttribute("path")
+                                )
+                            ]
+                        ]
+                    ]
+                ]
             ];
 
-            $path = $content->getAttribute('path');
+            $path = $content->getContentFilePath();
             if (isset($path)) {
                 $arguments['details']['path'] = $path;
             }
@@ -1112,6 +1470,7 @@ class LicenseReport
                     LocaleUtils::getString("license:missingChanges"),
                     $content->getDescription()
                 ),
+                "description" => LocaleUtils::getString("license:gplDemandsNotes"),
                 "details" => [
                     "semanticsPath" => $content->getAttribute(
                         "semanticsPath"
@@ -1123,9 +1482,55 @@ class LicenseReport
                 "recommendation" => LocaleUtils::getString("license:addChanges"),
                 "level" => "caution",
                 "subContentId" => $content->getAttribute("id"),
+                "editDirectly" => [
+                    "field" => [
+                        "uuid" => GeneralUtils::createUUID(),
+                        "type" => "group",
+                        "label" => LocaleUtils::getString("editDirectly"),
+                        "fields" => [
+                            [
+                                "uuid" => GeneralUtils::createUUID(),
+                                "type" => "date",
+                                "label" => LocaleUtils::getString("date"),
+                                "initialValue" => "",
+                                "semanticsPath" => ReportUtils::buildMetadataPath(
+                                    $content->getAttribute("semanticsPath"),
+                                    "changes[0].date",
+                                    $content->getAttribute("path")
+                                )
+                            ],
+                            [
+                                "uuid" => GeneralUtils::createUUID(),
+                                "type" => "text",
+                                "label" => LocaleUtils::getString("changedBy"),
+                                "initialValue" => "",
+                                "pattern" => ValidationUtils::getPattern('changes.author') ?? "",
+                                "placeholder" => LocaleUtils::getString("sampleAuthor"),
+                                "semanticsPath" => ReportUtils::buildMetadataPath(
+                                    $content->getAttribute("semanticsPath"),
+                                    "changes[0].author",
+                                    $content->getAttribute("path")
+                                )
+                            ],
+                            [
+                                "uuid" => GeneralUtils::createUUID(),
+                                "type" => "textarea",
+                                "label" => LocaleUtils::getString("descriptionOfChange"),
+                                "initialValue" => "",
+                                "pattern" => ValidationUtils::getPattern('changes.log') ?? "",
+                                "placeholder" => LocaleUtils::getString("sampleChange"),
+                                "semanticsPath" => ReportUtils::buildMetadataPath(
+                                    $content->getAttribute("semanticsPath"),
+                                    "changes[0].log",
+                                    $content->getAttribute("path")
+                                )
+                            ]
+                        ]
+                    ]
+                ]
             ];
 
-            $path = $content->getAttribute('path');
+            $path = $content->getContentFilePath();
             if (isset($path)) {
                 $arguments['details']['path'] = $path;
             }
@@ -1173,6 +1578,25 @@ class LicenseReport
             ],
             "recommendation" => LocaleUtils::getString("license:addGPLText"),
             "subContentId" => $content->getAttribute("id"),
+            "editDirectly" => [
+                "field" => [
+                    "uuid" => GeneralUtils::createUUID(),
+                    "type" => "boolean",
+                    "label" => LocaleUtils::getString("editDirectly"),
+                    "checkboxLabel" => LocaleUtils::getString("license:addGPLLicenseText"),
+                    "valueTrue" => sprintf(
+                        LocaleUtils::getString("license:gplLicenseLink"),
+                        'https://www.gnu.org/licenses/gpl-3.0.txt'
+                    ),
+                    "valueFalse" => "",
+                    "initialValue" => "",
+                    "semanticsPath" => ReportUtils::buildMetadataPath(
+                        $content->getAttribute("semanticsPath"),
+                        "licenseExtras",
+                        $content->getAttribute("path")
+                    )
+                ]
+            ]
         ]);
         $content->addReportMessage($message);
     }

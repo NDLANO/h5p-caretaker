@@ -120,6 +120,41 @@ class Content
     }
 
     /**
+     * Get the machine name of the content.
+     *
+     * @return string The machine name.
+     */
+    public function getMachineName()
+    {
+        return explode(" ", $this->attributes["versionedMachineName"] ?? "")[0] ?? "";
+    }
+
+    /**
+     * Get the content file path.
+     * Relevant for content types that like H5P.Image that essentially wrap a file instance.
+     *
+     * @return string The content file path.
+     */
+    public function getContentFilePath()
+    {
+        $machineName = $this->getMachineName();
+
+        if ($machineName === "") {
+            return $this->getAttribute("path") ?? "";
+        }
+
+
+        if (in_array($machineName, ["H5P.Image", "H5P.Audio", "H5P.Video"])) {
+            $contentFiles = $this->getAttribute("contentFiles");
+            if (!empty($contentFiles)) {
+                return $contentFiles[0]->getAttribute("path") ?? "";
+            }
+        }
+
+        return "";
+    }
+
+    /**
      * Set the parent content.
      *
      * @param Content $parent The parent content.

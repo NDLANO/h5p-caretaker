@@ -26,6 +26,7 @@ namespace Ndlano\H5PCaretaker;
 class H5PFileHandler
 {
     protected $uploadsDirectory;
+    protected $exportsDirectory;
     protected $cacheDirectory;
     protected $cacheTimeout;
     protected $filesDirectory;
@@ -126,6 +127,7 @@ class H5PFileHandler
                             $files[$fileName]["height"] = $resolution[1];
                         }
 
+                        // TODO This should be refactored into a separate function "isExtensionAllowed"
                         $extension = strtolower(
                             pathinfo($fileName, PATHINFO_EXTENSION)
                         );
@@ -313,6 +315,157 @@ class H5PFileHandler
         }
 
         return $jsonData;
+    }
+
+    public function buildExtractPath($subPaths = [])
+    {
+        $extractDir =
+            $this->uploadsDirectory .
+            DIRECTORY_SEPARATOR .
+            $this->filesDirectory;
+
+        if (!is_dir($extractDir)) {
+            return false;
+        }
+
+        $extractPath = $extractDir;
+
+        if (gettype($subPaths) === "string") {
+            $subPaths = [$subPaths];
+        }
+
+        foreach ($subPaths as $subPath) {
+            if (!is_string($subPath)) {
+                return false;
+            }
+
+            $subPath = str_replace("/", DIRECTORY_SEPARATOR, $subPath);
+            $subPath = trim($subPath, DIRECTORY_SEPARATOR);
+            $subPath = trim($subPath);
+            if (empty($subPath)) {
+                return false;
+            }
+
+            $extractPath .= DIRECTORY_SEPARATOR . $subPath;
+        }
+
+        return $extractPath;
+    }
+
+    /**
+     * Set the H5P content parameters in the h5p.json file.
+     *
+     * @return bool True if successful, false otherwise.
+     */
+    public function setH5PInformation($h5pJson)
+    {
+        $extractDir =
+            $this->uploadsDirectory .
+            DIRECTORY_SEPARATOR .
+            $this->filesDirectory;
+        if (!is_dir($extractDir)) {
+            return false;
+        }
+
+        $h5pJsonFile = $extractDir . DIRECTORY_SEPARATOR . "h5p.json";
+        if (!file_exists($h5pJsonFile)) {
+            return false;
+        }
+
+        file_put_contents($h5pJsonFile, json_encode($h5pJson));
+
+        return true;
+    }
+
+    /**
+     * Set the H5P content parameters in the content.json file.
+     *
+     * @param array $contentJson The content parameters to set.
+     *
+     * @return bool True if successful, false otherwise.
+     */
+    public function setH5PContentParams($contentJson)
+    {
+        $extractDir =
+            $this->uploadsDirectory .
+            DIRECTORY_SEPARATOR .
+            $this->filesDirectory;
+        if (!is_dir($extractDir)) {
+            return false;
+        }
+
+        $contentDir = $extractDir . DIRECTORY_SEPARATOR . "content";
+        if (!is_dir($contentDir)) {
+            return false;
+        }
+
+        $contentJsonFile = $contentDir . DIRECTORY_SEPARATOR . "content.json";
+        if (!file_exists($contentJsonFile)) {
+            return false;
+        }
+
+        file_put_contents($contentJsonFile, json_encode($contentJson));
+
+        return true;
+    }
+
+    /**
+     * Export the H5P content as a zip archive.
+     *
+     * @return string The path to the exported H5P archive.
+     */
+    public function exportH5PArchive()
+    {
+        $directoryName = time() . "-" . GeneralUtils::createUUID();
+
+        $exportDir =
+            $this->uploadsDirectory . DIRECTORY_SEPARATOR . $directoryName;
+
+        if (!is_dir($exportDir)) {
+            if (!is_writable($this->uploadsDirectory)) {
+                throw new \Exception(
+                    sprintf(
+                        LocaleUtils::getString("error:uploadDirectoryNotWritable"),
+                        $exportDir
+                    )
+                );
+            }
+
+            if (!mkdir($exportDir, 0777, true) && !is_dir($exportDir)) {
+                throw new \Exception(
+                    sprintf(
+                        LocaleUtils::getString("error:couldNotCreateUploadDirectory"),
+                        $exportDir
+                    )
+                );
+            }
+        }
+
+        $extractDir = $this->uploadsDirectory . DIRECTORY_SEPARATOR . $this->filesDirectory;
+        $zip = new \ZipArchive();
+        $zipFileName = $exportDir . DIRECTORY_SEPARATOR . GeneralUtils::createUUID() . "-content.h5p";
+        if ($zip->open($zipFileName, \ZipArchive::CREATE) !== true) {
+            throw new \Exception(LocaleUtils::getString("error:zipFailed"));
+        }
+        $files = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($extractDir, \RecursiveDirectoryIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::LEAVES_ONLY
+        );
+        $extractDirLen = strlen(realpath($extractDir)) + 1;
+
+        foreach ($files as $name => $file) {
+            if (!$file->isDir()) {
+                $filePath = $file->getRealPath();
+                $relativePath = substr($filePath, strlen(realpath($extractDir)) + 1);
+                $zip->addFile($filePath, $relativePath);
+            }
+        }
+        $zip->close();
+
+        $zipData = file_get_contents($zipFileName);
+        $this->deleteDirectory($directoryName);
+
+        return $zipData;
     }
 
     /**
