@@ -59,6 +59,27 @@ More properties may become available in the future in order to tweak the analysi
 
 The return value is going to be a JSON object represented in an associative array. Please refer to the [report properties documentation](docs/report-properties.md) for details.
 
+### write($changes: array) => array
+Use to receive a modified version of the file
+
+| __Property__ | __Type__ | __Description__                                        | __Required__ |
+| ------------ | -------- | ------------------------------------------------------ | ------------ |
+| file         | String   | File path to H5P content file that should be modified. | Required     |
+| changes      | array    | Array of change objects                                | Required     |
+
+A change object represents a change that should be performed on the H5P file parameters: in h5p.json or content.json and potentially in the content folder. The object will look like:
+
+| __Property__  | __Type__ | __Description__                                                                                             | __Required__ |
+| ------------- | -------- | ----------------------------------------------------------------------------------------------------------- | ------------ |
+| uuid          | String   | Unique identifier for the change                                                                            | Required     |
+| semanticsPath | String   | Path to field in semantics where change is due. Starts with `root` for changes to the main content metadata | Required     |
+| filePath      | String   | Relative path to file inside `content`. Needs to be set when files are supposed to be changed.              | Optional     |
+| value         | String   | Valut that the semantics field should be set to or command for file changes.                                | Required     |
+
+Currently, these commands for file changes are available:
+- _scale-down height|width pixels_: Scale down an image to a height/width of `pixels (number)` while preserving the aspect ratio and the file type.
+- _convert jpeg/png/gif/bmp_: Convert an image to the respective image file type.
+
 ## Contribution
 If you think that some feature of the H5P content should be checked, please raise an issue in order to discuss it. Please note though that this library does not render the content, but merely assesses the parmeters, media and libraries that are found on the server. Therefore, it is e.g. not possible to detect contrast issues impeding accessibility, etc.
 
@@ -68,5 +89,4 @@ If you want to contribute translation, you will find easily understandable trans
 
 ## Future Development
 There are some ideas on what this library should be able to do in the future:
-- Allow to write to H5P content files, so issues such as missing license information can be rectified without having to start H5P.
 - Allow to use large language models to fill in missing data, e.g. set missing alternative texts for images.
