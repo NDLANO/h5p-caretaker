@@ -258,6 +258,7 @@ class AccessibilityReport
 
         $semanticsPath = $contentFile->getAttribute("semanticsPath");
 
+        // TODO: Refactor this into a general set of handlers for content types
         switch ($parentMachineName) {
             case "H5P.AdventCalendar":
                 self::handleAdventCalendar($contentTree, $content, $contentFile, $semanticsPath, $data);
@@ -318,6 +319,9 @@ class AccessibilityReport
                 break;
             case "H5P.NDLATimeline":
                 self::handleNDLATimeline($contentTree, $content, $contentFile, $semanticsPath, $data);
+                break;
+            case "H5P.ResourceList":
+                self::handleResourceList($contentTree, $content, $contentFile, $semanticsPath, $data);
                 break;
             case "H5P.QuestionSet":
                 self::handleQuestionSet($contentTree, $content, $contentFile, $semanticsPath, $data);
@@ -782,6 +786,20 @@ class AccessibilityReport
         $data["title"] = $contentFile->getDescription("{title}");
         $data["recommendation"] = LocaleUtils::getString("accessibility:setAltTextImage");
 
+        $data["hasCustomHandling"] = true;
+    }
+
+    /**
+     * Handle ResourceList content type.
+     * @param ContentTree $contentTree The content tree.
+     * @param Content $content The content.
+     * @param ContentFile $contentFile The content file.
+     * @param string $semanticsPath The semantics path.
+     * @param array $data The data array.
+     */
+    private static function handleResourceList($contentTree, $content, $contentFile, $semanticsPath, &$data)
+    {
+        $data["decorative"] = true; // Does not allow to enter anything
         $data["hasCustomHandling"] = true;
     }
 
