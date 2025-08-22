@@ -203,7 +203,7 @@ class ContentTree
         $representation = [
             "subContentId" => $root->getAttribute("id"),
             "title" => $root->getAttribute("metadata")["title"] ?? LocaleUtils::getString("untitled"),
-            "label" => $root->getDescription()
+            "label" => $root->getDescription("{title} ({fullVersionedMachineName})"),
         ];
 
         $versionedMachineName = $root->getAttribute("versionedMachineName");

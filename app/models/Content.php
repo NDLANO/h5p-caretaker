@@ -143,9 +143,12 @@ class Content
             $this->attributes["versionedMachineName"]
         )[0];
 
+        $fullVersion = implode('.', $this->getVersion());
+        $fullVersionedMachineName = $machineName . " " . $fullVersion;
+
         return str_replace(
-            ["{title}", "{machineName}"],
-            [$title, $machineName],
+            ["{title}", "{machineName}", "{fullVersionedMachineName}"],
+            [$title, $machineName, $fullVersionedMachineName],
             $template
         );
     }
