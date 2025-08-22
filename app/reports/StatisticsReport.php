@@ -44,14 +44,18 @@ class StatisticsReport
         foreach ($contents as $content) {
             $machineName = explode(" ", $content->getAttribute("versionedMachineName") ?? "")[0];
 
+            $version = implode(".", $content->getVersion());
+
             if ($machineName === "") {
                 continue;
             }
 
-            if (!isset($counts[$machineName])) {
-                $counts[$machineName] = 1;
+            $contentTypeIndex = $machineName . " (" . $version . ")";
+
+            if (!isset($counts[$contentTypeIndex])) {
+                $counts[$contentTypeIndex] = 1;
             } else {
-                $counts[$machineName]++;
+                $counts[$contentTypeIndex]++;
             }
         }
 

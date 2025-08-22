@@ -98,6 +98,37 @@ class Content
     }
 
     /**
+     * Get the version of the content.
+     *
+     * @return array The version as an associative array with keys 'major', 'minor', and 'patch'.
+     */
+    public function getVersion()
+    {
+        $version = [
+            "major" => "?",
+            "minor" => "?",
+            "patch" => "?",
+        ];
+
+        $libraryJson = $this->getAttribute("libraryJson");
+        if (!isset($libraryJson)) {
+            return $version;
+        }
+
+        if (isset($libraryJson["majorVersion"])) {
+            $version["major"] = $libraryJson["majorVersion"];
+        }
+        if (isset($libraryJson["minorVersion"])) {
+            $version["minor"] = $libraryJson["minorVersion"];
+        }
+        if (isset($libraryJson["patchVersion"])) {
+            $version["patch"] = $libraryJson["patchVersion"];
+        }
+
+        return $version;
+    }
+
+    /**
      * Get description.
      *
      * @param string $template The template for the description.
