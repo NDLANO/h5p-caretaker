@@ -12,7 +12,7 @@ In your own project, you can use common `composer` practices to use this library
 
 ```
 "require": {
-    "ndlano/h5p-caretaker": "^1.0.0"
+    "ndlano/h5p-caretaker": "^1.1.0"
 }
 ```
 
