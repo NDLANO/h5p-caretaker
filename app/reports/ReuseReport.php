@@ -141,8 +141,10 @@ class ReuseReport
             "GNU GPL",
         ];
 
-        if (in_array($license, $culturalWorksLicenses)) {
-            return; // Is a cultural work
+        if (
+            in_array($license, $culturalWorksLicenses) || $license === "U"
+        ) {
+            return; // Is a cultural work or undisclosed (then there is a missing license report already)
         }
 
         // TOOD: Introduce a pool of variables to reuse across reports, e.g. this list
